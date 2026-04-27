@@ -1,0 +1,52 @@
+[
+  {
+    "id": "gracewell-nexus",
+    "title": "Gracewell NEXUS",
+    "category": ["Full Stack", "Web Dev"],
+    "description": "Full stack HR web application built for a real client. Handles attendance, payroll, and employee management.",
+    "tech": ["React", "Node.js", "Express", "Supabase"],
+    "image": "/projects/nexus.webp",
+    "link": "",
+    "github": ""
+  },
+  {
+    "id": "smart-queuing",
+    "title": "Smart Multi-Institute Queuing System",
+    "category": ["UI/UX"],
+    "description": "UI/UX design for a multi-institute queuing system with a chatbot mascot AIvin. Designed in Figma as team lead.",
+    "tech": ["Figma", "UI/UX Design"],
+    "image": "/projects/queuing.webp",
+    "link": "",
+    "github": ""
+  },
+  {
+    "id": "chef-lakbay",
+    "title": "Chef Lakbay",
+    "category": ["Game Dev"],
+    "description": "Android cooking game built for IT Skills Olympics 2024. Developed using Unity and GIMP.",
+    "tech": ["Unity", "GIMP", "C#"],
+    "image": "/projects/chef-lakbay.webp",
+    "link": "",
+    "github": ""
+  },
+  {
+    "id": "seastack",
+    "title": "SeaStack",
+    "category": ["Web Dev"],
+    "description": "A custom programming language with its own syntax, type system, and runtime. Built as a language design project.",
+    "tech": ["Language Design", "Compiler"],
+    "image": "/projects/seastack.webp",
+    "link": "",
+    "github": ""
+  },
+  {
+    "id": "best-of-luck",
+    "title": "Best of Luck — Cubao Expo",
+    "category": ["UI/UX"],
+    "description": "Reservation system UI/UX for a Taiwanese-inspired venue at Cubao Expo. Deep forest green and matte crimson theme.",
+    "tech": ["Figma", "UI/UX Design"],
+    "image": "/projects/best-of-luck.webp",
+    "link": "",
+    "github": ""
+  }
+]
