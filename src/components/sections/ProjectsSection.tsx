@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import Link from "next/link";
 import projects from "@/data/projects.json";
 
 const categories = ["All", "Full Stack", "UI/UX", "Web Dev", "Game Dev"];
@@ -47,40 +48,41 @@ export default function ProjectsSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence mode="popLayout">
           {filtered.map((project) => (
-            <motion.div
-              key={project.id}
-              layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              className="group bg-surface-mid border border-white/5 rounded-2xl overflow-hidden hover:border-accent/20 transition-colors duration-300"
-            >
-              {/* Image Placeholder */}
-              <div className="h-48 bg-surface-light flex items-center justify-center overflow-hidden">
-                <span className="text-muted text-xs tracking-widest uppercase">
-                  {project.title}
-                </span>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="text-text font-medium mb-2">{project.title}</h3>
-                <p className="text-muted text-sm leading-relaxed mb-4">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="text-xs px-2 py-1 rounded-full border border-white/10 text-muted"
-                    >
-                      {t}
-                    </span>
-                  ))}
+            <Link href={`/projects/${project.id}`} key={project.id}>
+              <motion.div
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="group bg-surface-mid border border-white/5 rounded-2xl overflow-hidden hover:border-accent/20 transition-colors duration-300 cursor-pointer h-full"
+              >
+                {/* Image Placeholder */}
+                <div className="h-48 bg-surface-light flex items-center justify-center overflow-hidden">
+                  <span className="text-muted text-xs tracking-widest uppercase">
+                    {project.title}
+                  </span>
                 </div>
-              </div>
-            </motion.div>
+
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="text-text font-medium mb-2">{project.title}</h3>
+                  <p className="text-muted text-sm leading-relaxed mb-4">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="text-xs px-2 py-1 rounded-full border border-white/10 text-muted"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </AnimatePresence>
       </div>
