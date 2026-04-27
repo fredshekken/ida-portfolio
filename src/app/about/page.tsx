@@ -1,3 +1,9 @@
+import Timeline from "@/components/sections/Timeline";
+
 export default function AboutPage() {
-  return <main>About - Coming soon</main>;
+  return (
+    <main className="pt-16">
+      <Timeline />
+    </main>
+  );
 }
