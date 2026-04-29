@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail } from "lucide-react";
 import { SiGithub as Github } from "react-icons/si";
 import { FaLinkedin as Linkedin } from "react-icons/fa";
 import { useTheme } from "@/context/ThemeContext";
@@ -10,12 +9,10 @@ export default function HeroSection() {
   const { isDark } = useTheme();
   const GithubIcon = Github;
   const LinkedinIcon = Linkedin;
-  const MailIcon = Mail;
 
   const socials = [
-    { href: "https://github.com/YOUR_USERNAME", icon: GithubIcon, label: "GitHub" },
-    { href: "https://linkedin.com/in/YOUR_USERNAME", icon: LinkedinIcon, label: "LinkedIn" },
-    { href: "mailto:your@email.com", icon: MailIcon, label: "Email" },
+    { href: "https://github.com/fredshekken", icon: GithubIcon, label: "GitHub" },
+    { href: "https://www.linkedin.com/in/ida-magaan", icon: LinkedinIcon, label: "LinkedIn" },
   ];
 
   return (

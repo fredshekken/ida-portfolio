@@ -25,7 +25,7 @@ export default function Footer({ isDark }: FooterProps) {
 
         <div className="flex items-center gap-6">
           <Link
-            href="https://github.com/YOUR_USERNAME"
+            href="https://github.com/fredshekken"
             target="_blank"
             className="text-sm hover:opacity-80 transition-opacity"
             style={{ color: isDark ? "#00C9A7" : "rgba(255,255,255,0.8)" }}
@@ -33,7 +33,7 @@ export default function Footer({ isDark }: FooterProps) {
             GitHub
           </Link>
           <Link
-            href="https://linkedin.com/in/YOUR_USERNAME"
+            href="https://www.linkedin.com/in/ida-magaan" 
             target="_blank"
             className="text-sm hover:opacity-80 transition-opacity"
             style={{ color: isDark ? "#00C9A7" : "rgba(255,255,255,0.8)" }}

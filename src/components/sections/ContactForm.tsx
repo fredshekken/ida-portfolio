@@ -1,61 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Mail, MessageSquare } from "lucide-react";
+import { useForm, ValidationError } from "@formspree/react";
 import { useTheme } from "@/context/ThemeContext";
-
-type FormStatus = "idle" | "sending" | "done" | "error";
-
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
 
 export default function ContactForm() {
   const { isDark } = useTheme();
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [status, setStatus] = useState<FormStatus>("idle");
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async () => {
-    if (!formData.name || !formData.email || !formData.message) {
-      setStatus("error");
-      setTimeout(() => setStatus("idle"), 3000);
-      return;
-    }
-
-    setStatus("sending");
-
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // In real implementation, you'd send to your backend
-      console.log("Form submitted:", formData);
-
-      setStatus("done");
-      setFormData({ name: "", email: "", message: "" });
-
-      setTimeout(() => setStatus("idle"), 3000);
-    } catch (error) {
-      console.error("Form submission error:", error);
-      setStatus("error");
-      setTimeout(() => setStatus("idle"), 3000);
-    }
-  };
+  const [state, handleSubmit] = useForm("maqvwegb");
 
   return (
     <section
@@ -157,7 +109,7 @@ export default function ContactForm() {
             }}
           />
 
-          <div className="relative z-10 space-y-6">
+          <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
             {/* Name Input */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -171,8 +123,6 @@ export default function ContactForm() {
               <input
                 type="text"
                 name="name"
-                value={formData.name}
-                onChange={handleInputChange}
                 placeholder="Your name"
                 className="w-full px-4 py-3 rounded-lg transition-all duration-200 focus:outline-none"
                 style={{
@@ -221,8 +171,6 @@ export default function ContactForm() {
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
                   placeholder="your.email@example.com"
                   className="w-full pl-10 pr-4 py-3 rounded-lg transition-all duration-200 focus:outline-none"
                   style={{
@@ -252,6 +200,7 @@ export default function ContactForm() {
                   }}
                 />
               </div>
+              <ValidationError field="email" errors={state.errors} />
             </motion.div>
 
             {/* Message Textarea */}
@@ -271,8 +220,6 @@ export default function ContactForm() {
                 />
                 <textarea
                   name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
                   placeholder="Your message here..."
                   rows={5}
                   className="w-full pl-10 pr-4 py-3 rounded-lg transition-all duration-200 focus:outline-none resize-none"
@@ -303,26 +250,12 @@ export default function ContactForm() {
                   }}
                 />
               </div>
+              <ValidationError field="message" errors={state.errors} />
             </motion.div>
 
             {/* Status Messages */}
             <AnimatePresence>
-              {status === "error" && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="p-4 rounded-lg text-center"
-                  style={{
-                    background: "rgba(239, 68, 68, 0.2)",
-                    border: "1px solid rgba(239, 68, 68, 0.5)",
-                    color: "#FECACA",
-                  }}
-                >
-                  Please fill in all fields
-                </motion.div>
-              )}
-              {status === "done" && (
+              {state.succeeded && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -341,8 +274,8 @@ export default function ContactForm() {
 
             {/* Submit Button */}
             <motion.button
-              onClick={handleSubmit}
-              disabled={status === "sending"}
+              type="submit"
+              disabled={state.submitting}
               className="w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               style={{
                 background: isDark
@@ -354,7 +287,7 @@ export default function ContactForm() {
                   : "0 0 20px rgba(26, 143, 160, 0.3)",
               }}
               whileHover={
-                status !== "sending"
+                !state.submitting
                   ? {
                       scale: 1.02,
                       boxShadow: isDark
@@ -363,9 +296,9 @@ export default function ContactForm() {
                     }
                   : {}
               }
-              whileTap={status !== "sending" ? { scale: 0.98 } : {}}
+              whileTap={!state.submitting ? { scale: 0.98 } : {}}
             >
-              {status === "sending" ? (
+              {state.submitting ? (
                 <>
                   <motion.span
                     animate={{ rotate: 360 }}
@@ -382,7 +315,7 @@ export default function ContactForm() {
                 </>
               )}
             </motion.button>
-          </div>
+          </form>
         </motion.div>
 
         {/* Wavy SVG path at bottom with gradient animation */}
