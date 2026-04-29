@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Github, ChevronLeft, ChevronRight, Figma, FileText } from "lucide-react";
+import { X, ExternalLink, GitBranch as Github, ChevronLeft, ChevronRight, Code as Figma, FileText } from "lucide-react";
 import { useState } from "react";
 import type { CSSProperties } from "react";
 import WaveDivider from "@/components/ui/WaveDivider";

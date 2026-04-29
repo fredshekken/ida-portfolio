@@ -1,10 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Mail } from "lucide-react";
+import { SiGithub as Github } from "react-icons/si";
+import { FaLinkedin as Linkedin } from "react-icons/fa";
 import { useTheme } from "@/context/ThemeContext";
 
 export default function HeroSection() {
   const { isDark } = useTheme();
+  const GithubIcon = Github;
+  const LinkedinIcon = Linkedin;
+  const MailIcon = Mail;
+
+  const socials = [
+    { href: "https://github.com/YOUR_USERNAME", icon: GithubIcon, label: "GitHub" },
+    { href: "https://linkedin.com/in/YOUR_USERNAME", icon: LinkedinIcon, label: "LinkedIn" },
+    { href: "mailto:your@email.com", icon: MailIcon, label: "Email" },
+  ];
+
   return (
     <section
       id="about"
@@ -44,7 +57,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.45 }}
-          className="text-[#1a2a5e]/80 text-base md:text-lg max-w-xl mb-10"
+          className="text-[#1a2a5e]/80 text-base md:text-lg mb-10"
         >
           UI/UX Designer & Web Developer exploring the depths of web development
         </motion.p>
@@ -56,18 +69,51 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.55 }}
           className="flex items-center gap-4 mb-10"
         >
-          <a
+          <motion.a
             href="#projects"
-            className="px-8 py-3 border-2 border-[#1a2a5e]/30 text-[#1a2a5e] text-sm font-medium rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200"
+            whileHover={{
+              boxShadow: '0 0 25px rgba(255,255,255,0.5)',
+              y: -2 
+            }}
+            whileTap={{ scale: 0.97 }}
+            style={{
+              padding: '12px 32px',
+              borderRadius: '999px',
+              background: 'rgba(13, 59, 110, 0.3)',
+              border: '1.6px solid #1A8FA0',
+              color: '#0D3B6E',
+              fontWeight: 500,
+              fontSize: '14px',
+              boxShadow: '0 4px 10px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.1)',
+              cursor: 'pointer',
+              textDecoration: 'none',
+              display: 'inline-block',
+            }}
           >
             View Projects
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="#contact"
-            className="px-8 py-3 bg-[#1a6b8a] text-white text-sm font-medium rounded-full hover:bg-[#1a5a78] transition-colors duration-200"
+            whileHover={{ 
+              boxShadow: '0 0 25px rgba(255,255,255,0.5)',
+              y: -2 
+            }}
+            whileTap={{ scale: 0.97 }}
+            style={{
+              padding: '12px 32px',
+              borderRadius: '999px',
+              background: '#1A8FA0',
+              color: '#FFFFFF',
+              fontWeight: 500,
+              fontSize: '14px',
+              boxShadow: '0 4px 10px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.1)',
+              cursor: 'pointer',
+              textDecoration: 'none',
+              display: 'inline-block',
+            }}
           >
             Get in Touch
-          </a>
+          </motion.a>
         </motion.div>
 
         {/* Social Icons */}
@@ -77,19 +123,34 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.65 }}
           className="flex items-center gap-4"
         >
-          {[
-            { href: "https://github.com/YOUR_USERNAME", label: "GH", icon: "⌥" },
-            { href: "https://linkedin.com/in/YOUR_USERNAME", label: "LI", icon: "in" },
-            { href: "mailto:your@email.com", label: "Email", icon: "✉" },
-          ].map((s) => (
-            <a
+          {socials.map((s) => (
+            <motion.a
               key={s.label}
               href={s.href}
               target="_blank"
-              className="w-12 h-12 rounded-full bg-white/20 border border-[#1a2a5e]/20 flex items-center justify-center text-[#1a2a5e] text-sm hover:bg-white/40 transition-colors duration-200"
+              initial={false}
+              whileHover={{ 
+                backgroundColor: '#0D3B6E',
+                color: '#ffffff',
+                boxShadow: '0 0 20px rgba(255,255,255,0.4)',
+                y: -2
+              }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                background: 'rgba(13, 59, 110, 0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#0D3B6E',
+                textDecoration: 'none',
+                transition: 'background 0.2s, color 0.2s',
+              }}
             >
-              {s.icon}
-            </a>
+              <s.icon style={{ width: '20px', height: '20px' }} />
+            </motion.a>
           ))}
         </motion.div>
       </div>

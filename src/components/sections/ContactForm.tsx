@@ -83,7 +83,7 @@ export default function ContactForm() {
               bottom: "-20px",
             }}
             animate={{
-              y: [-20, -window.innerHeight, -window.innerHeight],
+              y: [-20, -600, -600],
               opacity: [0.2, 1, 0],
               scale: [1, 1.2, 0.8],
             }}
