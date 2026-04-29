@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌊 Ida Portfolio
 
-## Getting Started
+A modern, interactive portfolio website with an ocean-depth design theme, dark/light mode toggle, and smooth Framer Motion animations.
 
-First, run the development server:
+## Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This is Frieda Magaan's CS student and UI/UX designer portfolio built with Next.js 14. The site features an immersive ocean-themed aesthetic with submarine-inspired interactive components, animated skill zones representing different ocean ecosystems, and a secure contact form powered by Formspree.
+
+The design philosophy uses gradients transitioning from light teal (surface) to dark navy (ocean depths), with interactive elements inspired by submarine mechanics and marine life.
+
+## Tech Stack
+
+- **Framework**: Next.js 14.2.35 with App Router
+- **React**: 18.x (TypeScript)
+- **Styling**: Tailwind CSS 3.4.1 + PostCSS
+- **Animations**: Framer Motion 12.38.0
+- **Icons**: Lucide React 1.14.0, React Icons (Font Awesome, Simple Icons)
+- **Forms**: @formspree/react for secure email submissions
+- **Type Safety**: TypeScript with strict mode enabled
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── layout.tsx              # Root layout with ClientWrapper
+│   ├── page.tsx                # Home page
+│   ├── about/page.tsx          # About section
+│   ├── contact/page.tsx        # Contact page
+│   ├── projects/[id]/page.tsx  # Dynamic project details
+│   ├── globals.css             # Ocean-depth gradient base
+│   └── fonts/                  # Custom font definitions
+├── components/
+│   ├── ui/
+│   │   ├── Navbar.tsx          # Navigation with theme toggle
+│   │   ├── Footer.tsx          # Footer component
+│   │   └── WaveDivider.tsx     # Wave transition element
+│   └── sections/
+│       ├── HeroSection.tsx     # Welcome/intro with CTAs
+│       ├── ProjectsSection.tsx # Interactive submarine project showcase
+│       ├── SkillsSection.tsx   # Ocean zone skill categories
+│       └── ContactForm.tsx     # Email form with Formspree
+├── context/
+│   └── ThemeContext.tsx        # Global dark/light mode state
+├── data/
+│   └── projects.json           # Project metadata
+└── lib/
+    └── utils.ts                # Utility functions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+✨ **Dark/Light Mode** — Global theme toggle with React Context API, persistent UI styling across all components
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🎨 **Animated Sections** — Framer Motion entrance animations, hover effects, and smooth transitions throughout
 
-## Learn More
+🚢 **Submarine Project Showcase** — 3D CSS-rendered submarine interface with carousel navigation and modal project details
 
-To learn more about Next.js, take a look at the following resources:
+🌊 **Ocean Skill Zones** — 6 themed skill categories (Shallow Reef, Jellyfish, Deep Cave, Kelp Forest, Submarine, Bioluminescent) with unique animated backgrounds
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+📧 **Secure Contact Form** — Formspree integration with validation errors, loading states, and animated success messaging
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+📱 **Fully Responsive** — Mobile-first design with Tailwind CSS breakpoints for tablet and desktop
 
-## Deploy on Vercel
+⚡ **SSR Compatible** — Server-side rendering with Next.js, no window/document reference issues
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Setup Instructions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Prerequisites
+- Node.js 18+ and npm
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/fredshekken/ida-portfolio.git
+cd ida-portfolio
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Run the development server:
+```bash
+npm run dev
+```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+### Building for Production
+
+```bash
+npm run build
+npm run start
+```
+
+### Environment Setup (Optional)
+
+If using environment variables for the Formspree form ID:
+
+Create `.env.local`:
+```
+NEXT_PUBLIC_FORMSPREE_FORM_ID=your_form_id
+```
+
+The form ID is currently hardcoded in `ContactForm.tsx` as `maqvwegb` and does not require environment variables.
