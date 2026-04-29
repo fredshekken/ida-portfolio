@@ -1,12 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function HeroSection() {
+  const { isDark } = useTheme();
   return (
     <section
       id="about"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#B8E4F9] via-[#7ECECA] to-[#1A8FA0]"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      style={{
+        background: isDark
+          ? "linear-gradient(to bottom, #050D1A, #0A1F3D, #1C3A5E)"
+          : "linear-gradient(to bottom, #B8E4F9, #7ECECA, #1A8FA0)",
+      }}
     >
 
       {/* Sun illustration */}

@@ -1,31 +1,49 @@
 import Link from "next/link";
 
-export default function Footer() {
+interface FooterProps {
+  isDark: boolean;
+}
+
+export default function Footer({ isDark }: FooterProps) {
   return (
-    <footer className="border-t border-white/5 py-8 mt-20">
+    <footer
+      className="py-8"
+      style={{
+        background: isDark ? "#050D1A" : "#0D3B6E",
+        borderTop: isDark
+          ? "1px solid rgba(0,201,167,0.1)"
+          : "1px solid rgba(255,255,255,0.1)",
+      }}
+    >
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-muted text-sm">
+        <p
+          className="text-sm"
+          style={{ color: isDark ? "#7ECECA" : "rgba(255,255,255,0.6)" }}
+        >
           © {new Date().getFullYear()} Frieda Marie Magaan. All rights reserved.
         </p>
 
         <div className="flex items-center gap-6">
           <Link
-            href="https://github.com/fredshekken"
+            href="https://github.com/YOUR_USERNAME"
             target="_blank"
-            className="text-muted hover:text-accent text-sm transition-colors duration-200"
+            className="text-sm hover:opacity-80 transition-opacity"
+            style={{ color: isDark ? "#00C9A7" : "rgba(255,255,255,0.8)" }}
           >
             GitHub
           </Link>
           <Link
-            href="https://www.linkedin.com/in/ida-magaan"
+            href="https://linkedin.com/in/YOUR_USERNAME"
             target="_blank"
-            className="text-muted hover:text-accent text-sm transition-colors duration-200"
+            className="text-sm hover:opacity-80 transition-opacity"
+            style={{ color: isDark ? "#00C9A7" : "rgba(255,255,255,0.8)" }}
           >
             LinkedIn
           </Link>
           <Link
-            href="mailto:friedamagaan23@gmail.com"
-            className="text-muted hover:text-accent text-sm transition-colors duration-200"
+            href="mailto:your@email.com"
+            className="text-sm hover:opacity-80 transition-opacity"
+            style={{ color: isDark ? "#00C9A7" : "rgba(255,255,255,0.8)" }}
           >
             Email
           </Link>
