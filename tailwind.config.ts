@@ -6,20 +6,26 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        surface: "#0a0e1a",
-        "surface-mid": "#0f1726",
-        "surface-light": "#162033",
-        accent: "#4fc3d4",
-        "accent-warm": "#e8834a",
-        text: "#e0eaf5",
-        muted: "#5a7a96",
+        // Light mode (daytime ocean)
+        "ocean-sky": "#B8E4F9",
+        "ocean-seafoam": "#7ECECA",
+        "ocean-teal": "#1A8FA0",
+        "ocean-sapphire": "#0D3B6E",
+        "ocean-sand": "#F5E6C8",
+        // Dark mode (nighttime ocean)
+        "ocean-midnight": "#050D1A",
+        "ocean-deep": "#0A1F3D",
+        "ocean-bio-teal": "#00C9A7",
+        "ocean-moonlit": "#1C3A5E",
+        "ocean-glow": "#FFD580",
       },
       fontFamily: {
-        display: ["var(--font-display)"],
-        body: ["var(--font-body)"],
+        display: ["Outfit", "sans-serif"],
+        body: ["Outfit", "sans-serif"],
       },
     },
   },

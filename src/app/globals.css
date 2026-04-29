@@ -1,19 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --accent: #4fc3d4;
-    --surface: #0a0e1a;
-  }
-
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    background-color: #0a0e1a;
-    color: #e0eaf5;
+    background: linear-gradient(to bottom, #B8E4F9, #7ECECA, #1A8FA0, #0D3B6E, #050D1A);
+    color: #0D3B6E;
+    font-family: 'Outfit', sans-serif;
   }
 }

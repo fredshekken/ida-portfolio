@@ -1,83 +1,91 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-surface">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#0f2a3f_0%,_#0a0e1a_70%)]" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-      </div>
+    <section
+      id="about"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#B8E4F9] via-[#7ECECA] to-[#1A8FA0]"
+    >
+
+      {/* Sun illustration */}
+      <div className="absolute top-16 left-24 w-40 h-40 rounded-full bg-gradient-radial from-[#ffd966] via-[#f6a623] to-transparent opacity-90 blur-sm" />
+      <div className="absolute top-16 left-24 w-32 h-32 rounded-full bg-gradient-to-br from-[#ffe066] to-[#f6a623]" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-20">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-accent text-sm tracking-widest uppercase mb-4"
-        >
-          Hello, I'm
-        </motion.p>
-
+      <div className="relative z-10 flex flex-col items-center text-center px-6">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="font-display text-6xl md:text-8xl text-text font-semibold leading-none tracking-tight mb-6"
+          className="font-display text-6xl md:text-8xl font-bold text-[#1a2a5e] leading-none tracking-tight mb-4"
         >
-          Ida
-          <br />
-          <span className="text-accent">Magaan.</span>
+          Frieda Magaan
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-muted text-lg md:text-xl max-w-xl mb-10 leading-relaxed"
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="text-[#1a2a5e] text-xl md:text-2xl font-medium mb-3"
         >
-          CS student & developer crafting thoughtful interfaces and full stack experiences.
+          Computer Science Student
         </motion.p>
 
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.45 }}
+          className="text-[#1a2a5e]/80 text-base md:text-lg max-w-xl mb-10"
+        >
+          UI/UX Designer & Web Developer exploring the depths of web development
+        </motion.p>
+
+        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.55 }}
+          className="flex items-center gap-4 mb-10"
+        >
+          <a
+            href="#projects"
+            className="px-8 py-3 border-2 border-[#1a2a5e]/30 text-[#1a2a5e] text-sm font-medium rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200"
+          >
+            View Projects
+          </a>
+          <a
+            href="#contact"
+            className="px-8 py-3 bg-[#1a6b8a] text-white text-sm font-medium rounded-full hover:bg-[#1a5a78] transition-colors duration-200"
+          >
+            Get in Touch
+          </a>
+        </motion.div>
+
+        {/* Social Icons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.65 }}
           className="flex items-center gap-4"
         >
-          <Link
-            href="/projects"
-            className="px-6 py-3 bg-accent text-surface text-sm font-medium rounded-full hover:bg-accent/80 transition-colors duration-200"
-          >
-            See my work
-          </Link>
-          <Link
-            href="/contact"
-            className="px-6 py-3 border border-white/10 text-text text-sm font-medium rounded-full hover:border-accent/50 transition-colors duration-200"
-          >
-            Get in touch
-          </Link>
+          {[
+            { href: "https://github.com/YOUR_USERNAME", label: "GH", icon: "⌥" },
+            { href: "https://linkedin.com/in/YOUR_USERNAME", label: "LI", icon: "in" },
+            { href: "mailto:your@email.com", label: "Email", icon: "✉" },
+          ].map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              className="w-12 h-12 rounded-full bg-white/20 border border-[#1a2a5e]/20 flex items-center justify-center text-[#1a2a5e] text-sm hover:bg-white/40 transition-colors duration-200"
+            >
+              {s.icon}
+            </a>
+          ))}
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-muted text-xs tracking-widest uppercase">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-          className="w-px h-8 bg-gradient-to-b from-accent/50 to-transparent"
-        />
-      </motion.div>
     </section>
   );
 }
