@@ -10,13 +10,18 @@ interface NavbarProps {
   scrollDepth: number;
 }
 
-const links = ["About", "Projects", "Skills", "Contact"];
+const links = [
+  { label: "About", id: "about" },
+  { label: "Projects", id: "projects" },
+  { label: "Skills & Experiences", id: "skills" },
+  { label: "Contact", id: "contact" },
+];
 
 export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const scrollToSection = (section: string) => {
-    const element = document.getElementById(section.toLowerCase());
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
@@ -47,15 +52,15 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
         <div className="hidden md:flex items-center gap-8">
           {links.map((link, index) => (
             <motion.button
-              key={link}
-              onClick={() => scrollToSection(link)}
+              key={link.id}
+              onClick={() => scrollToSection(link.id)}
               className="relative hover:opacity-80 transition-opacity"
               style={{ color: isDark ? "#B8E4F9" : "#0D3B6E" }}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 + 0.2 }}
             >
-              {link}
+              {link.label}
             </motion.button>
           ))}
 
@@ -101,12 +106,12 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
         >
           {links.map((link) => (
             <button
-              key={link}
-              onClick={() => scrollToSection(link)}
+              key={link.id}
+              onClick={() => scrollToSection(link.id)}
               className="text-left hover:opacity-80 transition-opacity"
               style={{ color: isDark ? "#B8E4F9" : "#0D3B6E" }}
             >
-              {link}
+              {link.label}
             </button>
           ))}
         </div>

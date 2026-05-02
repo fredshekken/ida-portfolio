@@ -9,10 +9,8 @@ export default function Footer({ isDark }: FooterProps) {
     <footer
       className="py-8"
       style={{
-        background: isDark ? "#050D1A" : "#0D3B6E",
-        borderTop: isDark
-          ? "1px solid rgba(0,201,167,0.1)"
-          : "1px solid rgba(255,255,255,0.1)",
+        background: "transparent",
+        borderTop: "none",
       }}
     >
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">

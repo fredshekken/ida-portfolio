@@ -14,11 +14,38 @@ export default function ContactForm() {
       id="contact"
       className="relative min-h-screen py-24 px-6 overflow-hidden flex items-center justify-center"
       style={{
-        background: isDark
-          ? "linear-gradient(180deg, #050D1A 0%, #0A1F3D 50%, #0D3B6E 100%)"
-          : "linear-gradient(180deg, #0D3B6E 0%, #0A5B7A 50%, #B8E4F9 100%)",
+        background: "transparent",
       }}
     >
+      {/* Background wave */}
+      <svg
+        className="absolute bottom-0 left-0 right-0 pointer-events-none z-0"
+        viewBox="0 0 1200 120"
+        preserveAspectRatio="none"
+        style={{
+          height: "140px",
+          width: "100%",
+          opacity: isDark ? 0.24 : 0.18,
+        }}
+      >
+        <motion.path
+          d="M0,64L100,58.7C200,53,400,42.7,600,48C800,53.3,1000,74.7,1100,80L1200,85.3L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z"
+          fill={isDark ? "#00C9A7" : "#1A8FA0"}
+          animate={{
+            d: [
+              "M0,64L100,58.7C200,53,400,42.7,600,48C800,53.3,1000,74.7,1100,80L1200,85.3L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z",
+              "M0,64L100,69.3C200,74.7,400,85.3,600,80C800,74.7,1000,53.3,1100,48L1200,42.7L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z",
+              "M0,64L100,58.7C200,53,400,42.7,600,48C800,53.3,1000,74.7,1100,80L1200,85.3L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z",
+            ],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      </svg>
+
       {/* Bubble particles rising */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(20)].map((_, i) => (
@@ -47,17 +74,6 @@ export default function ContactForm() {
           />
         ))}
       </div>
-
-      {/* Ocean floor ambient glow */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-1/3 pointer-events-none"
-        style={{
-          background: isDark
-            ? "radial-gradient(ellipse at center bottom, rgba(0, 201, 167, 0.15) 0%, transparent 70%)"
-            : "radial-gradient(ellipse at center bottom, rgba(126, 206, 202, 0.2) 0%, transparent 70%)",
-          filter: "blur(40px)",
-        }}
-      />
 
       <div className="relative z-10 w-full max-w-2xl">
         <motion.div
@@ -276,30 +292,34 @@ export default function ContactForm() {
             <motion.button
               type="submit"
               disabled={state.submitting}
-              className="w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="relative overflow-hidden w-full py-4 px-6 rounded-full font-semibold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 backdrop-blur-md"
               style={{
                 background: isDark
-                  ? "linear-gradient(135deg, #00C9A7 0%, #0D8B7F 100%)"
-                  : "linear-gradient(135deg, #1A8FA0 0%, #0D5B6E 100%)",
+                  ? "linear-gradient(135deg, rgba(0,201,167,0.9) 0%, rgba(13,139,127,0.95) 100%)"
+                  : "linear-gradient(135deg, rgba(26,143,160,0.92) 0%, rgba(13,91,110,0.96) 100%)",
                 color: "#FFFFFF",
+                border: "1px solid rgba(255,255,255,0.2)",
                 boxShadow: isDark
-                  ? "0 0 20px rgba(0, 201, 167, 0.4)"
-                  : "0 0 20px rgba(26, 143, 160, 0.3)",
+                  ? "inset 0 1px 14px rgba(255,255,255,0.14), 0 10px 24px rgba(0, 201, 167, 0.18)"
+                  : "inset 0 1px 14px rgba(255,255,255,0.14), 0 10px 24px rgba(26, 143, 160, 0.18)",
               }}
               whileHover={
                 !state.submitting
                   ? {
+                      y: -2,
                       scale: 1.02,
                       boxShadow: isDark
-                        ? "0 0 30px rgba(0, 201, 167, 0.6)"
-                        : "0 0 30px rgba(26, 143, 160, 0.5)",
+                        ? "inset 0 1px 14px rgba(255,255,255,0.18), 0 14px 30px rgba(0, 201, 167, 0.24)"
+                        : "inset 0 1px 14px rgba(255,255,255,0.18), 0 14px 30px rgba(26, 143, 160, 0.22)",
                     }
                   : {}
               }
               whileTap={!state.submitting ? { scale: 0.98 } : {}}
             >
+              <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.28),transparent_34%)]" />
+              <span className="pointer-events-none absolute -right-3 top-1 h-9 w-9 rounded-full border border-white/20 bg-white/15" />
               {state.submitting ? (
-                <>
+                <span className="relative z-10 inline-flex items-center gap-2">
                   <motion.span
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
@@ -307,45 +327,16 @@ export default function ContactForm() {
                     ⚙️
                   </motion.span>
                   Sending...
-                </>
+                </span>
               ) : (
-                <>
+                <span className="relative z-10 inline-flex items-center gap-2">
                   <Send className="w-5 h-5" />
                   Send Message
-                </>
+                </span>
               )}
             </motion.button>
           </form>
         </motion.div>
-
-        {/* Wavy SVG path at bottom with gradient animation */}
-        <svg
-          className="absolute bottom-0 left-0 right-0 pointer-events-none"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-          style={{
-            height: "120px",
-            width: "100%",
-            opacity: isDark ? 0.15 : 0.25,
-          }}
-        >
-          <motion.path
-            d="M0,64L100,58.7C200,53,400,42.7,600,48C800,53.3,1000,74.7,1100,80L1200,85.3L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z"
-            fill={isDark ? "#00C9A7" : "#1A8FA0"}
-            animate={{
-              d: [
-                "M0,64L100,58.7C200,53,400,42.7,600,48C800,53.3,1000,74.7,1100,80L1200,85.3L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z",
-                "M0,64L100,69.3C200,74.7,400,85.3,600,80C800,74.7,1000,53.3,1100,48L1200,42.7L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z",
-                "M0,64L100,58.7C200,53,400,42.7,600,48C800,53.3,1000,74.7,1100,80L1200,85.3L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z",
-              ],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </svg>
       </div>
     </section>
   );

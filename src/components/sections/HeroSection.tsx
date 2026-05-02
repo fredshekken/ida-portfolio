@@ -17,12 +17,10 @@ export default function HeroSection() {
 
   return (
     <section
-      id="about"
+      id="home"
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{
-        background: isDark
-          ? "linear-gradient(to bottom, #050D1A, #0A1F3D, #1C3A5E)"
-          : "linear-gradient(to bottom, #B8E4F9, #7ECECA, #1A8FA0)",
+        background: "transparent",
       }}
     >
 
@@ -67,47 +65,56 @@ export default function HeroSection() {
           <motion.a
             href="#projects"
             whileHover={{
-              boxShadow: '0 0 25px rgba(255,255,255,0.5)',
-              y: -2 
+              y: -3,
+              scale: 1.02,
+              boxShadow: '0 12px 28px rgba(13,59,110,0.16), 0 0 0 1px rgba(13,59,110,0.18)',
             }}
-            whileTap={{ scale: 0.97 }}
+            whileTap={{ scale: 0.98 }}
             style={{
-              padding: '12px 32px',
+              padding: '14px 34px',
               borderRadius: '999px',
-              background: 'rgba(13, 59, 110, 0.3)',
-              border: '1.6px solid #1A8FA0',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.12) 100%)',
+              border: '1.5px solid rgba(26,143,160,0.95)',
               color: '#0D3B6E',
               fontWeight: 500,
               fontSize: '14px',
-              boxShadow: '0 4px 10px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.1)',
+              boxShadow: 'inset 0 1px 14px rgba(255,255,255,0.2), 0 8px 20px rgba(13,59,110,0.12)',
               cursor: 'pointer',
               textDecoration: 'none',
               display: 'inline-block',
+              position: 'relative',
+              overflow: 'hidden',
             }}
           >
-            View Projects
+            <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.5),transparent_34%)]" />
+            <span className="relative z-10">View Projects</span>
           </motion.a>
           <motion.a
             href="#contact"
             whileHover={{ 
-              boxShadow: '0 0 25px rgba(255,255,255,0.5)',
-              y: -2 
+              y: -3,
+              scale: 1.02,
+              boxShadow: '0 12px 28px rgba(13,59,110,0.18), 0 0 0 1px rgba(13,59,110,0.15)',
             }}
-            whileTap={{ scale: 0.97 }}
+            whileTap={{ scale: 0.98 }}
             style={{
-              padding: '12px 32px',
+              padding: '14px 34px',
               borderRadius: '999px',
-              background: '#1A8FA0',
+              background: 'linear-gradient(135deg, #1A8FA0 0%, #20A9B5 55%, #1A8FA0 100%)',
+              border: '1.5px solid rgba(255,255,255,0.22)',
               color: '#FFFFFF',
               fontWeight: 500,
               fontSize: '14px',
-              boxShadow: '0 4px 10px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.1)',
+              boxShadow: 'inset 0 1px 14px rgba(255,255,255,0.16), 0 8px 20px rgba(13,59,110,0.16)',
               cursor: 'pointer',
               textDecoration: 'none',
               display: 'inline-block',
+              position: 'relative',
+              overflow: 'hidden',
             }}
           >
-            Get in Touch
+            <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.32),transparent_34%)]" />
+            <span className="relative z-10">Get in Touch</span>
           </motion.a>
         </motion.div>
 

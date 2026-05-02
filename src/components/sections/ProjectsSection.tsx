@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { Globe, Palette, Gamepad2, Layers, Code2, FolderOpen, Info, ExternalLink, Code } from "lucide-react";
+import { Globe, Palette, Gamepad2, Layers, FolderOpen, Info, ExternalLink, Code } from "lucide-react";
 import { useState, useEffect } from "react";
 import type { ElementType } from "react";
 
@@ -425,15 +425,13 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="relative w-full px-6 py-24 overflow-hidden"
+      className="relative isolate w-full px-6 py-24 overflow-hidden"
       style={{
-        background: isDark
-          ? "linear-gradient(180deg, #1C3A5E 0%, #0A1F3D 50%, #0D3B6E 100%)"
-          : "linear-gradient(180deg, #1A8FA0 0%, #0D7B8A 50%, #0D3B6E 100%)",
+        background: "transparent",
       }}
     >
       {/* Bubbles */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
@@ -545,37 +543,47 @@ export default function ProjectsSection() {
                 <div className="flex gap-2 flex-wrap">
                   {project.hasAbout && (
                     <button
-                      className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-white transition-all hover:opacity-80"
+                      className="relative overflow-hidden flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium text-white transition-all hover:opacity-80 backdrop-blur-md"
                       style={{
-                        background: "#1A8FA0",
-                        boxShadow: "inset 0 1px 4px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.2)",
+                        background: "linear-gradient(135deg, rgba(26,143,160,0.9) 0%, rgba(35,174,186,0.95) 100%)",
+                        border: "1px solid rgba(255,255,255,0.22)",
+                        boxShadow: "inset 0 1px 10px rgba(255,255,255,0.14), 0 6px 16px rgba(13,59,110,0.12)",
                       }}
                     >
-                      <Info className="w-3 h-3" /> About
+                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.35),transparent_36%)]" />
+                      <span className="relative z-10 inline-flex items-center gap-1.5">
+                        <Info className="w-3 h-3" /> About
+                      </span>
                     </button>
                   )}
                   {project.hasDemo && (
                     <button
-                      className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-white transition-all hover:opacity-80"
+                      className="relative overflow-hidden flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium text-white transition-all hover:opacity-80 backdrop-blur-md"
                       style={{
-                        background: "rgba(26, 143, 160, 0.25)",
-                        border: "1px solid #1A8FA0",
-                        boxShadow: "inset 0 1px 4px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.2)",
+                        background: "linear-gradient(135deg, rgba(26,143,160,0.22) 0%, rgba(32,169,181,0.34) 100%)",
+                        border: "1px solid rgba(26,143,160,0.8)",
+                        boxShadow: "inset 0 1px 10px rgba(255,255,255,0.12), 0 6px 16px rgba(13,59,110,0.1)",
                       }}
                     >
-                      <ExternalLink className="w-3 h-3" /> Demo
+                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.28),transparent_36%)]" />
+                      <span className="relative z-10 inline-flex items-center gap-1.5">
+                        <ExternalLink className="w-3 h-3" /> Demo
+                      </span>
                     </button>
                   )}
                   {project.hasCode && (
                     <button
-                      className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-white transition-all hover:opacity-80"
+                      className="relative overflow-hidden flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium text-white transition-all hover:opacity-80 backdrop-blur-md"
                       style={{
-                        background: "rgba(26, 143, 160, 0.25)",
-                        border: "1px solid #1A8FA0",
-                        boxShadow: "inset 0 1px 4px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.2)",
+                        background: "linear-gradient(135deg, rgba(13,59,110,0.28) 0%, rgba(13,59,110,0.18) 100%)",
+                        border: "1px solid rgba(255,255,255,0.18)",
+                        boxShadow: "inset 0 1px 10px rgba(255,255,255,0.1), 0 6px 16px rgba(13,59,110,0.1)",
                       }}
                     >
-                      <Code className="w-3 h-3" /> Code
+                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.22),transparent_36%)]" />
+                      <span className="relative z-10 inline-flex items-center gap-1.5">
+                        <Code className="w-3 h-3" /> Code
+                      </span>
                     </button>
                   )}
                 </div>

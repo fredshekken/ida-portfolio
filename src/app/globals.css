@@ -10,7 +10,17 @@
   }
 
   body {
-    background: linear-gradient(to bottom, #B8E4F9, #7ECECA, #1A8FA0, #0D3B6E, #050D1A);
+    background: linear-gradient(
+      to bottom,
+      #9ccfdf 0%,
+      #82c8d7 14%,
+      #60b8c8 28%,
+      #3f95b0 44%,
+      #27698f 60%,
+      #163f73 76%,
+      #0d2f5d 90%,
+      #050d1a 100%
+    );
     color: #0D3B6E;
     font-family: 'Outfit', sans-serif;
   }
