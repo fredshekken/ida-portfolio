@@ -1,4 +1,4 @@
-# 🌊 Ida Portfolio
+# 🌊 Ida's Portfolio
 
 A modern, interactive portfolio website with an ocean-depth design theme, dark/light mode toggle, and smooth Framer Motion animations.
 

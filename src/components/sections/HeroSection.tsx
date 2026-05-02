@@ -26,9 +26,7 @@ export default function HeroSection() {
       }}
     >
 
-      {/* Sun illustration */}
-      <div className="absolute top-16 left-24 w-40 h-40 rounded-full bg-gradient-radial from-[#ffd966] via-[#f6a623] to-transparent opacity-90 blur-sm" />
-      <div className="absolute top-16 left-24 w-32 h-32 rounded-full bg-gradient-to-br from-[#ffe066] to-[#f6a623]" />
+      {/* Sun illustration removed */}
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6">
