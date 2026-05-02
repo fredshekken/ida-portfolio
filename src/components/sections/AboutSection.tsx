@@ -1,9 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Briefcase, Sparkles, GraduationCap, Mail, ArrowUpRight } from "lucide-react";
-import { SiGithub as Github } from "react-icons/si";
-import { FaLinkedin as Linkedin } from "react-icons/fa";
+import { MapPin, Briefcase, Sparkles, GraduationCap, Mail } from "lucide-react";
 
 const aboutStats = [
   { label: "Location", value: "Manila, Philippines", icon: MapPin },
@@ -55,11 +53,11 @@ export default function AboutSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <p className="uppercase tracking-[0.35em] text-xs mb-3" style={{ color: "#B8E4F9" }}>
+          <p className="uppercase tracking-[0.35em] text-xs mb-3" style={{ color: 'var(--color-muted)' }}>
             About Me
           </p>
-          <h2 className="font-display font-bold" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#0D3B6E" }}>
-            A quick bubble of basic info
+          <h2 className="font-display font-bold" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+            <span style={{ color: '#FFFFFF' }}>A Quick</span> <span style={{ color: 'var(--color-accent)' }}>Bubble</span> <span style={{ color: '#FFFFFF' }}>of Basic</span> <span style={{ color: 'var(--color-accent)' }}>Info</span>
           </h2>
         </motion.div>
 
@@ -81,13 +79,13 @@ export default function AboutSection() {
             <div>
               <div
                 className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.3em] mb-5"
-                style={{ background: "rgba(13,59,110,0.08)", color: "#0D3B6E" }}
+                style={{ background: "rgba(13,59,110,0.08)", color: 'var(--color-text)' }}
               >
                 <Sparkles className="w-4 h-4" />
                 Ocean Profile Card
               </div>
 
-              <p className="text-base md:text-lg leading-relaxed max-w-2xl" style={{ color: "#173A63" }}>
+              <p className="text-base md:text-lg leading-relaxed max-w-2xl" style={{ color: 'var(--color-text)' }}>
                 I&apos;m a computer science student who likes building calm, immersive interfaces,
                 combining UI/UX, frontend development, and motion design. This section is just a
                 placeholder for now, but it gives the portfolio a proper home for the details that
@@ -112,7 +110,7 @@ export default function AboutSection() {
                       <span className="w-10 h-10 rounded-full flex items-center justify-center bg-white/12 text-white">
                         <item.icon className="w-4 h-4" />
                       </span>
-                      <span className="text-xs uppercase tracking-[0.28em]" style={{ color: "#D9F3FF" }}>
+                      <span className="text-xs uppercase tracking-[0.28em]" style={{ color: 'var(--color-muted)' }}>
                         {item.label}
                       </span>
                     </div>
@@ -140,52 +138,57 @@ export default function AboutSection() {
                 >
                   <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(255,255,255,0.2),transparent_32%)]" />
                   <div className="relative z-10">
-                    <p className="text-xs uppercase tracking-[0.25em] mb-1" style={{ color: "#D9F3FF" }}>
+                    <p className="text-xs uppercase tracking-[0.25em] mb-1" style={{ color: 'var(--color-muted)' }}>
                       {item.title}
                     </p>
-                    <p className="text-[#FFFFFF] font-medium">{item.value}</p>
+                    <p className="text-[var(--color-heading)] font-medium">{item.value}</p>
                   </div>
-                  <div className="relative z-10 w-11 h-11 rounded-full bg-white/16 border border-white/22 shadow-[inset_0_1px_10px_rgba(255,255,255,0.1)]" />
+                  <div className="relative z-10 w-11 h-11 rounded-full bg-white/16 border border-white/22 shadow-[inset_0_1px_10px_rgba(255,255,255,0.1)] flex items-center justify-center text-white">
+                    {index === 0 && <Mail className="w-5 h-5" />}
+                    {index === 1 && <Briefcase className="w-5 h-5" />}
+                    {index === 2 && <Sparkles className="w-5 h-5" />}
+                    {index === 3 && <GraduationCap className="w-5 h-5" />}
+                  </div>
                 </motion.div>
               ))}
-
-              <motion.div
-                className="mt-2 rounded-[1.75rem] p-5 border bg-white/14 border-white/18 relative overflow-hidden"
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.15 }}
-              >
-                <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.2),transparent_35%)]" />
-                <div className="relative z-10 flex items-center justify-between gap-4 mb-4">
-                  <p className="text-xs uppercase tracking-[0.3em]" style={{ color: "#D9F3FF" }}>
-                    Contact Bubbles
-                  </p>
-                  <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#0D3B6E] bg-white/50 px-3 py-1 rounded-full">
-                    <ArrowUpRight className="w-3 h-3" />
-                    Reach Out
-                  </span>
-                </div>
-                <div className="relative z-10 flex flex-wrap gap-3">
-                  {[
-                    { label: "Email", icon: Mail },
-                    { label: "GitHub", icon: Github },
-                    { label: "LinkedIn", icon: Linkedin },
-                  ].map((item) => (
-                    <span
-                      key={item.label}
-                      className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white/18 border border-white/22 text-white text-sm relative overflow-hidden backdrop-blur-md"
-                      style={{ boxShadow: "none", minHeight: "3rem" }}
-                    >
-                      <span className="relative z-10 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/10 border border-white/20">
-                        <item.icon className="w-4 h-4" />
-                      </span>
-                      <span className="relative z-10">{item.label}</span>
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
             </div>
+
+            <motion.div
+              className="mt-6 flex items-center gap-3"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <motion.a
+                href="https://github.com/fredshekken"
+                target="_blank"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all font-bold"
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  color: "var(--color-brand)",
+                }}
+              >
+                GH
+              </motion.a>
+              <motion.a
+                href="https://www.linkedin.com/in/ida-magaan"
+                target="_blank"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all font-bold"
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  color: "var(--color-brand)",
+                }}
+              >
+                LI
+              </motion.a>
+            </motion.div>
           </div>
         </motion.div>
       </div>

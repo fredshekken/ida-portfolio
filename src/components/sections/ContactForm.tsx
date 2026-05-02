@@ -31,49 +31,8 @@ export default function ContactForm() {
         <motion.path
           d="M0,64L100,58.7C200,53,400,42.7,600,48C800,53.3,1000,74.7,1100,80L1200,85.3L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z"
           fill={isDark ? "#00C9A7" : "#1A8FA0"}
-          animate={{
-            d: [
-              "M0,64L100,58.7C200,53,400,42.7,600,48C800,53.3,1000,74.7,1100,80L1200,85.3L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z",
-              "M0,64L100,69.3C200,74.7,400,85.3,600,80C800,74.7,1000,53.3,1100,48L1200,42.7L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z",
-              "M0,64L100,58.7C200,53,400,42.7,600,48C800,53.3,1000,74.7,1100,80L1200,85.3L1200,120L1100,120C1000,120,800,120,600,120C400,120,200,120,100,120L0,120Z",
-            ],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
       </svg>
-
-      {/* Bubble particles rising */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full opacity-20"
-            style={{
-              width: `${4 + Math.random() * 8}px`,
-              height: `${4 + Math.random() * 8}px`,
-              background: isDark
-                ? "rgba(0, 201, 167, 0.3)"
-                : "rgba(255, 255, 255, 0.3)",
-              left: `${Math.random() * 100}%`,
-              bottom: "-20px",
-            }}
-            animate={{
-              y: [-20, -600, -600],
-              opacity: [0.2, 1, 0],
-              scale: [1, 1.2, 0.8],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 4,
-              repeat: Infinity,
-              ease: "easeOut",
-            }}
-          />
-        ))}
-      </div>
 
       <div className="relative z-10 w-full max-w-2xl">
         <motion.div
@@ -87,13 +46,12 @@ export default function ContactForm() {
             className="mb-4"
             style={{
               fontSize: "clamp(2rem, 5vw, 3rem)",
-              color: "#FFFFFF",
             }}
           >
-            Get in Touch
+            <span style={{ color: '#FFFFFF' }}>Get</span> <span style={{ color: 'var(--color-accent)' }}>in Touch</span>
           </h2>
-          <p className="text-lg opacity-80" style={{ color: "#B8E4F9" }}>
-            Dive into conversation - let's explore possibilities together
+          <p className="text-lg opacity-80" style={{ color: 'var(--color-muted)' }}>
+            Dive into conversation - let&apos;s explore possibilities together
           </p>
         </motion.div>
 
@@ -133,7 +91,7 @@ export default function ContactForm() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <label className="block mb-2 text-sm font-medium" style={{ color: "#B8E4F9" }}>
+              <label className="block mb-2 text-sm font-medium" style={{ color: 'var(--color-muted)' }}>
                 Name
               </label>
               <input
@@ -148,7 +106,7 @@ export default function ContactForm() {
                   border: isDark
                     ? "1px solid rgba(255, 255, 255, 0.2)"
                     : "1px solid rgba(255, 255, 255, 0.3)",
-                  color: "#FFFFFF",
+                  color: "var(--color-heading)",
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.background = isDark
@@ -176,13 +134,13 @@ export default function ContactForm() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <label className="block mb-2 text-sm font-medium" style={{ color: "#B8E4F9" }}>
+              <label className="block mb-2 text-sm font-medium" style={{ color: 'var(--color-muted)' }}>
                 Email
               </label>
               <div className="relative">
                 <Mail
                   className="absolute left-3 top-3.5 w-5 h-5"
-                  style={{ color: isDark ? "#00C9A7" : "#1A8FA0" }}
+                  style={{ color: 'var(--color-accent)' }}
                 />
                 <input
                   type="email"
@@ -226,13 +184,13 @@ export default function ContactForm() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <label className="block mb-2 text-sm font-medium" style={{ color: "#B8E4F9" }}>
+              <label className="block mb-2 text-sm font-medium" style={{ color: 'var(--color-muted)' }}>
                 Message
               </label>
               <div className="relative">
                 <MessageSquare
                   className="absolute left-3 top-3 w-5 h-5"
-                  style={{ color: isDark ? "#00C9A7" : "#1A8FA0" }}
+                  style={{ color: 'var(--color-accent)' }}
                 />
                 <textarea
                   name="message"

@@ -44,8 +44,8 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <motion.div className="font-medium tracking-wide" whileHover={{ scale: 1.05 }}>
-          <span style={{ color: isDark ? "#00C9A7" : "#1A8FA0" }}>Portfolio</span>
+          <motion.div className="font-medium tracking-wide" whileHover={{ scale: 1.05 }}>
+          <span style={{ color: 'var(--color-brand)' }}>dev.kalayaan</span>
         </motion.div>
 
         {/* Desktop Links */}
@@ -67,8 +67,8 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
           {/* Dark mode toggle */}
           <motion.button
             onClick={() => setIsDark(!isDark)}
-            className="relative w-14 h-7 rounded-full p-1 transition-colors"
-            style={{ background: isDark ? "#1C3A5E" : "#7ECECA" }}
+              className="relative w-14 h-7 rounded-full p-1 transition-colors"
+            style={{ background: 'var(--color-toggle-bg)' }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -78,9 +78,9 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
             >
               {isDark ? (
-                <Moon className="w-3 h-3 text-[#1C3A5E]" />
+                <Moon className="w-3 h-3" style={{ color: 'var(--color-toggle-bg)' }} />
               ) : (
-                <Sun className="w-3 h-3 text-[#FFD580]" />
+                <Sun className="w-3 h-3" style={{ color: 'var(--color-accent)' }} />
               )}
             </motion.div>
           </motion.button>

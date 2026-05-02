@@ -415,10 +415,10 @@ export default function ProjectsSection() {
     if (distance === 0) return { x: 0, y: 0 };
     const normX = dx / distance;
     const normY = dy / distance;
-    const maxDist = 3; // influence radius
+    const maxDist = 2.5; // influence radius (reduced)
     const strength = Math.max(0, 1 - distance / maxDist);
-    const maxX = 18; // horizontal push
-    const maxY = 12; // vertical push
+    const maxX = 8; // horizontal push (reduced)
+    const maxY = 6; // vertical push (reduced)
     return { x: normX * strength * maxX, y: normY * strength * maxY };
   };
 
@@ -466,11 +466,11 @@ export default function ProjectsSection() {
         >
           <h2
             className="font-display font-bold mb-3"
-            style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#FFFFFF" }}
+            style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
           >
-            Projects
+            <span style={{ color: '#FFFFFF' }}>My</span> <span style={{ color: 'var(--color-accent)' }}>Projects</span>
           </h2>
-          <p style={{ color: "#A8D8E0", fontSize: "1rem" }}>
+          <p style={{ color: 'var(--color-muted)', fontSize: "1rem" }}>
             Tap each card to dive deep on each project
           </p>
         </motion.div>
@@ -542,46 +542,25 @@ export default function ProjectsSection() {
                 {/* Buttons */}
                 <div className="flex gap-2 flex-wrap">
                   {project.hasAbout && (
-                    <button
-                      className="relative overflow-hidden flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium text-white transition-all hover:opacity-80 backdrop-blur-md"
-                      style={{
-                        background: "linear-gradient(135deg, rgba(26,143,160,0.9) 0%, rgba(35,174,186,0.95) 100%)",
-                        border: "1px solid rgba(255,255,255,0.22)",
-                        boxShadow: "inset 0 1px 10px rgba(255,255,255,0.14), 0 6px 16px rgba(13,59,110,0.12)",
-                      }}
-                    >
-                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.35),transparent_36%)]" />
-                      <span className="relative z-10 inline-flex items-center gap-1.5">
+                    <button className="btn btn-primary relative overflow-hidden flex items-center gap-1.5 text-xs font-medium transition-all">
+                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.18),transparent_36%)]" />
+                      <span className="relative z-10 inline-flex items-center gap-1.5 px-4 py-2">
                         <Info className="w-3 h-3" /> About
                       </span>
                     </button>
                   )}
                   {project.hasDemo && (
-                    <button
-                      className="relative overflow-hidden flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium text-white transition-all hover:opacity-80 backdrop-blur-md"
-                      style={{
-                        background: "linear-gradient(135deg, rgba(26,143,160,0.22) 0%, rgba(32,169,181,0.34) 100%)",
-                        border: "1px solid rgba(26,143,160,0.8)",
-                        boxShadow: "inset 0 1px 10px rgba(255,255,255,0.12), 0 6px 16px rgba(13,59,110,0.1)",
-                      }}
-                    >
-                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.28),transparent_36%)]" />
-                      <span className="relative z-10 inline-flex items-center gap-1.5">
+                    <button className="btn btn-secondary relative overflow-hidden flex items-center gap-1.5 text-xs font-medium transition-all">
+                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.12),transparent_36%)]" />
+                      <span className="relative z-10 inline-flex items-center gap-1.5 px-4 py-2">
                         <ExternalLink className="w-3 h-3" /> Demo
                       </span>
                     </button>
                   )}
                   {project.hasCode && (
-                    <button
-                      className="relative overflow-hidden flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium text-white transition-all hover:opacity-80 backdrop-blur-md"
-                      style={{
-                        background: "linear-gradient(135deg, rgba(13,59,110,0.28) 0%, rgba(13,59,110,0.18) 100%)",
-                        border: "1px solid rgba(255,255,255,0.18)",
-                        boxShadow: "inset 0 1px 10px rgba(255,255,255,0.1), 0 6px 16px rgba(13,59,110,0.1)",
-                      }}
-                    >
-                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.22),transparent_36%)]" />
-                      <span className="relative z-10 inline-flex items-center gap-1.5">
+                    <button className="btn btn-secondary relative overflow-hidden flex items-center gap-1.5 text-xs font-medium transition-all">
+                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.12),transparent_36%)]" />
+                      <span className="relative z-10 inline-flex items-center gap-1.5 px-4 py-2">
                         <Code className="w-3 h-3" /> Code
                       </span>
                     </button>

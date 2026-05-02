@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Code2, Palette, Database, Wrench, Compass, Anchor } from "lucide-react";
-import { useTheme } from "@/context/ThemeContext";
 
 const meterStops = [
   {
@@ -38,7 +37,7 @@ const meterStops = [
 const depthMarks = [0, 50, 100, 150, 200, 250, 300];
 
 export default function SkillsSection() {
-  const { isDark } = useTheme();
+  // const { isDark } = useTheme();
 
   return (
     <section
@@ -74,13 +73,13 @@ export default function SkillsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="uppercase tracking-[0.35em] text-xs mb-3" style={{ color: "#B8E4F9" }}>
+          <p className="uppercase tracking-[0.35em] text-xs mb-3" style={{ color: 'var(--color-muted)' }}>
             Dive Depth Meter
           </p>
-          <h2 className="font-display font-bold" style={{ fontSize: "clamp(2rem, 5vw, 3.75rem)", color: "#FFFFFF" }}>
-            Skills & Experiences
+          <h2 className="font-display font-bold" style={{ fontSize: "clamp(2rem, 5vw, 3.75rem)" }}>
+            <span style={{ color: '#FFFFFF' }}>Skills</span> <span style={{ color: 'var(--color-accent)' }}>&</span> <span style={{ color: '#FFFFFF' }}>Experiences</span>
           </h2>
-          <p className="mt-3 text-base md:text-lg max-w-2xl mx-auto" style={{ color: "#B8E4F9" }}>
+          <p className="mt-3 text-base md:text-lg max-w-2xl mx-auto" style={{ color: 'var(--color-muted)' }}>
             A dummy depth chart for now, built to feel like a submersible profile panel.
           </p>
         </motion.div>

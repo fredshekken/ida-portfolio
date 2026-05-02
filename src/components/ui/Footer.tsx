@@ -1,10 +1,6 @@
 import Link from "next/link";
 
-interface FooterProps {
-  isDark: boolean;
-}
-
-export default function Footer({ isDark }: FooterProps) {
+export default function Footer() {
   return (
     <footer
       className="py-8"
@@ -14,10 +10,7 @@ export default function Footer({ isDark }: FooterProps) {
       }}
     >
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p
-          className="text-sm"
-          style={{ color: isDark ? "#7ECECA" : "rgba(255,255,255,0.6)" }}
-        >
+        <p className="text-sm" style={{ color: 'var(--color-muted)' }}>
           © {new Date().getFullYear()} Frieda Marie Magaan. All rights reserved.
         </p>
 
@@ -26,7 +19,7 @@ export default function Footer({ isDark }: FooterProps) {
             href="https://github.com/fredshekken"
             target="_blank"
             className="text-sm hover:opacity-80 transition-opacity"
-            style={{ color: isDark ? "#00C9A7" : "rgba(255,255,255,0.8)" }}
+            style={{ color: 'var(--color-brand)' }}
           >
             GitHub
           </Link>
@@ -34,14 +27,14 @@ export default function Footer({ isDark }: FooterProps) {
             href="https://www.linkedin.com/in/ida-magaan" 
             target="_blank"
             className="text-sm hover:opacity-80 transition-opacity"
-            style={{ color: isDark ? "#00C9A7" : "rgba(255,255,255,0.8)" }}
+            style={{ color: 'var(--color-brand)' }}
           >
             LinkedIn
           </Link>
           <Link
             href="mailto:your@email.com"
             className="text-sm hover:opacity-80 transition-opacity"
-            style={{ color: isDark ? "#00C9A7" : "rgba(255,255,255,0.8)" }}
+            style={{ color: 'var(--color-brand)' }}
           >
             Email
           </Link>

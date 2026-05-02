@@ -32,7 +32,7 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
       <div className="relative overflow-x-hidden">
         <Navbar isDark={isDark} setIsDark={setIsDark} scrollDepth={scrollDepth} />
         {children}
-        <Footer isDark={isDark} />
+        <Footer />
       </div>
     </ThemeContext.Provider>
   );
