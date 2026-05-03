@@ -20,6 +20,7 @@ const projects = [
     background: "kelp-forest",
     hasDemo: true,
     hasCode: false,
+    demoUrl: "https://www.figma.com/proto/DMKjfVlmbhMay5udalxeKt/UI-SOfT-ENG?node-id=1222-8310&p=f&t=zgEbMbExOvH2YTqv-1&scaling=scale-down&content-scaling=fixed&page-id=1222%3A6532&starting-point-node-id=1222%3A8310&show-proto-sidebar=1",
     hasAbout: true,
   },
   {
@@ -35,6 +36,7 @@ const projects = [
     background: "jellyfish",
     hasDemo: true,
     hasCode: false,
+    demoUrl: "https://www.figma.com/proto/pRbOewehGL0n6YumDLxrqd/BOL-Reservation-System?node-id=92-10085&p=f&t=LcRWT3sxcJXzeIxd-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1",
     hasAbout: true,
   },
   {
@@ -50,6 +52,7 @@ const projects = [
     background: "cave",
     hasDemo: true,
     hasCode: false,
+    demoUrl: "https://www.figma.com/community/file/1627472155495683683",
     hasAbout: true,
   },
   {
@@ -65,6 +68,7 @@ const projects = [
     background: "coral-reef",
     hasDemo: true,
     hasCode: false,
+    demoUrl: "https://www.figma.com/proto/1mfm2sWOHyP3c9n0B5X4hX/Wireframing?node-id=834-75&p=f&t=a0KFQwZ1x52YIlR3-1&scaling=scale-down&content-scaling=fixed&page-id=812%3A1668&starting-point-node-id=834%3A75",
     hasAbout: true,
   },
   {
@@ -80,6 +84,7 @@ const projects = [
     background: "submarine",
     hasDemo: false,
     hasCode: true,
+    codeUrl: "https://github.com/timtulang/Chef-Lakbay",
     hasAbout: true,
   },
   {
@@ -429,9 +434,9 @@ export default function ProjectsSection() {
   ];
 
   const otherScreens = [
-    { label: "BEST-e", src: "/projects/best-e.png", desc: "Event booking platform UI", demoUrl: "#" },
-    { label: "MUSEUM INTERACTIVE", src: "/projects/museum.png", desc: "Interactive museum experience UI", demoUrl: "#" },
-    { label: "PLANVA", src: "/projects/planva.png", desc: "Lifestyle blueprint app UI", demoUrl: "#" },
+    { label: "BEST-e", src: "/projects/best-e.png", desc: "Event booking platform UI", demoUrl: "https://www.figma.com/proto/0FgWB1zuW0YZGqFEmMD5BC/APPDEV---4-members?node-id=1-2&scaling=scale-down&content-scaling=fixed&t=PwUnJiIgHIlw9I7i-1" },
+    { label: "MUSEUM INTERACTIVE", src: "/projects/museum.png", desc: "Interactive museum experience UI", demoUrl: "https://www.figma.com/proto/CVSa0OU56mw4XVMXCu4fiG/ArtApp-E-Catalogue?node-id=70-93&p=f&t=C4nyiZ1fn9D2AFR5-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=70%3A93&show-proto-sidebar=1" },
+    { label: "PLANVA", src: "/projects/planva.png", desc: "Lifestyle blueprint app UI", demoUrl: "https://www.figma.com/proto/z94nLEfYBmKMPFD4J07ZS1/HCI-Group-2-Planva-High-Fidelity-Prototype?node-id=149-5221&starting-point-node-id=149%3A5221&t=qL7ZlDh9G2VGvXPx-1" },
   ];
 
   useEffect(() => {
@@ -790,36 +795,78 @@ export default function ProjectsSection() {
                     </button>
                   )}
                   {project.hasDemo && (
-                    <button
-                      className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap"
-                      style={{
-                        background: "rgba(255,255,255,0.3)",
-                        border: "1px solid rgba(255,255,255,0.42)",
-                        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
-                        color: "#FFFFFF",
-                      }}
-                    >
-                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
-                      <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
-                        <ExternalLink className="w-3 h-3" /> Demo
-                      </span>
-                    </button>
+                    project.demoUrl ? (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap"
+                        style={{
+                          background: "rgba(255,255,255,0.3)",
+                          border: "1px solid rgba(255,255,255,0.42)",
+                          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
+                          color: "#FFFFFF",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
+                        <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
+                          <ExternalLink className="w-3 h-3" /> Demo
+                        </span>
+                      </a>
+                    ) : (
+                      <button
+                        className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap"
+                        style={{
+                          background: "rgba(255,255,255,0.3)",
+                          border: "1px solid rgba(255,255,255,0.42)",
+                          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
+                          color: "#FFFFFF",
+                        }}
+                      >
+                        <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
+                        <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
+                          <ExternalLink className="w-3 h-3" /> Demo
+                        </span>
+                      </button>
+                    )
                   )}
                   {project.hasCode && (
-                    <button
-                      className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap"
-                      style={{
-                        background: "rgba(255,255,255,0.3)",
-                        border: "1px solid rgba(255,255,255,0.42)",
-                        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
-                        color: "#FFFFFF",
-                      }}
-                    >
-                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
-                      <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
-                        <Code className="w-3 h-3" /> Code
-                      </span>
-                    </button>
+                    project.codeUrl ? (
+                      <a
+                        href={project.codeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap"
+                        style={{
+                          background: "rgba(255,255,255,0.3)",
+                          border: "1px solid rgba(255,255,255,0.42)",
+                          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
+                          color: "#FFFFFF",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
+                        <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
+                          <Code className="w-3 h-3" /> Code
+                        </span>
+                      </a>
+                    ) : (
+                      <button
+                        className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap"
+                        style={{
+                          background: "rgba(255,255,255,0.3)",
+                          border: "1px solid rgba(255,255,255,0.42)",
+                          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
+                          color: "#FFFFFF",
+                        }}
+                      >
+                        <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
+                        <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
+                          <Code className="w-3 h-3" /> Code
+                        </span>
+                      </button>
+                    )
                   )}
                 </div>
               </div>
@@ -952,7 +999,10 @@ export default function ProjectsSection() {
                       ← Back
                     </button>
                     <a
-                      href="#"
+                      href="https://www.figma.com/proto/DMKjfVlmbhMay5udalxeKt/UI-SOfT-ENG?node-id=1222-8310&p=f&t=zgEbMbExOvH2YTqv-1&scaling=scale-down&content-scaling=fixed&page-id=1222%3A6532&starting-point-node-id=1222%3A8310&show-proto-sidebar=1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/proto/DMKjfVlmbhMay5udalxeKt/UI-SOfT-ENG?node-id=1222-8310&p=f&t=zgEbMbExOvH2YTqv-1&scaling=scale-down&content-scaling=fixed&page-id=1222%3A6532&starting-point-node-id=1222%3A8310&show-proto-sidebar=1", "_blank", "noopener"); }}
                       style={{
                         padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
                         background: isDark ? "#00C9A7" : "#1A8FA0",
@@ -1082,7 +1132,10 @@ export default function ProjectsSection() {
                       ← Back
                     </button>
                     <a
-                      href="#"
+                      href="https://www.figma.com/proto/pRbOewehGL0n6YumDLxrqd/BOL-Reservation-System?node-id=92-10085&p=f&t=LcRWT3sxcJXzeIxd-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/proto/pRbOewehGL0n6YumDLxrqd/BOL-Reservation-System?node-id=92-10085&p=f&t=LcRWT3sxcJXzeIxd-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1", "_blank", "noopener"); }}
                       style={{
                         padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
                         background: "#1A8FA0",
@@ -1149,7 +1202,7 @@ export default function ProjectsSection() {
                   ))}
                   <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
                     <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
-                    <a href="#" style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E85D8A", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+                    <a href="https://www.figma.com/community/file/1627472155495683683" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/community/file/1627472155495683683", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E85D8A", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
                   </div>
                 </div>
 
@@ -1207,7 +1260,7 @@ export default function ProjectsSection() {
                   ))}
                   <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
                     <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
-                    <a href="#" style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E8845D", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+                    <a href="https://www.figma.com/proto/1mfm2sWOHyP3c9n0B5X4hX/Wireframing?node-id=834-75&p=f&t=a0KFQwZ1x52YIlR3-1&scaling=scale-down&content-scaling=fixed&page-id=812%3A1668&starting-point-node-id=834%3A75" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/proto/1mfm2sWOHyP3c9n0B5X4hX/Wireframing?node-id=834-75&p=f&t=a0KFQwZ1x52YIlR3-1&scaling=scale-down&content-scaling=fixed&page-id=812%3A1668&starting-point-node-id=834%3A75", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E8845D", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
                   </div>
                 </div>
 
@@ -1265,7 +1318,7 @@ export default function ProjectsSection() {
                   ))}
                   <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
                     <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
-                    <a href="#" style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#5D9AE8", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Code</a>
+                    <a href="https://github.com/timtulang/Chef-Lakbay" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open("https://github.com/timtulang/Chef-Lakbay", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#5D9AE8", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Code</a>
                   </div>
                 </div>
 
@@ -1314,7 +1367,7 @@ export default function ProjectsSection() {
                 <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
                   <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", width: "fit-content" }}>← Back</button>
                   {otherScreens[otherIndex].demoUrl && (
-                    <a href={otherScreens[otherIndex].demoUrl} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#4FC3D4", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+                    <a href={otherScreens[otherIndex].demoUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open(otherScreens[otherIndex].demoUrl || "", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#4FC3D4", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
                   )}
                 </div>
               </div>
