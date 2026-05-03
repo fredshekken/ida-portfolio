@@ -64,7 +64,7 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
               whileHover={{ scale: 1.05 }}
               onClick={() => scrollToSection("home")}
             >
-          <span style={{ color: 'var(--color-brand)' }}>dev.kalayaan</span>
+          <span style={{ color: isDark ? "#B8E4F9" : "#0D3B6E" }}>dev.kalayaan</span>
             </motion.div>
 
         {/* Desktop Links */}
