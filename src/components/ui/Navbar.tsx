@@ -44,9 +44,13 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-          <motion.div className="font-medium tracking-wide" whileHover={{ scale: 1.05 }}>
+            <motion.div
+              className="font-medium tracking-wide cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+              onClick={() => scrollToSection("home")}
+            >
           <span style={{ color: 'var(--color-brand)' }}>dev.kalayaan</span>
-        </motion.div>
+            </motion.div>
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
