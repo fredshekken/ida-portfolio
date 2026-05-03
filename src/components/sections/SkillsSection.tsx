@@ -3,34 +3,38 @@
 import { motion } from "framer-motion";
 import { Code2, Palette, Database, Wrench, Compass, Anchor } from "lucide-react";
 
-const meterStops = [
+const skillCategories = [
   {
-    depth: "0m",
-    range: "0-50m · sunlight zone",
+    zone: "0-50M · SUNLIGHT ZONE",
     title: "Frontend Development",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+    depth: "0m",
+    accentColor: "#7ECECA",
     icon: Code2,
+    skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "JavaScript"],
   },
   {
-    depth: "75m",
-    range: "50-100m · twilight zone",
+    zone: "50-100M · TWILIGHT ZONE",
     title: "UI/UX Design",
-    items: ["Figma", "Prototyping", "Design Systems", "Visual Hierarchy"],
+    depth: "75m",
+    accentColor: "#9370DB",
     icon: Palette,
+    skills: ["Figma", "Wireframing", "Prototyping", "Design Systems", "User Research", "Sprite & Asset Creation"],
   },
   {
-    depth: "150m",
-    range: "100-200m · midnight zone",
+    zone: "100-200M · MIDNIGHT ZONE",
     title: "Experience Highlights",
-    items: ["Gracewell Nexus", "Robotics Internship", "Client Collaboration", "Deployment"],
+    depth: "150m",
+    accentColor: "#8A6FDB",
     icon: Database,
+    skills: ["Gracewell Client System Deployment", "Hytec Power Inc. Robotics Intern", "13th UMAK IT Skill Olympics: Chef Lakbay Entry", "Smart Queuing System UI/UX Lead"],
   },
   {
-    depth: "300m",
-    range: "200-300m · abyss zone",
+    zone: "200-300M · ABYSS ZONE",
     title: "Tools & Workflow",
-    items: ["Git", "VS Code", "Vercel", "Motion/Framer"],
+    depth: "300m",
+    accentColor: "#4CAF7D",
     icon: Wrench,
+    skills: ["Git", "VS Code", "Vercel", "Render", "Supabase", "Arduino", "GIMP", "Unity"],
   },
 ];
 
@@ -90,9 +94,9 @@ export default function SkillsSection() {
               <div className="absolute left-4 lg:left-0 top-0 bottom-0 w-px bg-cyan-300/60" />
 
               <div className="flex flex-col gap-4">
-                {meterStops.map((stop, index) => {
+                {skillCategories.map((stop, index) => {
                   const Icon = stop.icon;
-                  const accent = ["#7FE3D8", "#55D6FF", "#BDA7FF", "#7EE6B8"][index];
+                  const accent = stop.accentColor;
 
                   return (
                     <motion.div
@@ -116,7 +120,7 @@ export default function SkillsSection() {
                         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                           <div>
                             <p className="text-sm uppercase tracking-[0.25em] mb-1" style={{ color: "rgba(255,255,255,0.7)" }}>
-                              {stop.range}
+                              {stop.zone}
                             </p>
                             <h3 className="font-display text-2xl md:text-3xl text-white">{stop.title}</h3>
                           </div>
@@ -135,7 +139,7 @@ export default function SkillsSection() {
                         </div>
 
                         <div className="mt-5 flex flex-wrap gap-2">
-                          {stop.items.map((item) => (
+                          {stop.skills.map((item) => (
                             <span
                               key={item}
                               className="rounded-full px-3 py-1.5 text-sm text-white border"
@@ -151,11 +155,7 @@ export default function SkillsSection() {
                 })}
               </div>
 
-              <div className="mt-6 flex items-center gap-3 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>
-                <Compass className="w-4 h-4" />
-                <span>Dummy data for layout exploration. We can swap this with real history later.</span>
-                <Anchor className="w-4 h-4" />
-              </div>
+
             </div>
           </div>
         </div>
