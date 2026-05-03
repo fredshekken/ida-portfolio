@@ -61,6 +61,7 @@ export default function HeroSection() {
             whileHover={{ y: -3, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="btn btn-secondary"
+            style={{ color: "#1a2a5e" }}
           >
             <span className="relative z-10">View Projects</span>
           </motion.a>

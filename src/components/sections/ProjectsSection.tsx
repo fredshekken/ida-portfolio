@@ -73,7 +73,7 @@ const projects = [
     accentColor: "#5D9AE8",
     icon: Gamepad2,
     background: "submarine",
-    hasDemo: true,
+    hasDemo: false,
     hasCode: true,
     hasAbout: true,
   },
@@ -496,7 +496,7 @@ export default function ProjectsSection() {
                 boxShadow:
                   "0 36px 120px rgba(0,255,220,0.22), 0 0 48px rgba(255,255,255,0.5), inset 0 0 28px rgba(255,255,255,0.06)",
               }}
-              className="rounded-2xl p-6 cursor-pointer relative overflow-hidden flex flex-col justify-between min-h-[260px]"
+              className="rounded-2xl p-6 cursor-pointer relative overflow-hidden flex flex-col justify-between"
               style={{
                 background: project.cardBg,
                 border: "1px solid rgba(255,255,255,0.1)",
@@ -540,27 +540,41 @@ export default function ProjectsSection() {
                 </div>
 
                 {/* Buttons */}
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex flex-nowrap gap-1">
                   {project.hasAbout && (
-                    <button className="btn btn-primary relative overflow-hidden flex items-center gap-1.5 text-xs font-medium transition-all">
+                    <button className="btn btn-primary relative overflow-hidden flex items-center gap-1 text-[11px] font-medium transition-all shrink-0 whitespace-nowrap">
                       <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.18),transparent_36%)]" />
-                      <span className="relative z-10 inline-flex items-center gap-1.5 px-4 py-2">
+                      <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
                         <Info className="w-3 h-3" /> About
                       </span>
                     </button>
                   )}
                   {project.hasDemo && (
-                    <button className="btn btn-secondary relative overflow-hidden flex items-center gap-1.5 text-xs font-medium transition-all">
-                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.12),transparent_36%)]" />
-                      <span className="relative z-10 inline-flex items-center gap-1.5 px-4 py-2">
+                    <button
+                      className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[11px] font-medium transition-all shrink-0 whitespace-nowrap"
+                      style={{
+                        background: "rgba(255,255,255,0.3)",
+                        border: "1px solid rgba(255,255,255,0.42)",
+                        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
+                      }}
+                    >
+                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
+                      <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
                         <ExternalLink className="w-3 h-3" /> Demo
                       </span>
                     </button>
                   )}
                   {project.hasCode && (
-                    <button className="btn btn-secondary relative overflow-hidden flex items-center gap-1.5 text-xs font-medium transition-all">
-                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.12),transparent_36%)]" />
-                      <span className="relative z-10 inline-flex items-center gap-1.5 px-4 py-2">
+                    <button
+                      className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[11px] font-medium transition-all shrink-0 whitespace-nowrap"
+                      style={{
+                        background: "rgba(255,255,255,0.3)",
+                        border: "1px solid rgba(255,255,255,0.42)",
+                        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
+                      }}
+                    >
+                      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
+                      <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
                         <Code className="w-3 h-3" /> Code
                       </span>
                     </button>
