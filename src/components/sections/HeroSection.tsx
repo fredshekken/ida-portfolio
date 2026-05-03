@@ -59,7 +59,7 @@ export default function HeroSection() {
             whileHover={{ y: -3, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="btn btn-secondary"
-            style={{ color: 'var(--hero-blue)' }}
+            style={{ color: isDark ? 'var(--color-accent)' : 'var(--hero-blue)' }}
           >
             <span className="relative z-10">View Projects</span>
           </motion.a>

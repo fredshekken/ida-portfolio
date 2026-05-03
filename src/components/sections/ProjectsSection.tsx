@@ -12,7 +12,8 @@ const projects = [
     title: "Gracewell NEXUS",
     category: "WEB DEVELOPMENT",
     tech: ["React", "CSS", "JavaScript", "Vercel"],
-    cardBg: "linear-gradient(135deg, rgba(6,156,144,0.95) 0%, rgba(3,110,99,0.95) 100%)",
+    cardBg: "linear-gradient(135deg, #1A6B5A 0%, #0F4A3D 100%)",
+    cardBgDark: "linear-gradient(135deg, #1E7A65 0%, #145A48 100%)",
     iconBg: "#074F4A",
     accentColor: "#00BFA6",
     icon: Globe,
@@ -26,7 +27,8 @@ const projects = [
     title: "Online Seat Reservation System",
     category: "UI/UX DESIGN",
     tech: ["Figma"],
-    cardBg: "linear-gradient(135deg, rgba(13,90,74,0.95) 0%, rgba(8,61,50,0.95) 100%)",
+    cardBg: "linear-gradient(135deg, #0D5A4A 0%, #083D32 100%)",
+    cardBgDark: "linear-gradient(135deg, #0F6A58 0%, #0A4A3C 100%)",
     iconBg: "#062D25",
     accentColor: "#4FC3A1",
     icon: Palette,
@@ -40,7 +42,8 @@ const projects = [
     title: "KATSEYE Fan Page / Blog",
     category: "UI/UX DESIGN",
     tech: ["Figma"],
-    cardBg: "linear-gradient(135deg, rgba(90,32,64,0.95) 0%, rgba(61,21,48,0.95) 100%)",
+    cardBg: "linear-gradient(135deg, #5A2040 0%, #3D1530 100%)",
+    cardBgDark: "linear-gradient(135deg, #7A2855 0%, #521A40 100%)",
     iconBg: "#2D0F22",
     accentColor: "#E85D8A",
     icon: Palette,
@@ -54,7 +57,8 @@ const projects = [
     title: "Smart Queueing System",
     category: "UI/UX DESIGN",
     tech: ["Figma"],
-    cardBg: "linear-gradient(135deg, rgba(107,45,26,0.95) 0%, rgba(74,31,16,0.95) 100%)",
+    cardBg: "linear-gradient(135deg, #6B2D1A 0%, #4A1F10 100%)",
+    cardBgDark: "linear-gradient(135deg, #8A3820 0%, #6A2A15 100%)",
     iconBg: "#3A1508",
     accentColor: "#E8845D",
     icon: Layers,
@@ -68,7 +72,8 @@ const projects = [
     title: "Chef Lakbay",
     category: "GRAPHIC DESIGN & ASSET MANAGEMENT",
     tech: ["GIMP", "Canva", "Unity"],
-    cardBg: "linear-gradient(135deg, rgba(26,58,107,0.95) 0%, rgba(15,42,74,0.95) 100%)",
+    cardBg: "linear-gradient(135deg, #1A3A6B 0%, #0F2A4A 100%)",
+    cardBgDark: "linear-gradient(135deg, #1E4A8A 0%, #143570 100%)",
     iconBg: "#0A1F3A",
     accentColor: "#5D9AE8",
     icon: Gamepad2,
@@ -82,7 +87,8 @@ const projects = [
     title: "Other Projects",
     category: "GRAPHIC DESIGN",
     tech: ["Figma", "Canva"],
-    cardBg: "linear-gradient(135deg, rgba(13,106,122,0.95) 0%, rgba(9,74,87,0.95) 100%)",
+    cardBg: "linear-gradient(135deg, #0D6A7A 0%, #094A57 100%)",
+    cardBgDark: "linear-gradient(135deg, #0F7A8A 0%, #0B5A6A 100%)",
     iconBg: "#063540",
     accentColor: "#4FC3D4",
     icon: FolderOpen,
@@ -493,7 +499,7 @@ export default function ProjectsSection() {
               }}
               className="rounded-2xl p-6 cursor-pointer relative overflow-hidden flex flex-col justify-between"
               style={{
-                background: project.cardBg,
+                background: isDark ? project.cardBgDark : project.cardBg,
                 border: "1px solid rgba(255,255,255,0.1)",
               }}
             >
@@ -537,7 +543,7 @@ export default function ProjectsSection() {
                 {/* Buttons */}
                 <div className="flex flex-nowrap gap-1">
                   {project.hasAbout && (
-                    <button className="btn btn-primary relative overflow-hidden flex items-center gap-1 text-[11px] font-medium transition-all shrink-0 whitespace-nowrap">
+                    <button className="btn btn-primary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap">
                       <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.18),transparent_36%)]" />
                       <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
                         <Info className="w-3 h-3" /> About
@@ -546,11 +552,12 @@ export default function ProjectsSection() {
                   )}
                   {project.hasDemo && (
                     <button
-                      className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[11px] font-medium transition-all shrink-0 whitespace-nowrap"
+                      className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap"
                       style={{
                         background: "rgba(255,255,255,0.3)",
                         border: "1px solid rgba(255,255,255,0.42)",
                         boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
+                        color: "#FFFFFF",
                       }}
                     >
                       <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
@@ -561,11 +568,12 @@ export default function ProjectsSection() {
                   )}
                   {project.hasCode && (
                     <button
-                      className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[11px] font-medium transition-all shrink-0 whitespace-nowrap"
+                      className="btn btn-secondary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap"
                       style={{
                         background: "rgba(255,255,255,0.3)",
                         border: "1px solid rgba(255,255,255,0.42)",
                         boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
+                        color: "#FFFFFF",
                       }}
                     >
                       <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.24),transparent_32%)]" />
