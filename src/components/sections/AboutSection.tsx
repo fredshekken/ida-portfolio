@@ -1,23 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Briefcase, GraduationCap, Mail, Sparkles, MapPin } from "lucide-react";
-import { SiGithub as Github } from "react-icons/si";
+import { ArrowUpRight } from "lucide-react";
 import GithubHeatmap from "@/components/ui/GithubHeatmap";
-import { FaLinkedin as Linkedin } from "react-icons/fa";
-
-const aboutStats = [
-  { label: "Location", value: "Manila, Philippines", icon: MapPin },
-  { label: "Focus", value: "UI/UX + Web Dev", icon: Briefcase },
-  { label: "Status", value: "Open for projects", icon: Sparkles },
-  { label: "Studying", value: "BS Computer Science", icon: GraduationCap },
-];
-
-const bubbles = [
-  { label: "Email", icon: Mail, href: "#contact" },
-  { label: "GitHub", icon: Github, href: "https://github.com/fredshekken" },
-  { label: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/in/ida-magaan" },
-];
 
 const tools = [
   { name: "React", color: "#61DAFB" },
@@ -160,7 +145,7 @@ export default function AboutSection() {
               </div>
 
               <p className="text-base md:text-lg leading-relaxed max-w-2xl mb-4" style={{ color: "#B8E4F9" }}>
-                I&apos;m a CS student at PLM who lives between design and code. I care a lot about UI/UX and frontend work, and I think the best interfaces are the ones people don't have to think about.
+                I&apos;m a CS student at PLM who lives between design and code. I care a lot about UI/UX and frontend work, and I think the best interfaces are the ones people don&apos;t have to think about.
               </p>
 
               {/* stat tiles removed per request - kept profile ID, fields and description */}
