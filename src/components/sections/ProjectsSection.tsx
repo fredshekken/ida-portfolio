@@ -383,12 +383,55 @@ export default function ProjectsSection() {
   const [cols, setCols] = useState<number>(3);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [bolIndex, setBolIndex] = useState(0);
+  const [katsIndex, setKatsIndex] = useState(0);
+  const [queueIndex, setQueueIndex] = useState(0);
+  const [chefIndex, setChefIndex] = useState(0);
+  const [otherIndex, setOtherIndex] = useState(0);
+
   const gracewellScreens = [
-    { label: "LOG-IN SCREEN" },
-    { label: "DASHBOARD" },
-    { label: "EMPLOYEE RECORDS" },
-    { label: "ATTENDANCE" },
-    { label: "SALARY TRACKER" },
+    { label: "LOG-IN SCREEN", src: "/projects/nexus-login.png" },
+    { label: "DASHBOARD", src: "/projects/nexus-dashboard.png" },
+    { label: "EMPLOYEE RECORDS", src: "/projects/nexus-records.png" },
+    { label: "ATTENDANCE", src: "/projects/nexus-attendance.png" },
+    { label: "SALARY TRACKER", src: "/projects/nexus-salary.png" },
+  ];
+
+  const bolScreens = [
+    { label: "LANDING PAGE", src: "/projects/bol-landing.png" },
+    { label: "RESERVATION FLOW", src: "/projects/bol-reservation.png" },
+    { label: "CONFIRMATION", src: "/projects/bol-confirmation.png" },
+    { label: "TICKET SCREEN 1", src: "/projects/bol-ticket.png" },
+    { label: "TICKET SCREEN 2", src: "/projects/bol-ticket2.png" },
+  ];
+
+  const katsScreens = [
+    { label: "HOME PAGE", src: "/projects/kats-home.png" },
+    { label: "ABOUT PAGE", src: "/projects/kats-about.png" },
+    { label: "RELEASES", src: "/projects/kats-releases.png" },
+    { label: "EVENTS", src: "/projects/kats-events.png" },
+    { label: "ARTICLES", src: "/projects/kats-articles.png" },
+    { label: "MEMBER PROFILE", src: "/projects/kats-member.png" },
+  ];
+
+  const queueScreens = [
+    { label: "MAIN MENU", src: "/projects/queue-menu.png" },
+    { label: "CHATBOT (AIVIN)", src: "/projects/queue-chatbot.png" },
+    { label: "FORM SCREEN", src: "/projects/queue-form.png" },
+  ];
+
+  const chefScreens = [
+    { label: "HOME SCREEN", src: "/projects/chef-home.png" },
+    { label: "STAGE SELECT", src: "/projects/chef-stage.png" },
+    { label: "LEVEL", src: "/projects/chef-level.png" },
+    { label: "GAMEPLAY", src: "/projects/chef-gameplay.png" },
+    { label: "CRAFTING", src: "/projects/chef-crafting.png" },
+  ];
+
+  const otherScreens = [
+    { label: "BEST-e", src: "/projects/best-e.png", desc: "Event booking platform UI", demoUrl: "#" },
+    { label: "MUSEUM INTERACTIVE", src: "/projects/museum.png", desc: "Interactive museum experience UI", demoUrl: "#" },
+    { label: "PLANVA", src: "/projects/planva.png", desc: "Lifestyle blueprint app UI", demoUrl: "#" },
   ];
 
   useEffect(() => {
@@ -404,8 +447,12 @@ export default function ProjectsSection() {
   useEffect(() => {
     if (selectedProject) {
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('project-modal-open');
+      window.dispatchEvent(new CustomEvent('project-modal', { detail: { open: true } }));
     } else {
       document.body.style.overflow = '';
+      document.body.classList.remove('project-modal-open');
+      window.dispatchEvent(new CustomEvent('project-modal', { detail: { open: false } }));
     }
     return () => {
       document.body.style.overflow = '';
@@ -430,6 +477,191 @@ export default function ProjectsSection() {
     const maxX = 8; // horizontal push (reduced)
     const maxY = 6; // vertical push (reduced)
     return { x: normX * strength * maxX, y: normY * strength * maxY };
+  };
+
+  const CarouselPanel = ({
+    screens,
+    index,
+    setIndex,
+    aspectRatio = "16/9",
+    maxHeight,
+    controlsBelow = false,
+  }: {
+    screens: { label: string; src: string; desc?: string; demoUrl?: string }[];
+    index: number;
+    setIndex: (i: number) => void;
+    aspectRatio?: string;
+    maxHeight?: string;
+    controlsBelow?: boolean;
+  }) => {
+    const img = screens[index];
+    return (
+      <div style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        padding: "16px",
+        gap: "12px",
+        height: "100%",
+      }}>
+        <div style={{ width: "100%", position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{
+            width: "100%",
+            aspectRatio,
+            borderRadius: "12px",
+            overflow: "hidden",
+            border: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(0,0,0,0.22)",
+            maxHeight: maxHeight || undefined,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+            <img
+              src={img.src}
+              alt={img.label}
+              style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+            />
+          </div>
+
+          {!controlsBelow && (
+            <>
+              <button
+                onClick={() => setIndex((index - 1 + screens.length) % screens.length)}
+                aria-label="Previous"
+                style={{
+                  position: "absolute",
+                  left: 12,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  background: "rgba(0,0,0,0.45)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "#FFFFFF",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "18px",
+                  zIndex: 20,
+                }}
+              >‹</button>
+
+              <button
+                onClick={() => setIndex((index + 1) % screens.length)}
+                aria-label="Next"
+                style={{
+                  position: "absolute",
+                  right: 12,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  background: "rgba(0,0,0,0.45)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "#FFFFFF",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "18px",
+                  zIndex: 20,
+                }}
+              >›</button>
+            </>
+          )}
+        </div>
+
+        {!controlsBelow && (
+          <div style={{ display: "flex", gap: "6px", justifyContent: "center", marginTop: "8px" }}>
+            {screens.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIndex(i)}
+                aria-label={`Go to ${i}`}
+                style={{
+                  width: i === index ? "20px" : "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                  background: i === index ? "#7ECECA" : "rgba(255,255,255,0.28)",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  transition: "all 0.18s ease",
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {controlsBelow ? (
+          <>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "8px" }}>
+              <button
+                onClick={() => setIndex((index - 1 + screens.length) % screens.length)}
+                style={{
+                  width: "36px", height: "36px", borderRadius: "50%",
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "#FFFFFF", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: "18px",
+                }}
+              >‹</button>
+
+              <span style={{ flex: 1, textAlign: "center", color: "#7ECECA", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.06em" }}>{img.label}</span>
+
+              <button
+                onClick={() => setIndex((index + 1) % screens.length)}
+                style={{
+                  width: "36px", height: "36px", borderRadius: "50%",
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "#FFFFFF", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: "18px",
+                }}
+              >›</button>
+            </div>
+
+            <div style={{ display: "flex", gap: "6px", justifyContent: "center", marginTop: "8px" }}>
+              {screens.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setIndex(i)}
+                  style={{
+                    width: i === index ? "20px" : "8px",
+                    height: "8px",
+                    borderRadius: "4px",
+                    background: i === index ? "#7ECECA" : "rgba(255,255,255,0.28)",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                    transition: "all 0.18s ease",
+                  }}
+                />
+              ))}
+            </div>
+
+            {img.desc && (
+              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "12px", margin: 0, textAlign: "center", marginTop: "8px" }}>
+                {img.desc}
+              </p>
+            )}
+          </>
+        ) : (
+          img.desc && (
+            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "12px", margin: 0, textAlign: "center" }}>
+              {img.desc}
+            </p>
+          )
+        )}
+      </div>
+    );
   };
 
   return (
@@ -629,7 +861,7 @@ export default function ProjectsSection() {
                 maxHeight: "90vh",
                 borderRadius: "20px",
                 background: isDark
-                  ? "linear-gradient(135deg, #0A1F3D 0%, #0F2A50 100%)"
+                  ? "linear-gradient(135deg, #061427 0%, #0A1F3A 100%)"
                   : "linear-gradient(135deg, #1A6B5A 0%, #0F4A3D 100%)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 overflow: "hidden",
@@ -733,70 +965,7 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                {/* Right panel — carousel */}
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "20px",
-                  gap: "16px",
-                }}>
-                  {/* Placeholder screen */}
-                  <div style={{
-                    width: "100%",
-                    aspectRatio: "16/9",
-                    borderRadius: "12px",
-                    background: "rgba(0,0,0,0.4)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}>
-                    <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "13px" }}>
-                      {gracewellScreens[carouselIndex].label}
-                    </p>
-                  </div>
-
-                  {/* Carousel controls */}
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <button
-                      onClick={() => setCarouselIndex((prev) => Math.max(0, prev - 1))}
-                      disabled={carouselIndex === 0}
-                      style={{
-                        width: "36px", height: "36px", borderRadius: "50%",
-                        background: "rgba(255,255,255,0.1)",
-                        border: "1px solid rgba(255,255,255,0.2)",
-                        color: "#FFFFFF", cursor: "pointer",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        opacity: carouselIndex === 0 ? 0.3 : 1,
-                      }}
-                    >
-                      ‹
-                    </button>
-                    <span style={{
-                      fontSize: "12px", color: "#7ECECA",
-                      textTransform: "uppercase", letterSpacing: "0.1em",
-                      minWidth: "160px", textAlign: "center",
-                    }}>
-                      {gracewellScreens[carouselIndex].label}
-                    </span>
-                    <button
-                      onClick={() => setCarouselIndex((prev) => Math.min(gracewellScreens.length - 1, prev + 1))}
-                      disabled={carouselIndex === gracewellScreens.length - 1}
-                      style={{
-                        width: "36px", height: "36px", borderRadius: "50%",
-                        background: "rgba(255,255,255,0.1)",
-                        border: "1px solid rgba(255,255,255,0.2)",
-                        color: "#FFFFFF", cursor: "pointer",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        opacity: carouselIndex === gracewellScreens.length - 1 ? 0.3 : 1,
-                      }}
-                    >
-                      ›
-                    </button>
-                  </div>
-                </div>
+                <CarouselPanel screens={gracewellScreens} index={carouselIndex} setIndex={setCarouselIndex} aspectRatio="16/9" controlsBelow={true} />
               </div>
             </motion.div>
           </motion.div>
@@ -821,7 +990,9 @@ export default function ProjectsSection() {
                 maxWidth: "900px",
                 maxHeight: "90vh",
                 borderRadius: "20px",
-                background: "linear-gradient(135deg, #0D5A4A 0%, #083D32 100%)",
+                background: isDark
+                  ? "linear-gradient(135deg, #063D32 0%, #042A22 100%)"
+                  : "linear-gradient(135deg, #0D5A4A 0%, #083D32 100%)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 overflow: "hidden",
                 display: "flex",
@@ -924,34 +1095,7 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                {/* Right panel — screenshot grid placeholder */}
-                <div style={{
-                  padding: "20px",
-                  overflowY: "auto",
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "12px",
-                  alignContent: "start",
-                }}>
-                  {["LANDING PAGE", "RESERVATION FLOW", "TIME SLOT PICKER", "LUCKY TICKET", "FAQ", "CONFIRMATION"].map((label) => (
-                    <div
-                      key={label}
-                      style={{
-                        aspectRatio: "9/16",
-                        borderRadius: "12px",
-                        background: "rgba(0,0,0,0.3)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", textAlign: "center", padding: "8px" }}>
-                        {label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                <CarouselPanel screens={bolScreens} index={bolIndex} setIndex={setBolIndex} aspectRatio="9/16" maxHeight="42vh" controlsBelow={true} />
               </div>
             </motion.div>
           </motion.div>
@@ -974,7 +1118,9 @@ export default function ProjectsSection() {
               style={{
                 width: "100%", maxWidth: "900px", maxHeight: "90vh",
                 borderRadius: "20px",
-                background: "linear-gradient(135deg, #5A2040 0%, #3D1530 100%)",
+                background: isDark
+                  ? "linear-gradient(135deg, #3D1530 0%, #280D20 100%)"
+                  : "linear-gradient(135deg, #5A2040 0%, #3D1530 100%)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 overflow: "hidden", display: "flex", flexDirection: "column",
               }}
@@ -1007,13 +1153,7 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                <div style={{ padding: "20px", overflowY: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", alignContent: "start" }}>
-                  {["HOME PAGE", "ABOUT PAGE", "RELEASES", "EVENTS", "ARTICLES", "MEMBER PROFILE"].map((label) => (
-                    <div key={label} style={{ aspectRatio: "16/9", borderRadius: "12px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", textAlign: "center", padding: "8px" }}>{label}</p>
-                    </div>
-                  ))}
-                </div>
+                <CarouselPanel screens={katsScreens} index={katsIndex} setIndex={setKatsIndex} aspectRatio="16/9" controlsBelow={true} />
               </div>
             </motion.div>
           </motion.div>
@@ -1036,7 +1176,9 @@ export default function ProjectsSection() {
               style={{
                 width: "100%", maxWidth: "900px", maxHeight: "90vh",
                 borderRadius: "20px",
-                background: "linear-gradient(135deg, #6B2D1A 0%, #4A1F10 100%)",
+                background: isDark
+                  ? "linear-gradient(135deg, #4A1F10 0%, #321307 100%)"
+                  : "linear-gradient(135deg, #6B2D1A 0%, #4A1F10 100%)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 overflow: "hidden", display: "flex", flexDirection: "column",
               }}
@@ -1069,13 +1211,7 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                <div style={{ padding: "20px", overflowY: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", alignContent: "start" }}>
-                  {["SPLASH SCREEN", "MAIN MENU", "QUEUE TICKET", "SERVICE FLOW", "CHATBOT (AIVIN)", "FORM SCREEN"].map((label) => (
-                    <div key={label} style={{ aspectRatio: "9/16", borderRadius: "12px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", textAlign: "center", padding: "8px" }}>{label}</p>
-                    </div>
-                  ))}
-                </div>
+                <CarouselPanel screens={queueScreens} index={queueIndex} setIndex={setQueueIndex} aspectRatio="9/16" maxHeight="42vh" controlsBelow={true} />
               </div>
             </motion.div>
           </motion.div>
@@ -1098,7 +1234,9 @@ export default function ProjectsSection() {
               style={{
                 width: "100%", maxWidth: "900px", maxHeight: "90vh",
                 borderRadius: "20px",
-                background: "linear-gradient(135deg, #1A3A6B 0%, #0F2A4A 100%)",
+                background: isDark
+                  ? "linear-gradient(135deg, #10274A 0%, #0A1A33 100%)"
+                  : "linear-gradient(135deg, #1A3A6B 0%, #0F2A4A 100%)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 overflow: "hidden", display: "flex", flexDirection: "column",
               }}
@@ -1131,16 +1269,7 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                <div style={{ padding: "20px", overflowY: "auto" }}>
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "12px" }}>Game Assets</p>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "8px" }}>
-                    {Array.from({ length: 20 }).map((_, i) => (
-                      <div key={i} style={{ aspectRatio: "1", borderRadius: "8px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <p style={{ color: "rgba(255,255,255,0.15)", fontSize: "9px" }}>asset</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <CarouselPanel screens={chefScreens} index={chefIndex} setIndex={setChefIndex} aspectRatio="16/9" controlsBelow={true} />
               </div>
             </motion.div>
           </motion.div>
@@ -1163,7 +1292,9 @@ export default function ProjectsSection() {
               style={{
                 width: "100%", maxWidth: "900px", maxHeight: "90vh",
                 borderRadius: "20px",
-                background: "linear-gradient(135deg, #0D6A7A 0%, #094A57 100%)",
+                background: isDark
+                  ? "linear-gradient(135deg, #084F5C 0%, #063943 100%)"
+                  : "linear-gradient(135deg, #0D6A7A 0%, #094A57 100%)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 overflow: "hidden", display: "flex", flexDirection: "column",
               }}
@@ -1178,28 +1309,14 @@ export default function ProjectsSection() {
               </div>
 
               <div style={{ padding: "24px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "16px" }}>
-                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", margin: 0 }}>
-                  These are projects I have made together with other designers.
-                </p>
+                <CarouselPanel screens={otherScreens} index={otherIndex} setIndex={setOtherIndex} aspectRatio="16/9" controlsBelow={true} maxHeight="40vh" />
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px" }}>
-                  {[
-                    { title: "BEST-e", description: "Event booking platform UI", label: "PLACEHOLDER" },
-                    { title: "Museum Interactive", description: "Interactive museum experience UI", label: "PLACEHOLDER" },
-                    { title: "Planva", description: "Lifestyle blueprint app UI", label: "PLACEHOLDER" },
-                  ].map((project) => (
-                    <div key={project.title} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                      <div style={{ aspectRatio: "16/10", borderRadius: "12px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "11px" }}>{project.label}</p>
-                      </div>
-                      <p style={{ color: "#FFFFFF", fontSize: "13px", fontWeight: 600, margin: 0 }}>{project.title}</p>
-                      <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px", margin: 0 }}>{project.description}</p>
-                      <a href="#" style={{ padding: "6px 14px", borderRadius: "8px", fontSize: "12px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px", width: "fit-content" }}>↗ Demo</a>
-                    </div>
-                  ))}
+                <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                  <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", width: "fit-content" }}>← Back</button>
+                  {otherScreens[otherIndex].demoUrl && (
+                    <a href={otherScreens[otherIndex].demoUrl} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#4FC3D4", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+                  )}
                 </div>
-
-                <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", width: "fit-content", marginTop: "8px" }}>← Back</button>
               </div>
             </motion.div>
           </motion.div>

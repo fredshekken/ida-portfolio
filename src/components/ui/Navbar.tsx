@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -19,6 +19,7 @@ const links = [
 
 export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -26,21 +27,35 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
     setMenuOpen(false);
   };
 
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent)?.detail;
+      setModalOpen(Boolean(detail?.open));
+    };
+    window.addEventListener('project-modal', handler as EventListener);
+    // initial check
+    setModalOpen(Boolean(document.body.classList.contains('project-modal-open')));
+    return () => window.removeEventListener('project-modal', handler as EventListener);
+  }, []);
+
   return (
     <motion.nav
-      className="fixed top-0 left-0 right-0 z-40 px-6 py-4"
+      className="fixed top-0 left-0 right-0 px-6 py-4"
       style={{
-        background:
-          scrollDepth > 0.1
-            ? isDark
-              ? "rgba(10, 31, 61, 0.8)"
-              : "rgba(255, 255, 255, 0.3)"
-            : "transparent",
-        backdropFilter: scrollDepth > 0.1 ? "blur(12px)" : "none",
+        top: 0,
+        zIndex: modalOpen ? 10 : 40,
+        background: modalOpen
+          ? "transparent"
+          : scrollDepth > 0.1
+          ? isDark
+            ? "rgba(10, 31, 61, 0.8)"
+            : "rgba(255, 255, 255, 0.3)"
+          : "transparent",
+        backdropFilter: modalOpen ? "none" : scrollDepth > 0.1 ? "blur(12px)" : "none",
       }}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: modalOpen ? 0.65 : 1 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
