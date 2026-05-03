@@ -41,10 +41,11 @@ export default function Timeline() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="font-display text-4xl md:text-5xl text-text mb-16"
+        className="font-display font-bold text-text mb-16 text-glow-header"
+        style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
       >
         Experience &{" "}
-        <span className="text-accent">Education.</span>
+        <span style={{ color: "var(--hero-blue)" }}>Education.</span>
       </motion.h2>
 
       <div className="relative">

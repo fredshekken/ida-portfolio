@@ -465,14 +465,11 @@ export default function ProjectsSection() {
           transition={{ duration: 0.6 }}
         >
           <h2
-            className="font-display font-bold mb-3"
+            className="font-display font-bold mb-3 text-glow-header"
             style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
           >
-            <span style={{ color: '#FFFFFF' }}>My</span> <span style={{ color: 'var(--color-accent)' }}>Projects</span>
+            <span style={{ color: '#FFFFFF' }}>My</span> <span style={{ color: 'var(--hero-blue)' }}>Projects</span>
           </h2>
-          <p style={{ color: 'var(--color-muted)', fontSize: "1rem" }}>
-            Tap each card to dive deep on each project
-          </p>
         </motion.div>
 
         {/* Grid */}

@@ -73,15 +73,9 @@ export default function SkillsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="uppercase tracking-[0.35em] text-xs mb-3" style={{ color: 'var(--color-muted)' }}>
-            Dive Depth Meter
-          </p>
-          <h2 className="font-display font-bold" style={{ fontSize: "clamp(2rem, 5vw, 3.75rem)" }}>
-            <span style={{ color: '#FFFFFF' }}>Skills</span> <span style={{ color: 'var(--color-accent)' }}>&</span> <span style={{ color: '#FFFFFF' }}>Experiences</span>
+          <h2 className="font-display font-bold text-glow-header" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+            <span style={{ color: '#FFFFFF' }}>Skills</span> <span style={{ color: 'var(--hero-blue)' }}>&</span> <span style={{ color: '#FFFFFF' }}>Experiences</span>
           </h2>
-          <p className="mt-3 text-base md:text-lg max-w-2xl mx-auto" style={{ color: 'var(--color-muted)' }}>
-            A dummy depth chart for now, built to feel like a submersible profile panel.
-          </p>
         </motion.div>
 
         <div className="relative rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-2xl p-6 md:p-8 overflow-hidden">

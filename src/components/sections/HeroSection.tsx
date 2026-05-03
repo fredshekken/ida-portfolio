@@ -23,8 +23,8 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="font-display text-6xl md:text-8xl font-bold leading-none tracking-tight mb-4"
-          style={{ color: isDark ? '#A8D8E0' : '#1a2a5e' }}
+          className="font-display text-6xl md:text-8xl font-bold leading-none tracking-tight mb-4 text-glow-header"
+          style={{ color: isDark ? '#A8D8E0' : 'var(--hero-blue)' }}
         >
           Frieda Magaan
         </motion.h1>
@@ -34,7 +34,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.35 }}
           className="text-xl md:text-2xl font-medium mb-3"
-          style={{ color: isDark ? '#A8D8E0' : '#1a2a5e' }}
+          style={{ color: isDark ? '#A8D8E0' : 'var(--hero-blue)' }}
         >
           Computer Science Student
         </motion.p>
@@ -44,7 +44,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.45 }}
           className="text-base md:text-lg mb-10"
-          style={{ color: isDark ? 'rgba(168,216,224,0.9)' : 'rgba(26,42,94,0.8)' }}
+          style={{ color: isDark ? 'rgba(168,216,224,0.9)' : 'rgba(26, 42, 94, 0.8)' }}
         >
           UI/UX Designer & Web Developer exploring the depths of web development
         </motion.p>
@@ -61,7 +61,7 @@ export default function HeroSection() {
             whileHover={{ y: -3, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="btn btn-secondary"
-            style={{ color: "#1a2a5e" }}
+            style={{ color: 'var(--hero-blue)' }}
           >
             <span className="relative z-10">View Projects</span>
           </motion.a>

@@ -48,14 +48,11 @@ export default function AboutSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <p className="uppercase tracking-[0.35em] text-xs mb-3" style={{ color: "var(--color-muted)" }}>
-            About Me
-          </p>
-          <h2 className="font-display font-bold" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+          <h2 className="font-display font-bold text-glow-header" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
             <span style={{ color: "#FFFFFF" }}>A Quick</span>{" "}
-            <span style={{ color: "var(--color-accent)" }}>Bubble</span>{" "}
+            <span style={{ color: "var(--hero-blue)" }}>Bubble</span>{" "}
             <span style={{ color: "#FFFFFF" }}>of Basic</span>{" "}
-            <span style={{ color: "var(--color-accent)" }}>Info</span>
+            <span style={{ color: "var(--hero-blue)" }}>Info</span>
           </h2>
         </motion.div>
 
@@ -64,59 +61,71 @@ export default function AboutSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="relative rounded-[2rem] p-6 md:p-8 border overflow-hidden backdrop-blur-2xl"
+          className="relative overflow-hidden rounded-[1.75rem] p-6 md:p-8 border backdrop-blur-md"
           style={{
-            background: "rgba(255,255,255,0.14)",
-            borderColor: "rgba(13,59,110,0.16)",
-            boxShadow: "0 30px 90px rgba(13,59,110,0.12), inset 0 0 30px rgba(255,255,255,0.08)",
+            background: "linear-gradient(135deg, rgba(13,59,110,0.34) 0%, rgba(13,59,110,0.16) 100%)",
+            borderColor: "rgba(255,255,255,0.18)",
+            boxShadow: "none",
           }}
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(13,59,110,0.08),transparent_30%)]" />
 
           <div className="relative z-10 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] items-start">
-            <div>
-              <div
-                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.3em] mb-5"
-                style={{ background: "rgba(13,59,110,0.08)", color: "var(--color-text)" }}
-              >
-                <Sparkles className="w-4 h-4" />
-                Ocean Profile Card
+            <motion.div
+              className="relative overflow-hidden rounded-[1.75rem] border p-6 backdrop-blur-md"
+              style={{
+                background: "linear-gradient(135deg, rgba(13,59,110,0.24) 0%, rgba(13,59,110,0.12) 100%)",
+                borderColor: "rgba(255,255,255,0.14)",
+                boxShadow: "none",
+              }}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.12),transparent_35%)]" />
+
+              <div className="relative z-10 flex items-center gap-4 mb-4">
+                <div className="w-20 h-20 rounded-full overflow-hidden border border-white/20 bg-white/6 flex items-center justify-center text-xl font-bold text-white">
+                  FM
+                </div>
+
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-hero-blue text-glow-white">
+                      Ocean Explorer ID
+                    </p>
+                  <h3 className="text-lg font-bold text-white">Frieda Magaan</h3>
+                  <p className="text-sm" style={{ color: "var(--color-muted)" }}>
+                    Computer Science Student
+                  </p>
+                </div>
               </div>
 
-              <p className="text-base md:text-lg leading-relaxed max-w-2xl" style={{ color: "var(--color-text)" }}>
-                I&apos;m a computer science student who likes building calm, immersive interfaces,
-                combining UI/UX, frontend development, and motion design. This section is just a
-                placeholder for now, but it gives the portfolio a proper home for the details that
-                were previously sitting inside the hero.
+              <div className="mb-4 grid grid-cols-2 gap-3">
+                <div className="inline-flex flex-col">
+                  <span className="text-xs uppercase tracking-[0.25em] text-hero-blue text-glow-white">Name</span>
+                  <span className="text-white font-medium">Frieda Magaan</span>
+                </div>
+                <div className="inline-flex flex-col">
+                  <span className="text-xs uppercase tracking-[0.25em] text-hero-blue text-glow-white">Role</span>
+                  <span className="text-white font-medium">Computer Science Student</span>
+                </div>
+                <div className="inline-flex flex-col">
+                  <span className="text-xs uppercase tracking-[0.25em] text-hero-blue text-glow-white">Style</span>
+                  <span className="text-white font-medium">Water / Ocean UI</span>
+                </div>
+                <div className="inline-flex flex-col">
+                  <span className="text-xs uppercase tracking-[0.25em] text-hero-blue text-glow-white">Interests</span>
+                  <span className="text-white font-medium">Design systems, motion, frontend</span>
+                </div>
+              </div>
+
+              <p className="text-base md:text-lg leading-relaxed max-w-2xl mb-4" style={{ color: "var(--color-text)" }}>
+                I&apos;m a computer science student who likes building calm, immersive interfaces, combining UI/UX, frontend development, and motion design. This profile doubles as an "Ocean Explorer" ID — a compact summary with name, role and specialty.
               </p>
 
-              <div className="mt-6 grid sm:grid-cols-2 gap-3">
-                {aboutStats.map((item, index) => (
-                  <motion.div
-                    key={item.label}
-                    className="rounded-2xl p-4 border"
-                    style={{
-                      background: "rgba(13, 59, 110, 0.42)",
-                      borderColor: "rgba(255,255,255,0.15)",
-                    }}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.45, delay: index * 0.08 }}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="w-10 h-10 rounded-full flex items-center justify-center bg-white/12 text-white">
-                        <item.icon className="w-4 h-4" />
-                      </span>
-                      <span className="text-xs uppercase tracking-[0.28em]" style={{ color: "var(--color-muted)" }}>
-                        {item.label}
-                      </span>
-                    </div>
-                    <p className="text-white font-medium">{item.value}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+              {/* stat tiles removed per request - kept profile ID, fields and description */}
+            </motion.div>
 
             <motion.div
               className="relative overflow-hidden rounded-[1.75rem] border p-5 backdrop-blur-md"

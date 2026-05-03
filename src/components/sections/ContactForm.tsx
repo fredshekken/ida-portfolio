@@ -43,16 +43,13 @@ export default function ContactForm() {
           transition={{ duration: 0.6 }}
         >
           <h2
-            className="mb-4"
+            className="font-display font-bold mb-4 text-glow-header"
             style={{
-              fontSize: "clamp(2rem, 5vw, 3rem)",
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
             }}
           >
-            <span style={{ color: '#FFFFFF' }}>Get</span> <span style={{ color: 'var(--color-accent)' }}>in Touch</span>
+            <span style={{ color: '#FFFFFF' }}>Get</span> <span style={{ color: 'var(--hero-blue)' }}>in Touch</span>
           </h2>
-          <p className="text-lg opacity-80" style={{ color: 'var(--color-muted)' }}>
-            Dive into conversation - let&apos;s explore possibilities together
-          </p>
         </motion.div>
 
         <motion.div
