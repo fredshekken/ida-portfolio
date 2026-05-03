@@ -13,9 +13,7 @@ export default function ContactForm() {
     <section
       id="contact"
       className="relative min-h-screen py-24 px-6 overflow-hidden flex items-center justify-center"
-      style={{
-        background: "transparent",
-      }}
+      style={{ background: 'transparent' }}
     >
       {/* Background wave */}
       <svg

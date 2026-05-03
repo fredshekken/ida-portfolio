@@ -42,7 +42,13 @@ const doubled = [...tools, ...tools];
 
 export default function AboutSection() {
   return (
-    <section id="about" className="relative px-6 py-20 overflow-hidden" style={{ background: "transparent" }}>
+    <section
+      id="about"
+      className="relative px-6 py-20 overflow-hidden"
+      style={{
+        background: 'transparent',
+      }}
+    >
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[...Array(14)].map((_, i) => (
           <motion.div

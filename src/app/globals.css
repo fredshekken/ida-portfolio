@@ -55,11 +55,15 @@
     scroll-behavior: smooth;
   }
 
-    body {
-      background: var(--page-gradient);
-      color: var(--color-text);
-      font-family: 'Outfit', sans-serif;
-    }
+  body {
+    background: transparent;
+    color: #0D3B6E;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  html.dark body {
+    color: #B8E4F9;
+  }
 
     /* Button system */
     .btn {

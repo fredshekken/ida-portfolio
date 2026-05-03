@@ -10,9 +10,7 @@ export default function HeroSection() {
     <section
       id="home"
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{
-        background: "transparent",
-      }}
+      style={{ background: 'transparent' }}
     >
 
       {/* Sun illustration removed */}

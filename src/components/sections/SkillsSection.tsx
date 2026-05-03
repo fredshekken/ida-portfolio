@@ -43,9 +43,7 @@ export default function SkillsSection() {
     <section
       id="skills"
       className="relative isolate px-6 py-24 overflow-hidden"
-      style={{
-        background: "transparent",
-      }}
+      style={{ background: 'transparent' }}
     >
       <div className="absolute inset-0 z-0 pointer-events-none opacity-25">
         {[...Array(24)].map((_, i) => (

@@ -426,9 +426,7 @@ export default function ProjectsSection() {
     <section
       id="projects"
       className="relative isolate w-full px-6 py-24 overflow-hidden"
-      style={{
-        background: "transparent",
-      }}
+      style={{ background: 'transparent' }}
     >
       {/* Bubbles */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
