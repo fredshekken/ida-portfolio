@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { Globe, Palette, Gamepad2, Layers, FolderOpen, Info, ExternalLink, Code } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -397,6 +397,15 @@ export default function ProjectsSection() {
   const { isDark } = useTheme();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [cols, setCols] = useState<number>(3);
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const gracewellScreens = [
+    { label: "LOG-IN SCREEN" },
+    { label: "DASHBOARD" },
+    { label: "EMPLOYEE RECORDS" },
+    { label: "ATTENDANCE" },
+    { label: "SALARY TRACKER" },
+  ];
 
   useEffect(() => {
     const updateCols = () => {
@@ -407,6 +416,17 @@ export default function ProjectsSection() {
     window.addEventListener("resize", updateCols);
     return () => window.removeEventListener("resize", updateCols);
   }, []);
+
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedProject]);
 
   const computeOffset = (index: number) => {
     if (hoveredIndex === null) return { x: 0, y: 0 };
@@ -543,7 +563,10 @@ export default function ProjectsSection() {
                 {/* Buttons */}
                 <div className="flex flex-nowrap gap-1">
                   {project.hasAbout && (
-                    <button className="btn btn-primary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap">
+                    <button
+                      onClick={["gracewell-nexus", "online-seat-reservation", "katseye-fan-page", "smart-queuing", "chef-lakbay", "other-projects"].includes(project.id) ? () => setSelectedProject(project.id) : undefined}
+                      className="btn btn-primary relative overflow-hidden flex items-center gap-1 text-[13px] font-medium transition-all shrink-0 whitespace-nowrap"
+                    >
                       <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(255,255,255,0.18),transparent_36%)]" />
                       <span className="relative z-10 inline-flex items-center gap-1 px-2 py-0.5">
                         <Info className="w-3 h-3" /> About
@@ -589,6 +612,614 @@ export default function ProjectsSection() {
           })}
         </div>
       </div>
+      <AnimatePresence>
+        {selectedProject === "gracewell-nexus" && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ 
+              background: "rgba(0,0,0,0.85)", 
+              backdropFilter: "blur(10px)",
+              position: 'fixed',
+              inset: 0,
+              zIndex: 9999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '16px',
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 40 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 40 }}
+              transition={{ type: "spring", damping: 22, stiffness: 280 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%",
+                maxWidth: "900px",
+                maxHeight: "90vh",
+                borderRadius: "20px",
+                background: isDark
+                  ? "linear-gradient(135deg, #0A1F3D 0%, #0F2A50 100%)"
+                  : "linear-gradient(135deg, #1A6B5A 0%, #0F4A3D 100%)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {/* Header */}
+              <div style={{
+                padding: "20px 24px",
+                borderBottom: "1px solid rgba(255,255,255,0.1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ fontSize: "12px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                    WEB DEVELOPMENT
+                  </span>
+                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>
+                    Gracewell NEXUS
+                  </span>
+                </div>
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  style={{
+                    width: "32px", height: "32px", borderRadius: "50%",
+                    background: "rgba(255,255,255,0.1)",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    color: "#FFFFFF", cursor: "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "16px",
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Body */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "340px 1fr",
+                flex: 1,
+                overflow: "hidden",
+              }}>
+                {/* Left panel */}
+                <div style={{
+                  padding: "20px",
+                  overflowY: "auto",
+                  borderRight: "1px solid rgba(255,255,255,0.08)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                }}>
+                  {[
+                    { label: "ROLE", value: "Lead Developer & Designer" },
+                    { label: "PROBLEM", value: "A real HR client needed a centralized system to manage employee records, attendance, and salary processing across multiple roles." },
+                    { label: "SOLUTION", value: "Built a full-stack HR web application with role-based access, salary tracking with approval flows, and a collapsible sidebar UI. Deployed on Vercel with a Node.js backend on Render and Supabase as the database." },
+                    { label: "TECH STACK", value: "React, Node.js, Express, Supabase, Vercel" },
+                  ].map((item) => (
+                    <div key={item.label} style={{
+                      padding: "12px 14px",
+                      borderRadius: "12px",
+                      background: "rgba(255,255,255,0.07)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                    }}>
+                      <p style={{ fontSize: "10px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>
+                        {item.label}
+                      </p>
+                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>
+                        {item.value}
+                      </p>
+                    </div>
+                  ))}
+
+                  {/* Buttons */}
+                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                    <button
+                      onClick={() => setSelectedProject(null)}
+                      style={{
+                        padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
+                        background: "rgba(255,255,255,0.1)",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        color: "#FFFFFF", cursor: "pointer",
+                      }}
+                    >
+                      ← Back
+                    </button>
+                    <a
+                      href="#"
+                      style={{
+                        padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
+                        background: isDark ? "#00C9A7" : "#1A8FA0",
+                        color: "#FFFFFF", cursor: "pointer",
+                        textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px",
+                      }}
+                    >
+                      ↗ Demo
+                    </a>
+                  </div>
+                </div>
+
+                {/* Right panel — carousel */}
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "20px",
+                  gap: "16px",
+                }}>
+                  {/* Placeholder screen */}
+                  <div style={{
+                    width: "100%",
+                    aspectRatio: "16/9",
+                    borderRadius: "12px",
+                    background: "rgba(0,0,0,0.4)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                    <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "13px" }}>
+                      {gracewellScreens[carouselIndex].label}
+                    </p>
+                  </div>
+
+                  {/* Carousel controls */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <button
+                      onClick={() => setCarouselIndex((prev) => Math.max(0, prev - 1))}
+                      disabled={carouselIndex === 0}
+                      style={{
+                        width: "36px", height: "36px", borderRadius: "50%",
+                        background: "rgba(255,255,255,0.1)",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        color: "#FFFFFF", cursor: "pointer",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        opacity: carouselIndex === 0 ? 0.3 : 1,
+                      }}
+                    >
+                      ‹
+                    </button>
+                    <span style={{
+                      fontSize: "12px", color: "#7ECECA",
+                      textTransform: "uppercase", letterSpacing: "0.1em",
+                      minWidth: "160px", textAlign: "center",
+                    }}>
+                      {gracewellScreens[carouselIndex].label}
+                    </span>
+                    <button
+                      onClick={() => setCarouselIndex((prev) => Math.min(gracewellScreens.length - 1, prev + 1))}
+                      disabled={carouselIndex === gracewellScreens.length - 1}
+                      style={{
+                        width: "36px", height: "36px", borderRadius: "50%",
+                        background: "rgba(255,255,255,0.1)",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        color: "#FFFFFF", cursor: "pointer",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        opacity: carouselIndex === gracewellScreens.length - 1 ? 0.3 : 1,
+                      }}
+                    >
+                      ›
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+        {selectedProject === "online-seat-reservation" && (
+          <motion.div
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 40 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 40 }}
+              transition={{ type: "spring", damping: 22, stiffness: 280 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%",
+                maxWidth: "900px",
+                maxHeight: "90vh",
+                borderRadius: "20px",
+                background: "linear-gradient(135deg, #0D5A4A 0%, #083D32 100%)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {/* Header */}
+              <div style={{
+                padding: "20px 24px",
+                borderBottom: "1px solid rgba(255,255,255,0.1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ fontSize: "12px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                    UI/UX DESIGN
+                  </span>
+                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>
+                    Online Seat Reservation System
+                  </span>
+                </div>
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  style={{
+                    width: "32px", height: "32px", borderRadius: "50%",
+                    background: "rgba(255,255,255,0.1)",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    color: "#FFFFFF", cursor: "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "16px",
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Body */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "340px 1fr",
+                flex: 1,
+                overflow: "hidden",
+              }}>
+                {/* Left panel */}
+                <div style={{
+                  padding: "20px",
+                  overflowY: "auto",
+                  borderRight: "1px solid rgba(255,255,255,0.08)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                }}>
+                  {[
+                    { label: "ROLE", value: "UI/UX Designer" },
+                    { label: "PROBLEM", value: "Best Of Luck, a restaurant at Cubao Expo, had no digital reservation system and relied on manual bookings through social media. Note: Side project only. Not directly affiliated with Best of Luck." },
+                    { label: "SOLUTION", value: "Designed a Figma UI for a reservation system with a distinctive deep forest green and matte crimson theme, mahjong tile-styled time slot chips, and a Lucky Ticket confirmation screen." },
+                    { label: "TECH STACK", value: "Figma" },
+                  ].map((item) => (
+                    <div key={item.label} style={{
+                      padding: "12px 14px",
+                      borderRadius: "12px",
+                      background: "rgba(255,255,255,0.07)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                    }}>
+                      <p style={{ fontSize: "10px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>
+                        {item.label}
+                      </p>
+                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>
+                        {item.value}
+                      </p>
+                    </div>
+                  ))}
+
+                  {/* Buttons */}
+                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                    <button
+                      onClick={() => setSelectedProject(null)}
+                      style={{
+                        padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
+                        background: "rgba(255,255,255,0.1)",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        color: "#FFFFFF", cursor: "pointer",
+                      }}
+                    >
+                      ← Back
+                    </button>
+                    <a
+                      href="#"
+                      style={{
+                        padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
+                        background: "#1A8FA0",
+                        color: "#FFFFFF", cursor: "pointer",
+                        textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px",
+                      }}
+                    >
+                      ↗ Demo
+                    </a>
+                  </div>
+                </div>
+
+                {/* Right panel — screenshot grid placeholder */}
+                <div style={{
+                  padding: "20px",
+                  overflowY: "auto",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "12px",
+                  alignContent: "start",
+                }}>
+                  {["LANDING PAGE", "RESERVATION FLOW", "TIME SLOT PICKER", "LUCKY TICKET", "FAQ", "CONFIRMATION"].map((label) => (
+                    <div
+                      key={label}
+                      style={{
+                        aspectRatio: "9/16",
+                        borderRadius: "12px",
+                        background: "rgba(0,0,0,0.3)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", textAlign: "center", padding: "8px" }}>
+                        {label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+        {selectedProject === "katseye-fan-page" && (
+          <motion.div
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 40 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 40 }}
+              transition={{ type: "spring", damping: 22, stiffness: 280 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%", maxWidth: "900px", maxHeight: "90vh",
+                borderRadius: "20px",
+                background: "linear-gradient(135deg, #5A2040 0%, #3D1530 100%)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                overflow: "hidden", display: "flex", flexDirection: "column",
+              }}
+            >
+              <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ fontSize: "12px", color: "#E85D8A", textTransform: "uppercase", letterSpacing: "0.1em" }}>UI/UX DESIGN</span>
+                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>KATSEYE Fan Page / Blog</span>
+                </div>
+                <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
+                <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {[
+                    { label: "ROLE", value: "UI/UX Designer" },
+                    { label: "PROBLEM", value: "KATSEYE had just debuted in 2024 with no established fan site that matched the energy and aesthetic of the group." },
+                    { label: "SOLUTION", value: "Designed an initial fan page concept in Figma with a sleek modern layout, capturing the visual identity of the group through typography and color choices." },
+                    { label: "TECH STACK", value: "Figma" },
+                  ].map((item) => (
+                    <div key={item.label} style={{ padding: "12px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                      <p style={{ fontSize: "10px", color: "#E85D8A", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>{item.label}</p>
+                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>{item.value}</p>
+                    </div>
+                  ))}
+                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                    <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
+                    <a href="#" style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E85D8A", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+                  </div>
+                </div>
+
+                <div style={{ padding: "20px", overflowY: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", alignContent: "start" }}>
+                  {["HOME PAGE", "ABOUT PAGE", "RELEASES", "EVENTS", "ARTICLES", "MEMBER PROFILE"].map((label) => (
+                    <div key={label} style={{ aspectRatio: "16/9", borderRadius: "12px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", textAlign: "center", padding: "8px" }}>{label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+        {selectedProject === "smart-queuing" && (
+          <motion.div
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 40 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 40 }}
+              transition={{ type: "spring", damping: 22, stiffness: 280 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%", maxWidth: "900px", maxHeight: "90vh",
+                borderRadius: "20px",
+                background: "linear-gradient(135deg, #6B2D1A 0%, #4A1F10 100%)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                overflow: "hidden", display: "flex", flexDirection: "column",
+              }}
+            >
+              <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ fontSize: "12px", color: "#E8845D", textTransform: "uppercase", letterSpacing: "0.1em" }}>UI/UX DESIGN</span>
+                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Smart Queueing System</span>
+                </div>
+                <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
+                <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {[
+                    { label: "ROLE", value: "UI/UX Lead of a Team with 8 Members" },
+                    { label: "PROBLEM", value: "Students and staff across multiple institutions had no efficient way to manage queueing for services, causing long wait times and poor user experience." },
+                    { label: "SOLUTION", value: "Designed a comprehensive Figma prototype covering the full queuing flow, from ticket generation to service completion, with a clean design system built for accessibility and multi-institute use." },
+                    { label: "TECH STACK", value: "Figma" },
+                  ].map((item) => (
+                    <div key={item.label} style={{ padding: "12px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                      <p style={{ fontSize: "10px", color: "#E8845D", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>{item.label}</p>
+                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>{item.value}</p>
+                    </div>
+                  ))}
+                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                    <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
+                    <a href="#" style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E8845D", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+                  </div>
+                </div>
+
+                <div style={{ padding: "20px", overflowY: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", alignContent: "start" }}>
+                  {["SPLASH SCREEN", "MAIN MENU", "QUEUE TICKET", "SERVICE FLOW", "CHATBOT (AIVIN)", "FORM SCREEN"].map((label) => (
+                    <div key={label} style={{ aspectRatio: "9/16", borderRadius: "12px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", textAlign: "center", padding: "8px" }}>{label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+        {selectedProject === "chef-lakbay" && (
+          <motion.div
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 40 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 40 }}
+              transition={{ type: "spring", damping: 22, stiffness: 280 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%", maxWidth: "900px", maxHeight: "90vh",
+                borderRadius: "20px",
+                background: "linear-gradient(135deg, #1A3A6B 0%, #0F2A4A 100%)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                overflow: "hidden", display: "flex", flexDirection: "column",
+              }}
+            >
+              <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ fontSize: "12px", color: "#5D9AE8", textTransform: "uppercase", letterSpacing: "0.1em" }}>GRAPHIC DESIGN & ASSET MANAGEMENT</span>
+                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Chef Lakbay</span>
+                </div>
+                <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
+                <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {[
+                    { label: "ROLE", value: "Asset Creation and Scene Management" },
+                    { label: "PROBLEM", value: "The team needed a fully playable Android game for the IT Skills Olympics 2024 within a tight competition timeline." },
+                    { label: "SOLUTION", value: "Contributed game assets and managed scene flow in Unity for a culinary adventure game set across Philippine destinations, helping the team deliver a complete and polished game entry." },
+                    { label: "TECH STACK", value: "Unity, GIMP" },
+                  ].map((item) => (
+                    <div key={item.label} style={{ padding: "12px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                      <p style={{ fontSize: "10px", color: "#5D9AE8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>{item.label}</p>
+                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>{item.value}</p>
+                    </div>
+                  ))}
+                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                    <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
+                    <a href="#" style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#5D9AE8", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Code</a>
+                  </div>
+                </div>
+
+                <div style={{ padding: "20px", overflowY: "auto" }}>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "12px" }}>Game Assets</p>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "8px" }}>
+                    {Array.from({ length: 20 }).map((_, i) => (
+                      <div key={i} style={{ aspectRatio: "1", borderRadius: "8px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <p style={{ color: "rgba(255,255,255,0.15)", fontSize: "9px" }}>asset</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+        {selectedProject === "other-projects" && (
+          <motion.div
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 40 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 40 }}
+              transition={{ type: "spring", damping: 22, stiffness: 280 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%", maxWidth: "900px", maxHeight: "90vh",
+                borderRadius: "20px",
+                background: "linear-gradient(135deg, #0D6A7A 0%, #094A57 100%)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                overflow: "hidden", display: "flex", flexDirection: "column",
+              }}
+            >
+              <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ fontSize: "12px", color: "#4FC3D4", textTransform: "uppercase", letterSpacing: "0.1em" }}>GRAPHIC DESIGN</span>
+                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Other Projects</span>
+                </div>
+                <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
+              </div>
+
+              <div style={{ padding: "24px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "16px" }}>
+                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", margin: 0 }}>
+                  These are projects I have made together with other designers.
+                </p>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px" }}>
+                  {[
+                    { title: "BEST-e", description: "Event booking platform UI", label: "PLACEHOLDER" },
+                    { title: "Museum Interactive", description: "Interactive museum experience UI", label: "PLACEHOLDER" },
+                    { title: "Planva", description: "Lifestyle blueprint app UI", label: "PLACEHOLDER" },
+                  ].map((project) => (
+                    <div key={project.title} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                      <div style={{ aspectRatio: "16/10", borderRadius: "12px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "11px" }}>{project.label}</p>
+                      </div>
+                      <p style={{ color: "#FFFFFF", fontSize: "13px", fontWeight: 600, margin: 0 }}>{project.title}</p>
+                      <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px", margin: 0 }}>{project.description}</p>
+                      <a href="#" style={{ padding: "6px 14px", borderRadius: "8px", fontSize: "12px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px", width: "fit-content" }}>↗ Demo</a>
+                    </div>
+                  ))}
+                </div>
+
+                <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", width: "fit-content", marginTop: "8px" }}>← Back</button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
