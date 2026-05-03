@@ -1,10 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight, Briefcase, GraduationCap, Mail, Sparkles, MapPin } from "lucide-react";
 import { SiGithub as Github } from "react-icons/si";
 import GithubHeatmap from "@/components/ui/GithubHeatmap";
 import { FaLinkedin as Linkedin } from "react-icons/fa";
+
+const aboutStats = [
+  { label: "Location", value: "Manila, Philippines", icon: MapPin },
+  { label: "Focus", value: "UI/UX + Web Dev", icon: Briefcase },
+  { label: "Status", value: "Open for projects", icon: Sparkles },
+  { label: "Studying", value: "BS Computer Science", icon: GraduationCap },
+];
 
 const bubbles = [
   { label: "Email", icon: Mail, href: "#contact" },
@@ -143,10 +150,6 @@ export default function AboutSection() {
 
               <div className="mb-4 grid grid-cols-2 gap-3">
                 <div className="inline-flex flex-col">
-                  <span className="text-xs uppercase tracking-[0.25em] text-hero-blue text-glow-white">Name</span>
-                  <span className="font-medium" style={{ color: "#B8E4F9" }}>Frieda Marie V. Magaan</span>
-                </div>
-                <div className="inline-flex flex-col">
                   <span className="text-xs uppercase tracking-[0.25em] text-hero-blue text-glow-white">Role</span>
                   <span className="font-medium" style={{ color: "#B8E4F9" }}>Front-end Developer · UI/UX Designer</span>
                 </div>
@@ -157,7 +160,7 @@ export default function AboutSection() {
               </div>
 
               <p className="text-base md:text-lg leading-relaxed max-w-2xl mb-4" style={{ color: "#B8E4F9" }}>
-                I&apos;m a CS student at PLM who lives between design and code. I care a lot about UI/UX and frontend work, and I think the best interfaces are the ones people don&apos;t have to think about.
+                I&apos;m a CS student at PLM who lives between design and code. I care a lot about UI/UX and frontend work, and I think the best interfaces are the ones people don't have to think about.
               </p>
 
               {/* stat tiles removed per request - kept profile ID, fields and description */}
@@ -170,6 +173,9 @@ export default function AboutSection() {
                 borderColor: "rgba(255,255,255,0.18)",
                 boxShadow: "none",
                 height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
               }}
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -177,10 +183,7 @@ export default function AboutSection() {
               transition={{ duration: 0.5, delay: 0.15 }}
             >
               <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.2),transparent_35%)]" />
-              <div className="relative z-10 flex items-center justify-between gap-4 mb-4">
-                <p className="text-xs uppercase tracking-[0.3em]" style={{ color: "#D9F3FF" }}>
-                  Contact Bubbles
-                </p>
+              <div className="relative z-10">
                 <button
                   type="button"
                   onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
@@ -189,23 +192,6 @@ export default function AboutSection() {
                   <ArrowUpRight className="w-3 h-3" />
                   Reach Out
                 </button>
-              </div>
-              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                {bubbles.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target={item.href.startsWith("http") ? "_blank" : undefined}
-                    rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-                    className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-white/18 border border-white/22 text-white text-xs relative overflow-hidden backdrop-blur-md"
-                    style={{ boxShadow: "none", minHeight: "2.35rem" }}
-                  >
-                    <span className="relative z-10 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/10 border border-white/20 shrink-0">
-                      <item.icon className="w-3.5 h-3.5" />
-                    </span>
-                    <span className="relative z-10 whitespace-nowrap">{item.label}</span>
-                  </a>
-                ))}
               </div>
 
               <div className="relative z-10 mt-5">
