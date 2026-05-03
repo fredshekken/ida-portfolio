@@ -140,12 +140,6 @@ export default function ContactForm() {
             ))}
           </motion.div>
         </div>
-
-        <div className="relative w-full mt-16" style={{ height: "80px" }}>
-          <svg viewBox="0 0 1440 200" className="w-full h-full" preserveAspectRatio="none">
-            <ellipse cx="720" cy="195" rx="800" ry="30" fill="rgba(180,140,80,0.15)" />
-          </svg>
-        </div>
       </div>
     </section>
   );

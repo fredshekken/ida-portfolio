@@ -147,22 +147,6 @@ const ZoneBackground = ({ theme, isDark }: { theme: string; isDark: boolean }) =
     ),
     jellyfish: (
       <div className="absolute inset-0 overflow-hidden opacity-40">
-        {/* Waves layer - horizontal moving waves to read clearly on-card */}
-        {[...Array(3)].map((_, w) => (
-          <motion.div
-            key={w}
-            className="absolute left-0 right-0 rounded-full"
-            style={{
-              height: `${24 + w * 10}px`,
-              bottom: `${6 + w * 18}%`,
-              background: `linear-gradient(90deg, rgba(255,255,255,${0.01 + w * 0.02}) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,${0.01 + w * 0.02}) 100%)`,
-              filter: "blur(8px)",
-            }}
-            animate={{ x: [ -40 - w * 20, 40 + w * 20, -40 - w * 20 ], opacity: [0.12 + w * 0.06, 0.28 + w * 0.08, 0.12 + w * 0.06] }}
-            transition={{ duration: 6 + w * 2, repeat: Infinity, ease: "linear" }}
-          />
-        ))}
-
         {/* Floating glows for jellyfish feel */}
         {[...Array(6)].map((_, i) => (
           <motion.div
@@ -612,6 +596,7 @@ export default function ProjectsSection() {
           })}
         </div>
       </div>
+
       <AnimatePresence>
         {selectedProject === "gracewell-nexus" && (
           <motion.div

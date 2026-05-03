@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2, Palette, Database, Wrench } from "lucide-react";
+import { Code2, Palette, Database, Wrench, Compass, Anchor } from "lucide-react";
 
 const skillCategories = [
   {
