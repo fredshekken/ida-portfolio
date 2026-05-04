@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface NavbarProps {
@@ -102,9 +102,11 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <span className="block w-4 h-px bg-current mb-1" />
-            <span className="block w-4 h-px bg-current mb-1" />
-            <span className="block w-4 h-px bg-current" />
+            {menuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
       </div>
