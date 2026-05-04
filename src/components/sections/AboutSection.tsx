@@ -106,7 +106,7 @@ export default function AboutSection() {
 
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] text-hero-blue text-glow-white">
-                      Ocean Explorer ID
+                      About Me 
                     </p>
                   <h3 className="text-lg font-bold text-white">Frieda Marie V. Magaan</h3>
                   <div style={{

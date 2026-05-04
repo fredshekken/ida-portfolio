@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { Globe, Palette, Gamepad2, Layers, FolderOpen, Info, ExternalLink, Code } from "lucide-react";
 import { useState, useEffect } from "react";
+import ModalPortal from "@/components/ui/ModalPortal";
 import type { ElementType } from "react";
 
 const projects = [
@@ -453,14 +454,18 @@ export default function ProjectsSection() {
     if (selectedProject) {
       document.body.style.overflow = 'hidden';
       document.body.classList.add('project-modal-open');
+      // hide main content from assistive tech and visual layering
+      document.querySelector('main')?.setAttribute('aria-hidden', 'true');
       window.dispatchEvent(new CustomEvent('project-modal', { detail: { open: true } }));
     } else {
       document.body.style.overflow = '';
       document.body.classList.remove('project-modal-open');
+      document.querySelector('main')?.removeAttribute('aria-hidden');
       window.dispatchEvent(new CustomEvent('project-modal', { detail: { open: false } }));
     }
     return () => {
       document.body.style.overflow = '';
+      document.querySelector('main')?.removeAttribute('aria-hidden');
     };
   }, [selectedProject]);
 
@@ -878,501 +883,513 @@ export default function ProjectsSection() {
 
       <AnimatePresence>
         {selectedProject === "gracewell-nexus" && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            style={{ 
-              background: "rgba(0,0,0,0.85)", 
-              backdropFilter: "blur(10px)",
-              position: 'fixed',
-              inset: 0,
-              zIndex: 9999,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '16px',
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
-          >
+          <ModalPortal>
             <motion.div
-              initial={{ scale: 0.9, y: 40 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 40 }}
-              transition={{ type: "spring", damping: 22, stiffness: 280 }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "100%",
-                maxWidth: "900px",
-                maxHeight: "90vh",
-                borderRadius: "20px",
-                background: isDark
-                  ? "linear-gradient(135deg, #061427 0%, #0A1F3A 100%)"
-                  : "linear-gradient(135deg, #1A6B5A 0%, #0F4A3D 100%)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              style={{ 
+                background: "rgba(0,0,0,0.94)", 
+                backdropFilter: "blur(14px)",
+                position: 'fixed',
+                inset: 0,
+                zIndex: 9999,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '16px',
               }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
             >
-              {/* Header */}
-              <div style={{
-                padding: "20px 24px",
-                borderBottom: "1px solid rgba(255,255,255,0.1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <span style={{ fontSize: "12px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                    WEB DEVELOPMENT
-                  </span>
-                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
-                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>
-                    Gracewell NEXUS
-                  </span>
-                </div>
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  style={{
-                    width: "32px", height: "32px", borderRadius: "50%",
-                    background: "rgba(255,255,255,0.1)",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    color: "#FFFFFF", cursor: "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: "16px",
-                  }}
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* Body */}
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "340px 1fr",
-                flex: 1,
-                overflow: "hidden",
-              }}>
-                {/* Left panel */}
-                <div style={{
-                  padding: "20px",
-                  overflowY: "auto",
-                  borderRight: "1px solid rgba(255,255,255,0.08)",
+              <motion.div
+                initial={{ scale: 0.9, y: 40 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 40 }}
+                transition={{ type: "spring", damping: 22, stiffness: 280 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: "100%",
+                  maxWidth: "900px",
+                  maxHeight: "90vh",
+                  borderRadius: "20px",
+                  background: isDark
+                    ? "linear-gradient(135deg, #061427 0%, #0A1F3A 100%)"
+                    : "linear-gradient(135deg, #1A6B5A 0%, #0F4A3D 100%)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  overflow: "hidden",
                   display: "flex",
                   flexDirection: "column",
-                  gap: "12px",
+                }}
+              >
+                {/* Header */}
+                <div style={{
+                  padding: "20px 24px",
+                  borderBottom: "1px solid rgba(255,255,255,0.1)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                 }}>
-                  {[
-                    { label: "ROLE", value: "Lead Developer & Designer" },
-                    { label: "PROBLEM", value: "A real HR client needed a centralized system to manage employee records, attendance, and salary processing across multiple roles." },
-                    { label: "SOLUTION", value: "Built a full-stack HR web application with role-based access, salary tracking with approval flows, and a collapsible sidebar UI. Deployed on Vercel with a Node.js backend on Render and Supabase as the database." },
-                    { label: "TECH STACK", value: "React, Node.js, Express, Supabase, Vercel" },
-                  ].map((item) => (
-                    <div key={item.label} style={{
-                      padding: "12px 14px",
-                      borderRadius: "12px",
-                      background: "rgba(255,255,255,0.07)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                    }}>
-                      <p style={{ fontSize: "10px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>
-                        {item.label}
-                      </p>
-                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>
-                        {item.value}
-                      </p>
-                    </div>
-                  ))}
-
-                  {/* Buttons */}
-                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                    <button
-                      onClick={() => setSelectedProject(null)}
-                      style={{
-                        padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
-                        background: "rgba(255,255,255,0.1)",
-                        border: "1px solid rgba(255,255,255,0.2)",
-                        color: "#FFFFFF", cursor: "pointer",
-                      }}
-                    >
-                      ← Back
-                    </button>
-                    <a
-                      href="https://www.figma.com/proto/DMKjfVlmbhMay5udalxeKt/UI-SOfT-ENG?node-id=1222-8310&p=f&t=zgEbMbExOvH2YTqv-1&scaling=scale-down&content-scaling=fixed&page-id=1222%3A6532&starting-point-node-id=1222%3A8310&show-proto-sidebar=1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/proto/DMKjfVlmbhMay5udalxeKt/UI-SOfT-ENG?node-id=1222-8310&p=f&t=zgEbMbExOvH2YTqv-1&scaling=scale-down&content-scaling=fixed&page-id=1222%3A6532&starting-point-node-id=1222%3A8310&show-proto-sidebar=1", "_blank", "noopener"); }}
-                      style={{
-                        padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
-                        background: isDark ? "#00C9A7" : "#1A8FA0",
-                        color: "#FFFFFF", cursor: "pointer",
-                        textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px",
-                      }}
-                    >
-                      ↗ Demo
-                    </a>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "12px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      WEB DEVELOPMENT
+                    </span>
+                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>
+                      Gracewell NEXUS
+                    </span>
                   </div>
+                  <button
+                    onClick={() => setSelectedProject(null)}
+                    style={{
+                      width: "32px", height: "32px", borderRadius: "50%",
+                      background: "rgba(255,255,255,0.1)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      color: "#FFFFFF", cursor: "pointer",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: "16px",
+                    }}
+                  >
+                    ✕
+                  </button>
                 </div>
 
-                <CarouselPanel screens={gracewellScreens} index={carouselIndex} setIndex={setCarouselIndex} aspectRatio="16/9" controlsBelow={true} />
-              </div>
+                {/* Body */}
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "340px 1fr",
+                  flex: 1,
+                  overflow: "hidden",
+                }}>
+                  {/* Left panel */}
+                  <div style={{
+                    padding: "20px",
+                    overflowY: "auto",
+                    borderRight: "1px solid rgba(255,255,255,0.08)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                  }}>
+                    {[
+                      { label: "ROLE", value: "Lead Developer & Designer" },
+                      { label: "PROBLEM", value: "A real HR client needed a centralized system to manage employee records, attendance, and salary processing across multiple roles." },
+                      { label: "SOLUTION", value: "Built a full-stack HR web application with role-based access, salary tracking with approval flows, and a collapsible sidebar UI. Deployed on Vercel with a Node.js backend on Render and Supabase as the database." },
+                      { label: "TECH STACK", value: "React, Node.js, Express, Supabase, Vercel" },
+                    ].map((item) => (
+                      <div key={item.label} style={{
+                        padding: "12px 14px",
+                        borderRadius: "12px",
+                        background: "rgba(255,255,255,0.07)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                      }}>
+                        <p style={{ fontSize: "10px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>
+                          {item.label}
+                        </p>
+                        <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>
+                          {item.value}
+                        </p>
+                      </div>
+                    ))}
+
+                    {/* Buttons */}
+                    <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                      <button
+                        onClick={() => setSelectedProject(null)}
+                        style={{
+                          padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
+                          background: "rgba(255,255,255,0.1)",
+                          border: "1px solid rgba(255,255,255,0.2)",
+                          color: "#FFFFFF", cursor: "pointer",
+                        }}
+                      >
+                        ← Back
+                      </button>
+                      <a
+                        href="https://www.figma.com/proto/DMKjfVlmbhMay5udalxeKt/UI-SOfT-ENG?node-id=1222-8310&p=f&t=zgEbMbExOvH2YTqv-1&scaling=scale-down&content-scaling=fixed&page-id=1222%3A6532&starting-point-node-id=1222%3A8310&show-proto-sidebar=1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/proto/DMKjfVlmbhMay5udalxeKt/UI-SOfT-ENG?node-id=1222-8310&p=f&t=zgEbMbExOvH2YTqv-1&scaling=scale-down&content-scaling=fixed&page-id=1222%3A6532&starting-point-node-id=1222%3A8310&show-proto-sidebar=1", "_blank", "noopener"); }}
+                        style={{
+                          padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
+                          background: isDark ? "#00C9A7" : "#1A8FA0",
+                          color: "#FFFFFF", cursor: "pointer",
+                          textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px",
+                        }}
+                      >
+                        ↗ Demo
+                      </a>
+                    </div>
+                  </div>
+
+                  <CarouselPanel screens={gracewellScreens} index={carouselIndex} setIndex={setCarouselIndex} aspectRatio="16/9" controlsBelow={true} />
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </ModalPortal>
         )}
         {selectedProject === "online-seat-reservation" && (
-          <motion.div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
-          >
+          <ModalPortal>
             <motion.div
-              initial={{ scale: 0.9, y: 40 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 40 }}
-              transition={{ type: "spring", damping: 22, stiffness: 280 }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "100%",
-                maxWidth: "900px",
-                maxHeight: "90vh",
-                borderRadius: "20px",
-                background: isDark
-                  ? "linear-gradient(135deg, #063D32 0%, #042A22 100%)"
-                  : "linear-gradient(135deg, #0D5A4A 0%, #083D32 100%)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
-              }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              style={{ background: "rgba(0,0,0,0.94)", backdropFilter: "blur(14px)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
             >
-              {/* Header */}
-              <div style={{
-                padding: "20px 24px",
-                borderBottom: "1px solid rgba(255,255,255,0.1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <span style={{ fontSize: "12px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                    UI/UX DESIGN
-                  </span>
-                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
-                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>
-                    Online Seat Reservation System
-                  </span>
-                </div>
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  style={{
-                    width: "32px", height: "32px", borderRadius: "50%",
-                    background: "rgba(255,255,255,0.1)",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    color: "#FFFFFF", cursor: "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: "16px",
-                  }}
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* Body */}
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "340px 1fr",
-                flex: 1,
-                overflow: "hidden",
-              }}>
-                {/* Left panel */}
-                <div style={{
-                  padding: "20px",
-                  overflowY: "auto",
-                  borderRight: "1px solid rgba(255,255,255,0.08)",
+              <motion.div
+                initial={{ scale: 0.9, y: 40 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 40 }}
+                transition={{ type: "spring", damping: 22, stiffness: 280 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: "100%",
+                  maxWidth: "900px",
+                  maxHeight: "90vh",
+                  borderRadius: "20px",
+                  background: isDark
+                    ? "linear-gradient(135deg, #063D32 0%, #042A22 100%)"
+                    : "linear-gradient(135deg, #0D5A4A 0%, #083D32 100%)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  overflow: "hidden",
                   display: "flex",
                   flexDirection: "column",
-                  gap: "12px",
+                }}
+              >
+                {/* Header */}
+                <div style={{
+                  padding: "20px 24px",
+                  borderBottom: "1px solid rgba(255,255,255,0.1)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                 }}>
-                  {[
-                    { label: "ROLE", value: "UI/UX Designer" },
-                    { label: "PROBLEM", value: "Best Of Luck, a restaurant at Cubao Expo, had no digital reservation system and relied on manual bookings through social media. Note: Side project only. Not directly affiliated with Best of Luck." },
-                    { label: "SOLUTION", value: "Designed a Figma UI for a reservation system with a distinctive deep forest green and matte crimson theme, mahjong tile-styled time slot chips, and a Lucky Ticket confirmation screen." },
-                    { label: "TECH STACK", value: "Figma" },
-                  ].map((item) => (
-                    <div key={item.label} style={{
-                      padding: "12px 14px",
-                      borderRadius: "12px",
-                      background: "rgba(255,255,255,0.07)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                    }}>
-                      <p style={{ fontSize: "10px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>
-                        {item.label}
-                      </p>
-                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>
-                        {item.value}
-                      </p>
-                    </div>
-                  ))}
-
-                  {/* Buttons */}
-                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                    <button
-                      onClick={() => setSelectedProject(null)}
-                      style={{
-                        padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
-                        background: "rgba(255,255,255,0.1)",
-                        border: "1px solid rgba(255,255,255,0.2)",
-                        color: "#FFFFFF", cursor: "pointer",
-                      }}
-                    >
-                      ← Back
-                    </button>
-                    <a
-                      href="https://www.figma.com/proto/pRbOewehGL0n6YumDLxrqd/BOL-Reservation-System?node-id=92-10085&p=f&t=LcRWT3sxcJXzeIxd-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/proto/pRbOewehGL0n6YumDLxrqd/BOL-Reservation-System?node-id=92-10085&p=f&t=LcRWT3sxcJXzeIxd-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1", "_blank", "noopener"); }}
-                      style={{
-                        padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
-                        background: "#1A8FA0",
-                        color: "#FFFFFF", cursor: "pointer",
-                        textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px",
-                      }}
-                    >
-                      ↗ Demo
-                    </a>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "12px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      UI/UX DESIGN
+                    </span>
+                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>
+                      Online Seat Reservation System
+                    </span>
                   </div>
+                  <button
+                    onClick={() => setSelectedProject(null)}
+                    style={{
+                      width: "32px", height: "32px", borderRadius: "50%",
+                      background: "rgba(255,255,255,0.1)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      color: "#FFFFFF", cursor: "pointer",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: "16px",
+                    }}
+                  >
+                    ✕
+                  </button>
                 </div>
 
-                <CarouselPanel screens={bolScreens} index={bolIndex} setIndex={setBolIndex} aspectRatio="9/16" maxHeight="42vh" controlsBelow={true} />
-              </div>
+                {/* Body */}
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "340px 1fr",
+                  flex: 1,
+                  overflow: "hidden",
+                }}>
+                  {/* Left panel */}
+                  <div style={{
+                    padding: "20px",
+                    overflowY: "auto",
+                    borderRight: "1px solid rgba(255,255,255,0.08)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                  }}>
+                    {[
+                      { label: "ROLE", value: "UI/UX Designer" },
+                      { label: "PROBLEM", value: "Best Of Luck, a restaurant at Cubao Expo, had no digital reservation system and relied on manual bookings through social media. Note: Side project only. Not directly affiliated with Best of Luck." },
+                      { label: "SOLUTION", value: "Designed a Figma UI for a reservation system with a distinctive deep forest green and matte crimson theme, mahjong tile-styled time slot chips, and a Lucky Ticket confirmation screen." },
+                      { label: "TECH STACK", value: "Figma" },
+                    ].map((item) => (
+                      <div key={item.label} style={{
+                        padding: "12px 14px",
+                        borderRadius: "12px",
+                        background: "rgba(255,255,255,0.07)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                      }}>
+                        <p style={{ fontSize: "10px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>
+                          {item.label}
+                        </p>
+                        <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>
+                          {item.value}
+                        </p>
+                      </div>
+                    ))}
+
+                    {/* Buttons */}
+                    <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                      <button
+                        onClick={() => setSelectedProject(null)}
+                        style={{
+                          padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
+                          background: "rgba(255,255,255,0.1)",
+                          border: "1px solid rgba(255,255,255,0.2)",
+                          color: "#FFFFFF", cursor: "pointer",
+                        }}
+                      >
+                        ← Back
+                      </button>
+                      <a
+                        href="https://www.figma.com/proto/pRbOewehGL0n6YumDLxrqd/BOL-Reservation-System?node-id=92-10085&p=f&t=LcRWT3sxcJXzeIxd-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/proto/pRbOewehGL0n6YumDLxrqd/BOL-Reservation-System?node-id=92-10085&p=f&t=LcRWT3sxcJXzeIxd-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1", "_blank", "noopener"); }}
+                        style={{
+                          padding: "8px 16px", borderRadius: "10px", fontSize: "13px",
+                          background: "#1A8FA0",
+                          color: "#FFFFFF", cursor: "pointer",
+                          textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px",
+                        }}
+                      >
+                        ↗ Demo
+                      </a>
+                    </div>
+                  </div>
+
+                  <CarouselPanel screens={bolScreens} index={bolIndex} setIndex={setBolIndex} aspectRatio="9/16" maxHeight="42vh" controlsBelow={true} />
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </ModalPortal>
         )}
         {selectedProject === "katseye-fan-page" && (
-          <motion.div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
-          >
+          <ModalPortal>
             <motion.div
-              initial={{ scale: 0.9, y: 40 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 40 }}
-              transition={{ type: "spring", damping: 22, stiffness: 280 }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "100%", maxWidth: "900px", maxHeight: "90vh",
-                borderRadius: "20px",
-                background: isDark
-                  ? "linear-gradient(135deg, #3D1530 0%, #280D20 100%)"
-                  : "linear-gradient(135deg, #5A2040 0%, #3D1530 100%)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                overflow: "hidden", display: "flex", flexDirection: "column",
-              }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              style={{ background: "rgba(0,0,0,0.94)", backdropFilter: "blur(14px)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
             >
-              <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <span style={{ fontSize: "12px", color: "#E85D8A", textTransform: "uppercase", letterSpacing: "0.1em" }}>UI/UX DESIGN</span>
-                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
-                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>KATSEYE Fan Page / Blog</span>
-                </div>
-                <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
-                <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {[
-                    { label: "ROLE", value: "UI/UX Designer" },
-                    { label: "PROBLEM", value: "KATSEYE had just debuted in 2024 with no established fan site that matched the energy and aesthetic of the group." },
-                    { label: "SOLUTION", value: "Designed an initial fan page concept in Figma with a sleek modern layout, capturing the visual identity of the group through typography and color choices." },
-                    { label: "TECH STACK", value: "Figma" },
-                  ].map((item) => (
-                    <div key={item.label} style={{ padding: "12px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                      <p style={{ fontSize: "10px", color: "#E85D8A", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>{item.label}</p>
-                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>{item.value}</p>
-                    </div>
-                  ))}
-                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                    <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
-                    <a href="https://www.figma.com/community/file/1627472155495683683" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/community/file/1627472155495683683", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E85D8A", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+              <motion.div
+                initial={{ scale: 0.9, y: 40 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 40 }}
+                transition={{ type: "spring", damping: 22, stiffness: 280 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: "100%", maxWidth: "900px", maxHeight: "90vh",
+                  borderRadius: "20px",
+                  background: isDark
+                    ? "linear-gradient(135deg, #3D1530 0%, #280D20 100%)"
+                    : "linear-gradient(135deg, #5A2040 0%, #3D1530 100%)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  overflow: "hidden", display: "flex", flexDirection: "column",
+                }}
+              >
+                <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "12px", color: "#E85D8A", textTransform: "uppercase", letterSpacing: "0.1em" }}>UI/UX DESIGN</span>
+                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>KATSEYE Fan Page / Blog</span>
                   </div>
+                  <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
                 </div>
 
-                <CarouselPanel screens={katsScreens} index={katsIndex} setIndex={setKatsIndex} aspectRatio="16/9" controlsBelow={true} />
-              </div>
+                <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
+                  <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                    {[
+                      { label: "ROLE", value: "UI/UX Designer" },
+                      { label: "PROBLEM", value: "KATSEYE had just debuted in 2024 with no established fan site that matched the energy and aesthetic of the group." },
+                      { label: "SOLUTION", value: "Designed an initial fan page concept in Figma with a sleek modern layout, capturing the visual identity of the group through typography and color choices." },
+                      { label: "TECH STACK", value: "Figma" },
+                    ].map((item) => (
+                      <div key={item.label} style={{ padding: "12px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                        <p style={{ fontSize: "10px", color: "#E85D8A", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>{item.label}</p>
+                        <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>{item.value}</p>
+                      </div>
+                    ))}
+                    <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                      <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
+                      <a href="https://www.figma.com/community/file/1627472155495683683" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/community/file/1627472155495683683", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E85D8A", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+                    </div>
+                  </div>
+
+                  <CarouselPanel screens={katsScreens} index={katsIndex} setIndex={setKatsIndex} aspectRatio="16/9" controlsBelow={true} />
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </ModalPortal>
         )}
         {selectedProject === "smart-queuing" && (
-          <motion.div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
-          >
+          <ModalPortal>
             <motion.div
-              initial={{ scale: 0.9, y: 40 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 40 }}
-              transition={{ type: "spring", damping: 22, stiffness: 280 }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "100%", maxWidth: "900px", maxHeight: "90vh",
-                borderRadius: "20px",
-                background: isDark
-                  ? "linear-gradient(135deg, #4A1F10 0%, #321307 100%)"
-                  : "linear-gradient(135deg, #6B2D1A 0%, #4A1F10 100%)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                overflow: "hidden", display: "flex", flexDirection: "column",
-              }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              style={{ background: "rgba(0,0,0,0.94)", backdropFilter: "blur(14px)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
             >
-              <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <span style={{ fontSize: "12px", color: "#E8845D", textTransform: "uppercase", letterSpacing: "0.1em" }}>UI/UX DESIGN</span>
-                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
-                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Smart Queueing System</span>
-                </div>
-                <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
-                <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {[
-                    { label: "ROLE", value: "UI/UX Lead of a Team with 8 Members" },
-                    { label: "PROBLEM", value: "Students and staff across multiple institutions had no efficient way to manage queueing for services, causing long wait times and poor user experience." },
-                    { label: "SOLUTION", value: "Designed a comprehensive Figma prototype covering the full queuing flow, from ticket generation to service completion, with a clean design system built for accessibility and multi-institute use." },
-                    { label: "TECH STACK", value: "Figma" },
-                  ].map((item) => (
-                    <div key={item.label} style={{ padding: "12px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                      <p style={{ fontSize: "10px", color: "#E8845D", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>{item.label}</p>
-                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>{item.value}</p>
-                    </div>
-                  ))}
-                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                    <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
-                    <a href="https://www.figma.com/proto/1mfm2sWOHyP3c9n0B5X4hX/Wireframing?node-id=834-75&p=f&t=a0KFQwZ1x52YIlR3-1&scaling=scale-down&content-scaling=fixed&page-id=812%3A1668&starting-point-node-id=834%3A75" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/proto/1mfm2sWOHyP3c9n0B5X4hX/Wireframing?node-id=834-75&p=f&t=a0KFQwZ1x52YIlR3-1&scaling=scale-down&content-scaling=fixed&page-id=812%3A1668&starting-point-node-id=834%3A75", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E8845D", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+              <motion.div
+                initial={{ scale: 0.9, y: 40 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 40 }}
+                transition={{ type: "spring", damping: 22, stiffness: 280 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: "100%", maxWidth: "900px", maxHeight: "90vh",
+                  borderRadius: "20px",
+                  background: isDark
+                    ? "linear-gradient(135deg, #4A1F10 0%, #321307 100%)"
+                    : "linear-gradient(135deg, #6B2D1A 0%, #4A1F10 100%)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  overflow: "hidden", display: "flex", flexDirection: "column",
+                }}
+              >
+                <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "12px", color: "#E8845D", textTransform: "uppercase", letterSpacing: "0.1em" }}>UI/UX DESIGN</span>
+                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Smart Queueing System</span>
                   </div>
+                  <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
                 </div>
 
-                <CarouselPanel screens={queueScreens} index={queueIndex} setIndex={setQueueIndex} aspectRatio="9/16" maxHeight="42vh" controlsBelow={true} />
-              </div>
+                <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
+                  <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                    {[
+                      { label: "ROLE", value: "UI/UX Lead of a Team with 8 Members" },
+                      { label: "PROBLEM", value: "Students and staff across multiple institutions had no efficient way to manage queueing for services, causing long wait times and poor user experience." },
+                      { label: "SOLUTION", value: "Designed a comprehensive Figma prototype covering the full queuing flow, from ticket generation to service completion, with a clean design system built for accessibility and multi-institute use." },
+                      { label: "TECH STACK", value: "Figma" },
+                    ].map((item) => (
+                      <div key={item.label} style={{ padding: "12px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                        <p style={{ fontSize: "10px", color: "#E8845D", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>{item.label}</p>
+                        <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>{item.value}</p>
+                      </div>
+                    ))}
+                    <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                      <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
+                      <a href="https://www.figma.com/proto/1mfm2sWOHyP3c9n0B5X4hX/Wireframing?node-id=834-75&p=f&t=a0KFQwZ1x52YIlR3-1&scaling=scale-down&content-scaling=fixed&page-id=812%3A1668&starting-point-node-id=834%3A75" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open("https://www.figma.com/proto/1mfm2sWOHyP3c9n0B5X4hX/Wireframing?node-id=834-75&p=f&t=a0KFQwZ1x52YIlR3-1&scaling=scale-down&content-scaling=fixed&page-id=812%3A1668&starting-point-node-id=834%3A75", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#E8845D", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+                    </div>
+                  </div>
+
+                  <CarouselPanel screens={queueScreens} index={queueIndex} setIndex={setQueueIndex} aspectRatio="9/16" maxHeight="42vh" controlsBelow={true} />
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </ModalPortal>
         )}
         {selectedProject === "chef-lakbay" && (
-          <motion.div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
-          >
+          <ModalPortal>
             <motion.div
-              initial={{ scale: 0.9, y: 40 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 40 }}
-              transition={{ type: "spring", damping: 22, stiffness: 280 }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "100%", maxWidth: "900px", maxHeight: "90vh",
-                borderRadius: "20px",
-                background: isDark
-                  ? "linear-gradient(135deg, #10274A 0%, #0A1A33 100%)"
-                  : "linear-gradient(135deg, #1A3A6B 0%, #0F2A4A 100%)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                overflow: "hidden", display: "flex", flexDirection: "column",
-              }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              style={{ background: "rgba(0,0,0,0.94)", backdropFilter: "blur(14px)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
             >
-              <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <span style={{ fontSize: "12px", color: "#5D9AE8", textTransform: "uppercase", letterSpacing: "0.1em" }}>GRAPHIC DESIGN & ASSET MANAGEMENT</span>
-                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
-                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Chef Lakbay</span>
-                </div>
-                <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
-                <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {[
-                    { label: "ROLE", value: "Asset Creation and Scene Management" },
-                    { label: "PROBLEM", value: "The team needed a fully playable Android game for the IT Skills Olympics 2024 within a tight competition timeline." },
-                    { label: "SOLUTION", value: "Contributed game assets and managed scene flow in Unity for a culinary adventure game set across Philippine destinations, helping the team deliver a complete and polished game entry." },
-                    { label: "TECH STACK", value: "Unity, GIMP" },
-                  ].map((item) => (
-                    <div key={item.label} style={{ padding: "12px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                      <p style={{ fontSize: "10px", color: "#5D9AE8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>{item.label}</p>
-                      <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>{item.value}</p>
-                    </div>
-                  ))}
-                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                    <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
-                    <a href="https://github.com/timtulang/Chef-Lakbay" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open("https://github.com/timtulang/Chef-Lakbay", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#5D9AE8", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Code</a>
+              <motion.div
+                initial={{ scale: 0.9, y: 40 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 40 }}
+                transition={{ type: "spring", damping: 22, stiffness: 280 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: "100%", maxWidth: "900px", maxHeight: "90vh",
+                  borderRadius: "20px",
+                  background: isDark
+                    ? "linear-gradient(135deg, #10274A 0%, #0A1A33 100%)"
+                    : "linear-gradient(135deg, #1A3A6B 0%, #0F2A4A 100%)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  overflow: "hidden", display: "flex", flexDirection: "column",
+                }}
+              >
+                <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "12px", color: "#5D9AE8", textTransform: "uppercase", letterSpacing: "0.1em" }}>GRAPHIC DESIGN & ASSET MANAGEMENT</span>
+                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Chef Lakbay</span>
                   </div>
+                  <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
                 </div>
 
-                <CarouselPanel screens={chefScreens} index={chefIndex} setIndex={setChefIndex} aspectRatio="16/9" controlsBelow={true} />
-              </div>
+                <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
+                  <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                    {[
+                      { label: "ROLE", value: "Asset Creation and Scene Management" },
+                      { label: "PROBLEM", value: "The team needed a fully playable Android game for the IT Skills Olympics 2024 within a tight competition timeline." },
+                      { label: "SOLUTION", value: "Contributed game assets and managed scene flow in Unity for a culinary adventure game set across Philippine destinations, helping the team deliver a complete and polished game entry." },
+                      { label: "TECH STACK", value: "Unity, GIMP" },
+                    ].map((item) => (
+                      <div key={item.label} style={{ padding: "12px 14px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                        <p style={{ fontSize: "10px", color: "#5D9AE8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px" }}>{item.label}</p>
+                        <p style={{ fontSize: "13px", color: "#FFFFFF", opacity: 0.9, lineHeight: 1.6, margin: 0 }}>{item.value}</p>
+                      </div>
+                    ))}
+                    <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                      <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer" }}>← Back</button>
+                      <a href="https://github.com/timtulang/Chef-Lakbay" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open("https://github.com/timtulang/Chef-Lakbay", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#5D9AE8", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Code</a>
+                    </div>
+                  </div>
+
+                  <CarouselPanel screens={chefScreens} index={chefIndex} setIndex={setChefIndex} aspectRatio="16/9" controlsBelow={true} />
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </ModalPortal>
         )}
         {selectedProject === "other-projects" && (
-          <motion.div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
-          >
+          <ModalPortal>
             <motion.div
-              initial={{ scale: 0.9, y: 40 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 40 }}
-              transition={{ type: "spring", damping: 22, stiffness: 280 }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "100%", maxWidth: "900px", maxHeight: "90vh",
-                borderRadius: "20px",
-                background: isDark
-                  ? "linear-gradient(135deg, #084F5C 0%, #063943 100%)"
-                  : "linear-gradient(135deg, #0D6A7A 0%, #094A57 100%)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                overflow: "hidden", display: "flex", flexDirection: "column",
-              }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              style={{ background: "rgba(0,0,0,0.94)", backdropFilter: "blur(14px)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
             >
-              <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <span style={{ fontSize: "12px", color: "#4FC3D4", textTransform: "uppercase", letterSpacing: "0.1em" }}>GRAPHIC DESIGN</span>
-                  <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
-                  <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Other Projects</span>
+              <motion.div
+                initial={{ scale: 0.9, y: 40 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 40 }}
+                transition={{ type: "spring", damping: 22, stiffness: 280 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: "100%", maxWidth: "900px", maxHeight: "90vh",
+                  borderRadius: "20px",
+                  background: isDark
+                    ? "linear-gradient(135deg, #084F5C 0%, #063943 100%)"
+                    : "linear-gradient(135deg, #0D6A7A 0%, #094A57 100%)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  overflow: "hidden", display: "flex", flexDirection: "column",
+                }}
+              >
+                <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "12px", color: "#4FC3D4", textTransform: "uppercase", letterSpacing: "0.1em" }}>GRAPHIC DESIGN</span>
+                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Other Projects</span>
+                  </div>
+                  <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
                 </div>
-                <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
-              </div>
 
-              <div style={{ padding: "24px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "16px" }}>
-                <CarouselPanel screens={otherScreens} index={otherIndex} setIndex={setOtherIndex} aspectRatio="16/9" controlsBelow={true} maxHeight="40vh" />
+                <div style={{ padding: "24px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "16px" }}>
+                  <CarouselPanel screens={otherScreens} index={otherIndex} setIndex={setOtherIndex} aspectRatio="16/9" controlsBelow={true} maxHeight="40vh" />
 
-                <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                  <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", width: "fit-content" }}>← Back</button>
-                  {otherScreens[otherIndex].demoUrl && (
-                    <a href={otherScreens[otherIndex].demoUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open(otherScreens[otherIndex].demoUrl || "", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#4FC3D4", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
-                  )}
+                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                    <button onClick={() => setSelectedProject(null)} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", width: "fit-content" }}>← Back</button>
+                    {otherScreens[otherIndex].demoUrl && (
+                      <a href={otherScreens[otherIndex].demoUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); window.open(otherScreens[otherIndex].demoUrl || "", "_blank", "noopener"); }} style={{ padding: "8px 16px", borderRadius: "10px", fontSize: "13px", background: "#4FC3D4", color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>↗ Demo</a>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </ModalPortal>
         )}
       </AnimatePresence>
     </section>

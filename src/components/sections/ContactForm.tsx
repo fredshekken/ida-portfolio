@@ -32,7 +32,7 @@ const contactLinks = [
     label: "Instagram",
     value: "@yourhandle",
     href: "https://www.instagram.com/eethamarie",
-    description: "Behind the scenes stuff",
+    description: "Extras & Stories",
   },
 ];
 
