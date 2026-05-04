@@ -46,12 +46,12 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
         zIndex: modalOpen ? 10 : 40,
         background: modalOpen
           ? "transparent"
-          : scrollDepth > 0.1
+          : scrollDepth > 0
           ? isDark
             ? "rgba(10, 31, 61, 0.8)"
             : "rgba(255, 255, 255, 0.3)"
           : "transparent",
-        backdropFilter: modalOpen ? "none" : scrollDepth > 0.1 ? "blur(12px)" : "none",
+        backdropFilter: modalOpen ? "none" : scrollDepth > 0 ? "blur(12px)" : "none",
       }}
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: modalOpen ? 0.65 : 1 }}
