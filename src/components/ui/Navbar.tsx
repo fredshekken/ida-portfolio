@@ -60,11 +60,19 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
         {/* Logo */}
         <motion.div
-          className="font-medium tracking-wide cursor-pointer text-sm sm:text-base"
+          className="font-semibold tracking-wide cursor-pointer text-sm sm:text-base"
           whileHover={{ scale: 1.05 }}
           onClick={() => scrollToSection("home")}
         >
-          <span style={{ color: isDark ? "#B8E4F9" : "#0D3B6E" }}>dev.kalayaan</span>
+          <span className="inline-flex items-center gap-2" style={{ color: isDark ? "#D7EAF9" : "#0D3B6E" }}>
+            <span
+              className="inline-flex h-6 w-6 items-center justify-center rounded-full transition-colors"
+              style={{ backgroundColor: isDark ? "#B8E4F9" : "#0D3B6E" }}
+            >
+              <WaveIcon className="h-4 w-4" style={{ color: isDark ? "#0D3B6E" : "#B8E4F9" }} />
+            </span>
+            <span>dev.kalayaan</span>
+          </span>
         </motion.div>
 
         {/* Desktop Links */}
@@ -73,7 +81,7 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
             <motion.button
               key={link.id}
               onClick={() => scrollToSection(link.id)}
-              className="relative hover:opacity-80 transition-opacity"
+              className="relative font-semibold hover:opacity-80 transition-opacity"
               style={{ color: isDark ? "#B8E4F9" : "#0D3B6E" }}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -124,7 +132,7 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
             <button
               key={link.id}
               onClick={() => scrollToSection(link.id)}
-              className="text-left rounded-xl px-3 py-2 transition-colors hover:bg-white/10"
+              className="text-left rounded-xl px-3 py-2 font-semibold transition-colors hover:bg-white/10"
               style={{ color: isDark ? "#B8E4F9" : "#0D3B6E" }}
             >
               {link.label}
@@ -133,6 +141,16 @@ export default function Navbar({ isDark, setIsDark, scrollDepth }: NavbarProps) 
         </div>
       )}
     </motion.nav>
+  );
+}
+
+function WaveIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className={className} style={style}>
+      <path d="M4 9.3c1.6-1.3 3.4-2 5.2-2 1.4 0 2.4.3 3.4.9.9.5 1.8 1.1 3.1 1.1 1.4 0 2.6-.5 4-1.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+      <path d="M4 12.6c1.6-1.3 3.4-2 5.2-2 1.4 0 2.4.3 3.4.9.9.5 1.8 1.1 3.1 1.1 1.4 0 2.6-.5 4-1.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+      <path d="M4 15.9c1.6-1.3 3.4-2 5.2-2 1.4 0 2.4.3 3.4.9.9.5 1.8 1.1 3.1 1.1 1.4 0 2.6-.5 4-1.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+    </svg>
   );
 }
 

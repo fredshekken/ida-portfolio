@@ -3,9 +3,12 @@ import "./globals.css";
 import ClientWrapper from "@/components/ClientWrapper";
 
 export const metadata: Metadata = {
-  title: "Ida Magaan | Frontend & Full Stack Developer",
+  title: "Ida Magaan | UI/UX Designer & Front-end Developer",
   description:
-    "Portfolio of Frieda Marie Magaan — CS student, UI/UX designer, and full stack developer based in Manila.",
+    "Portfolio of Frieda Marie Magaan — CS student, UI/UX designer, and front-end developer based in Manila.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

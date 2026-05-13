@@ -10,6 +10,7 @@ const skillCategories = [
     depth: "0m",
     accentColor: "#7ECECA",
     icon: Code2,
+    variant: "chips",
     skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "JavaScript"],
   },
   {
@@ -18,6 +19,7 @@ const skillCategories = [
     depth: "75m",
     accentColor: "#9370DB",
     icon: Palette,
+    variant: "chips",
     skills: ["Figma", "Wireframing", "Prototyping", "Design Systems", "User Research", "Sprite & Asset Creation"],
   },
   {
@@ -26,6 +28,7 @@ const skillCategories = [
     depth: "150m",
     accentColor: "#8A6FDB",
     icon: Database,
+    variant: "list",
     skills: ["Gracewell Client System Deployment", "Hytec Power Inc. Robotics Intern", "13th UMAK IT Skill Olympics: Chef Lakbay Entry", "Smart Queuing System UI/UX Lead"],
   },
   {
@@ -34,6 +37,7 @@ const skillCategories = [
     depth: "300m",
     accentColor: "#4CAF7D",
     icon: Wrench,
+    variant: "chips",
     skills: ["Git", "VS Code", "Vercel", "Render", "Supabase", "Arduino", "GIMP", "Unity"],
   },
 ];
@@ -80,7 +84,7 @@ export default function SkillsSection() {
           </h2>
         </motion.div>
 
-        <div className="relative rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-2xl p-6 md:p-8 overflow-hidden">
+        <div className="relative rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-2xl p-4 md:p-8 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_30%),radial-gradient(circle_at_bottom,rgba(0,255,255,0.08),transparent_32%)]" />
 
           <div className="relative z-10 grid gap-6 lg:grid-cols-[120px_minmax(0,1fr)]">
@@ -91,19 +95,19 @@ export default function SkillsSection() {
             </div>
 
             <div className="relative pl-0 lg:pl-6">
-              <div className="absolute left-4 lg:left-0 top-0 bottom-0 w-px bg-cyan-300/60" />
+              <div className="hidden md:block absolute left-4 lg:left-0 top-0 bottom-0 w-px bg-cyan-300/60" />
 
-              <div className="flex flex-col gap-4">
+              <div className="grid gap-4 lg:grid-cols-2">
                 {skillCategories.map((stop, index) => {
                   const Icon = stop.icon;
                   const accent = stop.accentColor;
+                  const isExperience = stop.variant === "list";
 
                   return (
                     <motion.div
                       key={stop.title}
-                      className="relative rounded-[1.5rem] border overflow-hidden"
+                      className={`relative rounded-[1.35rem] border overflow-hidden ${isExperience ? "lg:col-span-2" : ""}`}
                       style={{
-                        marginLeft: `${index * 10}px`,
                         background: "rgba(255,255,255,0.08)",
                         borderColor: `${accent}55`,
                         boxShadow: `0 0 32px ${accent}20, inset 0 0 20px rgba(255,255,255,0.04)`,
@@ -112,50 +116,64 @@ export default function SkillsSection() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
-                      whileHover={{ x: 8, scale: 1.01 }}
                     >
                       <div className="absolute left-0 top-0 bottom-0 w-1" style={{ background: accent }} />
 
-                      <div className="p-5 md:p-6 pl-6 md:pl-8">
-                        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                      <div className="p-4 md:p-6 pl-5 md:pl-8">
+                        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between md:gap-4">
                           <div>
-                            <p className="text-sm uppercase tracking-[0.25em] mb-1" style={{ color: "rgba(255,255,255,0.7)" }}>
+                            <p className="text-[0.7rem] md:text-sm uppercase tracking-[0.25em] mb-1" style={{ color: "rgba(255,255,255,0.7)" }}>
                               {stop.zone}
                             </p>
-                            <h3 className="font-display text-2xl md:text-3xl text-white">{stop.title}</h3>
+                            <h3 className="font-display text-[1.5rem] md:text-3xl leading-tight text-white">{stop.title}</h3>
                           </div>
 
-                          <div className="flex items-center gap-3 rounded-full px-4 py-2 bg-white/10 border border-white/10 text-white">
-                            <span className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: `${accent}22`, color: accent }}>
-                              <Icon className="w-5 h-5" />
+                          <div className="flex items-center gap-2 rounded-full px-3 py-2 bg-white/10 border border-white/10 text-white self-start">
+                            <span className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ background: `${accent}22`, color: accent }}>
+                              <Icon className="w-4.5 h-4.5" />
                             </span>
                             <div>
-                              <p className="text-xs uppercase tracking-[0.25em]" style={{ color: "rgba(255,255,255,0.65)" }}>
+                              <p className="text-[0.65rem] uppercase tracking-[0.25em]" style={{ color: "rgba(255,255,255,0.65)" }}>
                                 Depth
                               </p>
-                              <p className="font-medium">{stop.depth}</p>
+                              <p className="font-medium text-sm md:text-base">{stop.depth}</p>
                             </div>
                           </div>
                         </div>
 
-                        <div className="mt-5 flex flex-wrap gap-2">
-                          {stop.skills.map((item) => (
-                            <span
-                              key={item}
-                              className="rounded-full px-3 py-1.5 text-sm text-white border"
-                              style={{ background: "rgba(255,255,255,0.12)", borderColor: `${accent}55` }}
-                            >
-                              {item}
-                            </span>
-                          ))}
-                        </div>
+                        {isExperience ? (
+                          <div className="mt-4 space-y-2.5">
+                            {stop.skills.map((item) => (
+                              <div
+                                key={item}
+                                className="flex items-start gap-3 rounded-2xl border px-4 py-3"
+                                style={{ background: "rgba(255,255,255,0.08)", borderColor: `${accent}33` }}
+                              >
+                                <span className="mt-1 h-2.5 w-2.5 rounded-full shrink-0" style={{ background: accent }} />
+                                <p className="text-sm md:text-[0.95rem] leading-relaxed text-white/90 m-0">
+                                  {item}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                            {stop.skills.map((item) => (
+                              <span
+                                key={item}
+                                className="rounded-full px-3 py-2 text-sm text-white border text-center"
+                                style={{ background: "rgba(255,255,255,0.12)", borderColor: `${accent}55` }}
+                              >
+                                {item}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   );
                 })}
               </div>
-
-
             </div>
           </div>
         </div>

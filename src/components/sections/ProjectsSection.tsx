@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { Globe, Palette, Gamepad2, Layers, FolderOpen, Info, ExternalLink, Code } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ModalPortal from "@/components/ui/ModalPortal";
 import type { ElementType } from "react";
 
@@ -386,6 +386,8 @@ const ZoneBackground = ({ theme, isDark }: { theme: string; isDark: boolean }) =
 export default function ProjectsSection() {
   const { isDark } = useTheme();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isMobileLayout, setIsMobileLayout] = useState(false);
+  const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
   const [cols, setCols] = useState<number>(3);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -394,6 +396,7 @@ export default function ProjectsSection() {
   const [queueIndex, setQueueIndex] = useState(0);
   const [chefIndex, setChefIndex] = useState(0);
   const [otherIndex, setOtherIndex] = useState(0);
+  const projectCardRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   const gracewellScreens = [
     { label: "LOG-IN SCREEN", src: "/projects/nexus-login.png" },
@@ -451,6 +454,66 @@ export default function ProjectsSection() {
   }, []);
 
   useEffect(() => {
+    const updateLayout = () => {
+      setIsMobileLayout(window.innerWidth < 768);
+    };
+
+    updateLayout();
+    window.addEventListener("resize", updateLayout);
+    window.addEventListener("orientationchange", updateLayout);
+
+    return () => {
+      window.removeEventListener("resize", updateLayout);
+      window.removeEventListener("orientationchange", updateLayout);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileLayout) {
+      setMobileActiveIndex(0);
+      return;
+    }
+
+    let frameId = 0;
+
+    const updateActiveCard = () => {
+      const viewportCenter = window.innerHeight / 2;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      projectCardRefs.current.forEach((card, index) => {
+        if (!card) return;
+
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(cardCenter - viewportCenter);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setMobileActiveIndex((current) => (current === closestIndex ? current : closestIndex));
+    };
+
+    const scheduleUpdate = () => {
+      cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(updateActiveCard);
+    };
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, [isMobileLayout]);
+
+  useEffect(() => {
     if (selectedProject) {
       document.body.style.overflow = 'hidden';
       document.body.classList.add('project-modal-open');
@@ -469,13 +532,13 @@ export default function ProjectsSection() {
     };
   }, [selectedProject]);
 
-  const computeOffset = (index: number) => {
-    if (hoveredIndex === null) return { x: 0, y: 0 };
+  const computeOffset = (index: number, activeIndex: number | null) => {
+    if (activeIndex === null) return { x: 0, y: 0 };
     const c = Math.max(1, cols);
     const row = Math.floor(index / c);
     const col = index % c;
-    const hRow = Math.floor(hoveredIndex / c);
-    const hCol = hoveredIndex % c;
+    const hRow = Math.floor(activeIndex / c);
+    const hCol = activeIndex % c;
     const dx = col - hCol;
     const dy = row - hRow;
     const distance = Math.hypot(dx, dy);
@@ -511,8 +574,8 @@ export default function ProjectsSection() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
-        padding: "16px",
-        gap: "12px",
+        padding: isMobileLayout ? "12px" : "16px",
+        gap: isMobileLayout ? "10px" : "12px",
         height: "100%",
       }}>
         <div style={{ width: "100%", position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -523,7 +586,7 @@ export default function ProjectsSection() {
             overflow: "hidden",
             border: "1px solid rgba(255,255,255,0.08)",
             background: "rgba(0,0,0,0.22)",
-            maxHeight: maxHeight || undefined,
+            maxHeight: isMobileLayout ? (maxHeight || "34vh") : (maxHeight || undefined),
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -610,7 +673,7 @@ export default function ProjectsSection() {
 
         {controlsBelow ? (
           <>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "8px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "8px", width: "100%" }}>
               <button
                 onClick={() => setIndex((index - 1 + screens.length) % screens.length)}
                 style={{
@@ -638,7 +701,7 @@ export default function ProjectsSection() {
               >›</button>
             </div>
 
-            <div style={{ display: "flex", gap: "6px", justifyContent: "center", marginTop: "8px" }}>
+            <div style={{ display: "flex", gap: "6px", justifyContent: "center", marginTop: "8px", flexWrap: "wrap" }}>
               {screens.map((_, i) => (
                 <button
                   key={i}
@@ -658,14 +721,14 @@ export default function ProjectsSection() {
             </div>
 
             {img.desc && (
-              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "12px", margin: 0, textAlign: "center", marginTop: "8px" }}>
+              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "12px", margin: 0, textAlign: "center", marginTop: "8px", paddingInline: isMobileLayout ? "4px" : 0 }}>
                 {img.desc}
               </p>
             )}
           </>
         ) : (
           img.desc && (
-            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "12px", margin: 0, textAlign: "center" }}>
+            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "12px", margin: 0, textAlign: "center", paddingInline: isMobileLayout ? "4px" : 0 }}>
               {img.desc}
             </p>
           )
@@ -725,28 +788,43 @@ export default function ProjectsSection() {
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, index) => {
-            const offset = computeOffset(index);
+            const activeIndex = isMobileLayout ? mobileActiveIndex : hoveredIndex;
+            const offset = computeOffset(index, activeIndex);
+            const isActiveCard = activeIndex === index;
+            const activeCardTransform = isMobileLayout && isActiveCard
+              ? {
+                  y: -10,
+                  scale: 1.035,
+                  rotate: -1.5,
+                  boxShadow:
+                    "0 36px 120px rgba(0,255,220,0.22), 0 0 48px rgba(255,255,255,0.5), inset 0 0 28px rgba(255,255,255,0.06)",
+                }
+              : {};
             return (
             <motion.div
               key={project.id}
+              ref={(node) => {
+                projectCardRefs.current[index] = node;
+              }}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0, transition: { duration: 0.5, delay: index * 0.1 } }}
               viewport={{ once: true }}
-              onHoverStart={() => setHoveredIndex(index)}
-              onHoverEnd={() => setHoveredIndex(null)}
+              onHoverStart={!isMobileLayout ? () => setHoveredIndex(index) : undefined}
+              onHoverEnd={!isMobileLayout ? () => setHoveredIndex(null) : undefined}
               animate={offset}
               transition={{ type: "spring", stiffness: 140, damping: 18 }}
-              whileHover={{
+              whileHover={!isMobileLayout ? {
                 y: -10,
                 scale: 1.035,
                 rotate: -1.5,
                 boxShadow:
                   "0 36px 120px rgba(0,255,220,0.22), 0 0 48px rgba(255,255,255,0.5), inset 0 0 28px rgba(255,255,255,0.06)",
-              }}
+              } : undefined}
               className="rounded-2xl p-6 cursor-pointer relative overflow-hidden flex flex-col justify-between"
               style={{
                 background: isDark ? project.cardBgDark : project.cardBg,
                 border: "1px solid rgba(255,255,255,0.1)",
+                ...activeCardTransform,
               }}
             >
               <ZoneBackground theme={project.background} isDark={isDark} />
@@ -885,7 +963,7 @@ export default function ProjectsSection() {
         {selectedProject === "gracewell-nexus" && (
           <ModalPortal>
             <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4"
               style={{ 
                 background: "rgba(0,0,0,0.94)", 
                 backdropFilter: "blur(14px)",
@@ -910,9 +988,9 @@ export default function ProjectsSection() {
                 onClick={(e) => e.stopPropagation()}
                 style={{
                   width: "100%",
-                  maxWidth: "900px",
-                  maxHeight: "90vh",
-                  borderRadius: "20px",
+                  maxWidth: isMobileLayout ? "calc(100vw - 1rem)" : "900px",
+                  maxHeight: isMobileLayout ? "calc(100dvh - 1rem)" : "90vh",
+                  borderRadius: isMobileLayout ? "16px" : "20px",
                   background: isDark
                     ? "linear-gradient(135deg, #061427 0%, #0A1F3A 100%)"
                     : "linear-gradient(135deg, #1A6B5A 0%, #0F4A3D 100%)",
@@ -924,17 +1002,33 @@ export default function ProjectsSection() {
               >
                 {/* Header */}
                 <div style={{
-                  padding: "20px 24px",
+                  padding: isMobileLayout ? "16px" : "20px 24px",
                   borderBottom: "1px solid rgba(255,255,255,0.1)",
                   display: "flex",
-                  alignItems: "center",
+                  flexDirection: isMobileLayout ? "column" : "row",
+                  alignItems: isMobileLayout ? "flex-start" : "center",
                   justifyContent: "space-between",
+                  gap: isMobileLayout ? "12px" : "0",
                 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <div style={{ display: "flex", flexDirection: isMobileLayout ? "column" : "row", alignItems: isMobileLayout ? "flex-start" : "center", gap: isMobileLayout ? "4px" : "12px", flexWrap: "wrap" }}>
                     <span style={{ fontSize: "12px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.1em" }}>
                       WEB DEVELOPMENT
                     </span>
-                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    {isMobileLayout ? (
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          width: "72px",
+                          height: "1px",
+                          borderRadius: "999px",
+                          background: "rgba(255,255,255,0.28)",
+                          display: "inline-block",
+                          margin: "2px 0 1px",
+                        }}
+                      />
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    )}
                     <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>
                       Gracewell NEXUS
                     </span>
@@ -957,15 +1051,17 @@ export default function ProjectsSection() {
                 {/* Body */}
                 <div style={{
                   display: "grid",
-                  gridTemplateColumns: "340px 1fr",
+                  gridTemplateColumns: isMobileLayout ? "1fr" : "340px 1fr",
                   flex: 1,
-                  overflow: "hidden",
+                  overflowY: "auto",
+                  overflowX: "hidden",
                 }}>
                   {/* Left panel */}
                   <div style={{
-                    padding: "20px",
-                    overflowY: "auto",
-                    borderRight: "1px solid rgba(255,255,255,0.08)",
+                    padding: isMobileLayout ? "16px" : "20px",
+                    overflowY: isMobileLayout ? "visible" : "auto",
+                    borderRight: isMobileLayout ? "none" : "1px solid rgba(255,255,255,0.08)",
+                    borderBottom: isMobileLayout ? "1px solid rgba(255,255,255,0.08)" : "none",
                     display: "flex",
                     flexDirection: "column",
                     gap: "12px",
@@ -1030,7 +1126,7 @@ export default function ProjectsSection() {
         {selectedProject === "online-seat-reservation" && (
           <ModalPortal>
             <motion.div
-              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-2 sm:p-4"
               style={{ background: "rgba(0,0,0,0.94)", backdropFilter: "blur(14px)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -1045,9 +1141,9 @@ export default function ProjectsSection() {
                 onClick={(e) => e.stopPropagation()}
                 style={{
                   width: "100%",
-                  maxWidth: "900px",
-                  maxHeight: "90vh",
-                  borderRadius: "20px",
+                  maxWidth: isMobileLayout ? "calc(100vw - 1rem)" : "900px",
+                  maxHeight: isMobileLayout ? "calc(100dvh - 1rem)" : "90vh",
+                  borderRadius: isMobileLayout ? "16px" : "20px",
                   background: isDark
                     ? "linear-gradient(135deg, #063D32 0%, #042A22 100%)"
                     : "linear-gradient(135deg, #0D5A4A 0%, #083D32 100%)",
@@ -1059,17 +1155,33 @@ export default function ProjectsSection() {
               >
                 {/* Header */}
                 <div style={{
-                  padding: "20px 24px",
+                  padding: isMobileLayout ? "16px" : "20px 24px",
                   borderBottom: "1px solid rgba(255,255,255,0.1)",
                   display: "flex",
-                  alignItems: "center",
+                  flexDirection: isMobileLayout ? "column" : "row",
+                  alignItems: isMobileLayout ? "flex-start" : "center",
                   justifyContent: "space-between",
+                  gap: isMobileLayout ? "12px" : "0",
                 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <div style={{ display: "flex", flexDirection: isMobileLayout ? "column" : "row", alignItems: isMobileLayout ? "flex-start" : "center", gap: isMobileLayout ? "4px" : "12px", flexWrap: "wrap" }}>
                     <span style={{ fontSize: "12px", color: "#7ECECA", textTransform: "uppercase", letterSpacing: "0.1em" }}>
                       UI/UX DESIGN
                     </span>
-                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    {isMobileLayout ? (
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          width: "72px",
+                          height: "1px",
+                          borderRadius: "999px",
+                          background: "rgba(255,255,255,0.28)",
+                          display: "inline-block",
+                          margin: "2px 0 1px",
+                        }}
+                      />
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    )}
                     <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>
                       Online Seat Reservation System
                     </span>
@@ -1092,15 +1204,17 @@ export default function ProjectsSection() {
                 {/* Body */}
                 <div style={{
                   display: "grid",
-                  gridTemplateColumns: "340px 1fr",
+                  gridTemplateColumns: isMobileLayout ? "1fr" : "340px 1fr",
                   flex: 1,
-                  overflow: "hidden",
+                  overflowY: "auto",
+                  overflowX: "hidden",
                 }}>
                   {/* Left panel */}
                   <div style={{
-                    padding: "20px",
-                    overflowY: "auto",
-                    borderRight: "1px solid rgba(255,255,255,0.08)",
+                    padding: isMobileLayout ? "16px" : "20px",
+                    overflowY: isMobileLayout ? "visible" : "auto",
+                    borderRight: isMobileLayout ? "none" : "1px solid rgba(255,255,255,0.08)",
+                    borderBottom: isMobileLayout ? "1px solid rgba(255,255,255,0.08)" : "none",
                     display: "flex",
                     flexDirection: "column",
                     gap: "12px",
@@ -1165,7 +1279,7 @@ export default function ProjectsSection() {
         {selectedProject === "katseye-fan-page" && (
           <ModalPortal>
             <motion.div
-              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-2 sm:p-4"
               style={{ background: "rgba(0,0,0,0.94)", backdropFilter: "blur(14px)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -1179,8 +1293,8 @@ export default function ProjectsSection() {
                 transition={{ type: "spring", damping: 22, stiffness: 280 }}
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  width: "100%", maxWidth: "900px", maxHeight: "90vh",
-                  borderRadius: "20px",
+                  width: "100%", maxWidth: isMobileLayout ? "calc(100vw - 1rem)" : "900px", maxHeight: isMobileLayout ? "calc(100dvh - 1rem)" : "90vh",
+                  borderRadius: isMobileLayout ? "16px" : "20px",
                   background: isDark
                     ? "linear-gradient(135deg, #3D1530 0%, #280D20 100%)"
                     : "linear-gradient(135deg, #5A2040 0%, #3D1530 100%)",
@@ -1188,17 +1302,31 @@ export default function ProjectsSection() {
                   overflow: "hidden", display: "flex", flexDirection: "column",
                 }}
               >
-                <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div style={{ padding: isMobileLayout ? "16px" : "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", flexDirection: isMobileLayout ? "column" : "row", alignItems: isMobileLayout ? "flex-start" : "center", justifyContent: "space-between", gap: isMobileLayout ? "12px" : "0" }}>
+                  <div style={{ display: "flex", flexDirection: isMobileLayout ? "column" : "row", alignItems: isMobileLayout ? "flex-start" : "center", gap: isMobileLayout ? "4px" : "12px", flexWrap: "wrap" }}>
                     <span style={{ fontSize: "12px", color: "#E85D8A", textTransform: "uppercase", letterSpacing: "0.1em" }}>UI/UX DESIGN</span>
-                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    {isMobileLayout ? (
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          width: "72px",
+                          height: "1px",
+                          borderRadius: "999px",
+                          background: "rgba(255,255,255,0.28)",
+                          display: "inline-block",
+                          margin: "2px 0 1px",
+                        }}
+                      />
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    )}
                     <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>KATSEYE Fan Page / Blog</span>
                   </div>
                   <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
-                  <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobileLayout ? "1fr" : "340px 1fr", flex: 1, overflowY: "auto", overflowX: "hidden" }}>
+                  <div style={{ padding: isMobileLayout ? "16px" : "20px", overflowY: isMobileLayout ? "visible" : "auto", borderRight: isMobileLayout ? "none" : "1px solid rgba(255,255,255,0.08)", borderBottom: isMobileLayout ? "1px solid rgba(255,255,255,0.08)" : "none", display: "flex", flexDirection: "column", gap: "12px" }}>
                     {[
                       { label: "ROLE", value: "UI/UX Designer" },
                       { label: "PROBLEM", value: "KATSEYE had just debuted in 2024 with no established fan site that matched the energy and aesthetic of the group." },
@@ -1225,7 +1353,7 @@ export default function ProjectsSection() {
         {selectedProject === "smart-queuing" && (
           <ModalPortal>
             <motion.div
-              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-2 sm:p-4"
               style={{ background: "rgba(0,0,0,0.94)", backdropFilter: "blur(14px)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -1251,7 +1379,21 @@ export default function ProjectsSection() {
                 <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                     <span style={{ fontSize: "12px", color: "#E8845D", textTransform: "uppercase", letterSpacing: "0.1em" }}>UI/UX DESIGN</span>
-                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    {isMobileLayout ? (
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          width: "72px",
+                          height: "1px",
+                          borderRadius: "999px",
+                          background: "rgba(255,255,255,0.28)",
+                          display: "inline-block",
+                          margin: "2px 0 1px",
+                        }}
+                      />
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    )}
                     <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Smart Queueing System</span>
                   </div>
                   <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
@@ -1299,8 +1441,8 @@ export default function ProjectsSection() {
                 transition={{ type: "spring", damping: 22, stiffness: 280 }}
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  width: "100%", maxWidth: "900px", maxHeight: "90vh",
-                  borderRadius: "20px",
+                  width: "100%", maxWidth: isMobileLayout ? "calc(100vw - 1rem)" : "900px", maxHeight: isMobileLayout ? "calc(100dvh - 1rem)" : "90vh",
+                  borderRadius: isMobileLayout ? "16px" : "20px",
                   background: isDark
                     ? "linear-gradient(135deg, #10274A 0%, #0A1A33 100%)"
                     : "linear-gradient(135deg, #1A3A6B 0%, #0F2A4A 100%)",
@@ -1308,17 +1450,31 @@ export default function ProjectsSection() {
                   overflow: "hidden", display: "flex", flexDirection: "column",
                 }}
               >
-                <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div style={{ padding: isMobileLayout ? "16px" : "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", flexDirection: isMobileLayout ? "column" : "row", alignItems: isMobileLayout ? "flex-start" : "center", justifyContent: "space-between", gap: isMobileLayout ? "12px" : "0" }}>
+                  <div style={{ display: "flex", flexDirection: isMobileLayout ? "column" : "row", alignItems: isMobileLayout ? "flex-start" : "center", gap: isMobileLayout ? "4px" : "12px", flexWrap: "wrap" }}>
                     <span style={{ fontSize: "12px", color: "#5D9AE8", textTransform: "uppercase", letterSpacing: "0.1em" }}>GRAPHIC DESIGN & ASSET MANAGEMENT</span>
-                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    {isMobileLayout ? (
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          width: "72px",
+                          height: "1px",
+                          borderRadius: "999px",
+                          background: "rgba(255,255,255,0.28)",
+                          display: "inline-block",
+                          margin: "2px 0 1px",
+                        }}
+                      />
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    )}
                     <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Chef Lakbay</span>
                   </div>
                   <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", flex: 1, overflow: "hidden" }}>
-                  <div style={{ padding: "20px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobileLayout ? "1fr" : "340px 1fr", flex: 1, overflowY: "auto", overflowX: "hidden" }}>
+                  <div style={{ padding: isMobileLayout ? "16px" : "20px", overflowY: isMobileLayout ? "visible" : "auto", borderRight: isMobileLayout ? "none" : "1px solid rgba(255,255,255,0.08)", borderBottom: isMobileLayout ? "1px solid rgba(255,255,255,0.08)" : "none", display: "flex", flexDirection: "column", gap: "12px" }}>
                     {[
                       { label: "ROLE", value: "Asset Creation and Scene Management" },
                       { label: "PROBLEM", value: "The team needed a fully playable Android game for the IT Skills Olympics 2024 within a tight competition timeline." },
@@ -1345,7 +1501,7 @@ export default function ProjectsSection() {
         {selectedProject === "other-projects" && (
           <ModalPortal>
             <motion.div
-              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-2 sm:p-4"
               style={{ background: "rgba(0,0,0,0.94)", backdropFilter: "blur(14px)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -1359,8 +1515,8 @@ export default function ProjectsSection() {
                 transition={{ type: "spring", damping: 22, stiffness: 280 }}
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  width: "100%", maxWidth: "900px", maxHeight: "90vh",
-                  borderRadius: "20px",
+                  width: "100%", maxWidth: isMobileLayout ? "calc(100vw - 1rem)" : "900px", maxHeight: isMobileLayout ? "calc(100dvh - 1rem)" : "90vh",
+                  borderRadius: isMobileLayout ? "16px" : "20px",
                   background: isDark
                     ? "linear-gradient(135deg, #084F5C 0%, #063943 100%)"
                     : "linear-gradient(135deg, #0D6A7A 0%, #094A57 100%)",
@@ -1368,16 +1524,30 @@ export default function ProjectsSection() {
                   overflow: "hidden", display: "flex", flexDirection: "column",
                 }}
               >
-                <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div style={{ padding: isMobileLayout ? "16px" : "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", flexDirection: isMobileLayout ? "column" : "row", alignItems: isMobileLayout ? "flex-start" : "center", justifyContent: "space-between", gap: isMobileLayout ? "12px" : "0" }}>
+                  <div style={{ display: "flex", flexDirection: isMobileLayout ? "column" : "row", alignItems: isMobileLayout ? "flex-start" : "center", gap: isMobileLayout ? "4px" : "12px", flexWrap: "wrap" }}>
                     <span style={{ fontSize: "12px", color: "#4FC3D4", textTransform: "uppercase", letterSpacing: "0.1em" }}>GRAPHIC DESIGN</span>
-                    <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    {isMobileLayout ? (
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          width: "72px",
+                          height: "1px",
+                          borderRadius: "999px",
+                          background: "rgba(255,255,255,0.28)",
+                          display: "inline-block",
+                          margin: "2px 0 1px",
+                        }}
+                      />
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
+                    )}
                     <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF" }}>Other Projects</span>
                   </div>
                   <button onClick={() => setSelectedProject(null)} style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>✕</button>
                 </div>
 
-                <div style={{ padding: "24px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "16px" }}>
+                <div style={{ padding: isMobileLayout ? "16px" : "24px", overflowY: "auto", display: "flex", flexDirection: "column", gap: isMobileLayout ? "12px" : "16px" }}>
                   <CarouselPanel screens={otherScreens} index={otherIndex} setIndex={setOtherIndex} aspectRatio="16/9" controlsBelow={true} maxHeight="40vh" />
 
                   <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
